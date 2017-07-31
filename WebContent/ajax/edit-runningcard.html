@@ -1,10 +1,303 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="js/edit_runningcard.js"></script>
+<title>修改运行卡入账</title>
 </head>
 <body>
+	<div class="row">
+		<div id="breadcrumb" class="col-md-12">
+			<ol class="breadcrumb">
+				<li><a href="index.html">首页</a></li>
+				<li><a href="#">修改入账记录</a></li>
+				<li><a href="#">运行卡</a></li>
+			</ol>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12">
+			<div class="box">
+				<div class="box-header">
+					<div class="box-name">
+						<i class="fa fa-edit"></i> <span>修改运行卡入账</span>
+					</div>
+					<div class="box-icons">
+						<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+						</a> <a class="expand-link"> <i class="fa fa-expand"></i>
+						</a> <a class="close-link"> <i class="fa fa-times"></i>
+						</a>
+					</div>
+					<div class="no-move"></div>
+				</div>
+				<div class="box-content">
+					<form id="defaultForm" method="post" action="validators.html"
+						class="form-horizontal">
+						<fieldset>
+							<legend>运行卡信息</legend>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">设计所</label>
+								<div class="col-sm-4">
+									<select class="form-control" id="department">
+										<option>一所</option>
+										<option>二所</option>
+										<option>三所</option>
+										<option>四所</option>
+										<option>五所</option>
+									</select>
+								</div>
+								<label class="col-sm-2 control-label">到账时间</label>
+								<div class="col-sm-4">
+									<input type="text" id="account_date" class="form-control"
+										placeholder="Date"> <span
+										class="fa fa-calendar txt-danger form-control-feedback"></span>
+								</div>
+							</div>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">项目名称</label>
+								<div class="col-sm-4">
+									<input id="account_item" type="text" class="form-control"
+										data-toggle="tooltip" data-placement="bottom" title="项目名称">
+								</div>
+								<label class="col-sm-2 control-label">项目编号</label>
+								<div class="col-sm-4">
+									<input id="project_id" type="text" class="form-control"
+										data-toggle="tooltip" data-placement="bottom" title="项目编号">
+								</div>
+							</div>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">运行卡号</label>
+								<div class="col-sm-4">
+									<input id="cardno" type="text" class="form-control"
+										data-toggle="tooltip" data-placement="bottom" title="运行卡号">
+								</div>
+								<label class="col-sm-2 control-label">到账产值</label>
+								<div class="col-sm-4">
+									<div class="input-group">
+										<input id="income" type="text" class="form-control"
+											data-toggle="tooltip" data-placement="bottom" title="到账产值">
+										<span class="input-group-addon"><i class="fa fa-cny"></i></span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">核算比例</label>
+								<div class="col-sm-4">
+									<input id="account_rate" type="text" class="form-control"
+										data-toggle="tooltip" data-placement="bottom" title="核算比例">
+								</div>
+								<label class="col-sm-2 control-label">奖励系数</label>
+								<div class="col-sm-4">
+									<input id="prize_rate" type="text" class="form-control"
+										data-toggle="tooltip" data-placement="bottom" title="奖励系数">
+								</div>
+							</div>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">所长人数</label>
+								<div class="col-sm-4">
+									<input id="dir_count" type="text" class="form-control"
+										data-toggle="tooltip" data-placement="bottom" title="所长人数">
+								</div>
+							</div>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">备注</label>
+								<div class="col-sm-10">
+								<textarea class="form-control" rows="3" id="remark"></textarea>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend>所权益明细</legend>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">所权益变动</label>
+								<div class="col-sm-4">
+									<input id="equity" type="text" class="form-control" data-toggle="tooltip" data-placement="top" title="自动计算" disabled>
+								</div>
+							</div>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">项目奖金</label>
+								<div class="col-sm-4">
+									<input id="pro_bonus_amount" type="text" class="form-control" data-toggle="tooltip" data-placement="top" title="自动计算" disabled>
+								</div>
+								<label class="col-sm-2 control-label">项目奖金比例</label>
+								<div class="col-sm-4">
+									<input id="pro_bonus_rate" type="text" class="form-control" data-toggle="tooltip" data-placement="top" title="自动计算" disabled>
+								</div>
+							</div>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">报账成本</label>
+								<div class="col-sm-4">
+									<input id="expense_amount" type="text" class="form-control"
+										data-toggle="tooltip" data-placement="top" title="自动计算"
+										disabled>
+								</div>
+								<label class="col-sm-2 control-label">报账成本比例</label>
+								<div class="col-sm-4">
+									<input id="expense_rate" type="text" class="form-control"
+										data-toggle="tooltip" data-placement="top" title="自动计算"
+										disabled>
+								</div>
+							</div>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">所长奖金</label>
+								<div class="col-sm-4">
+									<input id="dir_amount" type="text" class="form-control"
+										data-toggle="tooltip" data-placement="top" title="自动计算"
+										disabled>
+								</div>
+								<label class="col-sm-2 control-label">所长奖金比例</label>
+								<div class="col-sm-4">
+									<input id="dir_rate" type="text" class="form-control"
+										data-toggle="tooltip" data-placement="top" title="自动计算"
+										disabled>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend>审核意见</legend>
+							<div class="form-group has-error has-feedback">
+								<div class="col-sm-10">
+								<textarea class="form-control" rows="3" id="check_remark" disabled></textarea>
+								</div>
+							</div>
+						</fieldset>
+						<div class="clearfix"></div>
+						<div class="form-group">
+							<div class="col-sm-12 col-sm-offset-6">
+								<button id="btn_submit" type="submit" class="btn btn-warning btn-label-left">
+									<span><i class="fa fa-clock-o"></i></span> 提交修改
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+
+	function load(){
+		var id = $.getUrlParam('id');
+		alert(id);
+		/*
+		$("#account_rate").val(0.32);
+		$("#prize_rate").val(1);
+		$("#dir_count").val(3);
+		$("#pro_bonus_rate").val(0.21);
+		$("#expense_rate").val(0.06);
+		$("#dir_rate").val(0.05);
+		*/
+	}
+	
+	function calculate(){
+		if($("#income").val() != null){
+			var income = $("#income").val();
+			var account_rate = $("#account_rate").val();
+			var expense_rate = $("#expense_rate").val();
+			var dir_rate = $("#dir_rate").val();
+			var prize_rate = $("#prize_rate").val();
+			var pro_bonus_rate = account_rate - expense_rate - dir_rate;
+			var expense_amount = income * expense_rate;
+			$("#expense_amount").val(parseFloat(expense_amount.toFixed(2)));
+			var dir_amount = income * dir_rate * prize_rate;
+			$("#dir_amount").val(parseFloat(dir_amount.toFixed(2)));
+			var pro_bonus_amount = income * pro_bonus_rate * prize_rate;
+			$("#pro_bonus_amount").val(parseFloat(pro_bonus_amount.toFixed(2)));
+			var equity = expense_amount + dir_amount + pro_bonus_amount;
+			$("#equity").val(parseFloat(equity.toFixed(2)));
+		}
+	}
+	jQuery(function($) {
+		$.datepicker.regional['zh-CN'] = {
+			closeText : '关闭',
+			prevText : '&#x3c;上月',
+			nextText : '下月&#x3e;',
+			currentText : '今天',
+			monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月',
+					'九月', '十月', '十一月', '十二月' ],
+			monthNamesShort : [ '一', '二', '三', '四', '五', '六', '七', '八',
+					'九', '十', '十一', '十二' ],
+			dayNames : [ '星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六' ],
+			dayNamesShort : [ '周日', '周一', '周二', '周三', '周四', '周五', '周六' ],
+			dayNamesMin : [ '日', '一', '二', '三', '四', '五', '六' ],
+			weekHeader : '周',
+			dateFormat : 'yy/mm/dd',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : true,
+			yearSuffix : '年'
+		};
+		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+	});	
+$(document).ready(function() {
+	// Create Wysiwig editor for textare
+	//TinyMCEStart('#wysiwig_simple', null);
+	//TinyMCEStart('#wysiwig_full', 'extreme');
+	// Add slider for change test input length
+	FormLayoutExampleInputLength($( ".slider-style" ));
+	// Initialize datepicker
+	$('#account_date').datepicker({setDate: new Date()});
+	// Load Timepicker plugin
+	//LoadTimePickerScript(DemoTimePicker);
+	// Add tooltip to form-controls
+	$('.form-control').tooltip();
+	//LoadSelect2Script(DemoSelect2);
+	// Load example of form validation
+	//LoadBootstrapValidatorScript(DemoFormValidator);
+	// Add drag-n-drop feature to boxes
+	load();
+	$("#account_rate").change(function(){
+		var account_rate = $("#account_rate").val();
+		var expense_rate = $("#expense_rate").val();
+		var dir_rate = $("#dir_rate").val();
+		var dir_count = $("#dir_count").val();
+		var pro_bonus_rate = account_rate - expense_rate - dir_rate;
+		if(dir_count == 3) {
+			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(2));
+		}
+		if(dir_count == 2) {
+			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(4));
+		}
+		$("#pro_bonus_rate").val(pro_bonus_rate);
+		calculate();
+	});
+	
+	$("#dir_count").change(function(){
+		var dir_count = $("#dir_count").val();
+		var account_rate = $("#account_rate").val();
+		var expense_rate = $("#expense_rate").val();
+		var pro_bonus_rate = 0;
+		if(dir_count == 3) {
+			var dir_rate = 0.05;
+			pro_bonus_rate = account_rate - expense_rate - dir_rate;
+			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(2));
+			$("#dir_rate").val(dir_rate);
+			$("#pro_bonus_rate").val(pro_bonus_rate);
+		}
+		if(dir_count == 2){
+			var dir_rate = 0.0395;
+			pro_bonus_rate = account_rate - expense_rate - dir_rate;
+			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(4));
+			$("#dir_rate").val(dir_rate);
+			$("#pro_bonus_rate").val(pro_bonus_rate);
+		}
+		calculate();
+	});
+	
+	$("#income").change(function(){
+		calculate();
+	});
+	$("#prize_rate").change(function(){
+		calculate();
+	});
+	$('#btn_submit').on('click', function(e) {
+		e.preventDefault();
+		//runningCard_save();
+	});
+	
+	WinMove();
+});
+</script>
 
 </body>
 </html>

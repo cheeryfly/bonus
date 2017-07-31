@@ -280,6 +280,7 @@ function generateMD(data) {
 
 function showModal(obj) {
 	var id = $(obj).parent().parent().parent().find('td:eq(0)').text();
+	var type_int;
 	var header = '入账详情';
 	var form = $('<div class="form-group">'
 			+ '					<table id="tb_detail" class="table m-table table-bordered table-hover table-heading">'
@@ -385,6 +386,7 @@ function showModal(obj) {
 		    
 			if (result.returnFlag === "200") {
 				generateMD(result);
+				type_int = result.equitiesList[0].type;
 			}
 			if(result.returnFlag === "500"){
 				jQuery('#tb_detail').html('<tr><td colspan=12>'+result.returnMsg+'</td></tr>');
@@ -400,8 +402,10 @@ function showModal(obj) {
 	
 	$('#btn_edit').on('click', function(e) {
 		e.preventDefault();
+		
 		CloseModalBox();
 		var ajax_url;
+		
 		if(type_int=='1'){
 			ajax_url = 'ajax/edit-runningcard.html?id='+id;
 		}
