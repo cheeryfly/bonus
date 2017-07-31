@@ -176,128 +176,151 @@
 	</div>
 	<script type="text/javascript">
 
-	function load(){
-		var id = $.getUrlParam('id');
-		alert(id);
-		/*
-		$("#account_rate").val(0.32);
-		$("#prize_rate").val(1);
-		$("#dir_count").val(3);
-		$("#pro_bonus_rate").val(0.21);
-		$("#expense_rate").val(0.06);
-		$("#dir_rate").val(0.05);
-		*/
-	}
-	
-	function calculate(){
-		if($("#income").val() != null){
-			var income = $("#income").val();
-			var account_rate = $("#account_rate").val();
-			var expense_rate = $("#expense_rate").val();
-			var dir_rate = $("#dir_rate").val();
-			var prize_rate = $("#prize_rate").val();
-			var pro_bonus_rate = account_rate - expense_rate - dir_rate;
-			var expense_amount = income * expense_rate;
-			$("#expense_amount").val(parseFloat(expense_amount.toFixed(2)));
-			var dir_amount = income * dir_rate * prize_rate;
-			$("#dir_amount").val(parseFloat(dir_amount.toFixed(2)));
-			var pro_bonus_amount = income * pro_bonus_rate * prize_rate;
-			$("#pro_bonus_amount").val(parseFloat(pro_bonus_amount.toFixed(2)));
-			var equity = expense_amount + dir_amount + pro_bonus_amount;
-			$("#equity").val(parseFloat(equity.toFixed(2)));
+
+		function getUrlParam(paras) {
+			var url = location.href;
+			url = url.substring(url.indexOf("?") + 1, url.length);
+			var paraString = url.substring(url.indexOf("?") + 1, url.length)
+					.split("&");
+			var paraObj = {}
+			for (i = 0; j = paraString[i]; i++) {
+				paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j
+						.substring(j.indexOf("=") + 1, j.length);
+			}
+			var returnValue = paraObj[paras.toLowerCase()];
+			if (typeof (returnValue) == "undefined") {
+				return "";
+			} else {
+				return returnValue;
+			}
 		}
-	}
-	jQuery(function($) {
-		$.datepicker.regional['zh-CN'] = {
-			closeText : '关闭',
-			prevText : '&#x3c;上月',
-			nextText : '下月&#x3e;',
-			currentText : '今天',
-			monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月',
-					'九月', '十月', '十一月', '十二月' ],
-			monthNamesShort : [ '一', '二', '三', '四', '五', '六', '七', '八',
-					'九', '十', '十一', '十二' ],
-			dayNames : [ '星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六' ],
-			dayNamesShort : [ '周日', '周一', '周二', '周三', '周四', '周五', '周六' ],
-			dayNamesMin : [ '日', '一', '二', '三', '四', '五', '六' ],
-			weekHeader : '周',
-			dateFormat : 'yy/mm/dd',
-			firstDay : 1,
-			isRTL : false,
-			showMonthAfterYear : true,
-			yearSuffix : '年'
-		};
-		$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
-	});	
-$(document).ready(function() {
-	// Create Wysiwig editor for textare
-	//TinyMCEStart('#wysiwig_simple', null);
-	//TinyMCEStart('#wysiwig_full', 'extreme');
-	// Add slider for change test input length
-	FormLayoutExampleInputLength($( ".slider-style" ));
-	// Initialize datepicker
-	$('#account_date').datepicker({setDate: new Date()});
-	// Load Timepicker plugin
-	//LoadTimePickerScript(DemoTimePicker);
-	// Add tooltip to form-controls
-	$('.form-control').tooltip();
-	//LoadSelect2Script(DemoSelect2);
-	// Load example of form validation
-	//LoadBootstrapValidatorScript(DemoFormValidator);
-	// Add drag-n-drop feature to boxes
-	load();
-	$("#account_rate").change(function(){
-		var account_rate = $("#account_rate").val();
-		var expense_rate = $("#expense_rate").val();
-		var dir_rate = $("#dir_rate").val();
-		var dir_count = $("#dir_count").val();
-		var pro_bonus_rate = account_rate - expense_rate - dir_rate;
-		if(dir_count == 3) {
-			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(2));
+
+		function load() {
+			var id = getUrlParam('id');
+			
+			$("#account_rate").val(0.32);
+			$("#prize_rate").val(1);
+			$("#dir_count").val(3);
+			$("#pro_bonus_rate").val(0.21);
+			$("#expense_rate").val(0.06);
+			$("#dir_rate").val(0.05);
+			
 		}
-		if(dir_count == 2) {
-			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(4));
+
+		function calculate() {
+			if ($("#income").val() != null) {
+				var income = $("#income").val();
+				var account_rate = $("#account_rate").val();
+				var expense_rate = $("#expense_rate").val();
+				var dir_rate = $("#dir_rate").val();
+				var prize_rate = $("#prize_rate").val();
+				var pro_bonus_rate = account_rate - expense_rate - dir_rate;
+				var expense_amount = income * expense_rate;
+				$("#expense_amount").val(parseFloat(expense_amount.toFixed(2)));
+				var dir_amount = income * dir_rate * prize_rate;
+				$("#dir_amount").val(parseFloat(dir_amount.toFixed(2)));
+				var pro_bonus_amount = income * pro_bonus_rate * prize_rate;
+				$("#pro_bonus_amount").val(
+						parseFloat(pro_bonus_amount.toFixed(2)));
+				var equity = expense_amount + dir_amount + pro_bonus_amount;
+				$("#equity").val(parseFloat(equity.toFixed(2)));
+			}
 		}
-		$("#pro_bonus_rate").val(pro_bonus_rate);
-		calculate();
-	});
-	
-	$("#dir_count").change(function(){
-		var dir_count = $("#dir_count").val();
-		var account_rate = $("#account_rate").val();
-		var expense_rate = $("#expense_rate").val();
-		var pro_bonus_rate = 0;
-		if(dir_count == 3) {
-			var dir_rate = 0.05;
-			pro_bonus_rate = account_rate - expense_rate - dir_rate;
-			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(2));
-			$("#dir_rate").val(dir_rate);
-			$("#pro_bonus_rate").val(pro_bonus_rate);
-		}
-		if(dir_count == 2){
-			var dir_rate = 0.0395;
-			pro_bonus_rate = account_rate - expense_rate - dir_rate;
-			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(4));
-			$("#dir_rate").val(dir_rate);
-			$("#pro_bonus_rate").val(pro_bonus_rate);
-		}
-		calculate();
-	});
-	
-	$("#income").change(function(){
-		calculate();
-	});
-	$("#prize_rate").change(function(){
-		calculate();
-	});
-	$('#btn_submit').on('click', function(e) {
-		e.preventDefault();
-		//runningCard_save();
-	});
-	
-	WinMove();
-});
-</script>
+		jQuery(function($) {
+			$.datepicker.regional['zh-CN'] = {
+				closeText : '关闭',
+				prevText : '&#x3c;上月',
+				nextText : '下月&#x3e;',
+				currentText : '今天',
+				monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月',
+						'九月', '十月', '十一月', '十二月' ],
+				monthNamesShort : [ '一', '二', '三', '四', '五', '六', '七', '八',
+						'九', '十', '十一', '十二' ],
+				dayNames : [ '星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六' ],
+				dayNamesShort : [ '周日', '周一', '周二', '周三', '周四', '周五', '周六' ],
+				dayNamesMin : [ '日', '一', '二', '三', '四', '五', '六' ],
+				weekHeader : '周',
+				dateFormat : 'yy/mm/dd',
+				firstDay : 1,
+				isRTL : false,
+				showMonthAfterYear : true,
+				yearSuffix : '年'
+			};
+			$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+		});
+		$(document).ready(function() {
+			// Create Wysiwig editor for textare
+			//TinyMCEStart('#wysiwig_simple', null);
+			//TinyMCEStart('#wysiwig_full', 'extreme');
+			// Add slider for change test input length
+			FormLayoutExampleInputLength($(".slider-style"));
+			// Initialize datepicker
+			$('#account_date').datepicker({
+				setDate : new Date()
+			});
+			// Load Timepicker plugin
+			//LoadTimePickerScript(DemoTimePicker);
+			// Add tooltip to form-controls
+			$('.form-control').tooltip();
+			//LoadSelect2Script(DemoSelect2);
+			// Load example of form validation
+			//LoadBootstrapValidatorScript(DemoFormValidator);
+			// Add drag-n-drop feature to boxes
+			load();
+			/*
+			$("#account_rate").change(function(){
+				var account_rate = $("#account_rate").val();
+				var expense_rate = $("#expense_rate").val();
+				var dir_rate = $("#dir_rate").val();
+				var dir_count = $("#dir_count").val();
+				var pro_bonus_rate = account_rate - expense_rate - dir_rate;
+				if(dir_count == 3) {
+					pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(2));
+				}
+				if(dir_count == 2) {
+					pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(4));
+				}
+				$("#pro_bonus_rate").val(pro_bonus_rate);
+				calculate();
+			});
+			
+			$("#dir_count").change(function(){
+				var dir_count = $("#dir_count").val();
+				var account_rate = $("#account_rate").val();
+				var expense_rate = $("#expense_rate").val();
+				var pro_bonus_rate = 0;
+				if(dir_count == 3) {
+					var dir_rate = 0.05;
+					pro_bonus_rate = account_rate - expense_rate - dir_rate;
+					pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(2));
+					$("#dir_rate").val(dir_rate);
+					$("#pro_bonus_rate").val(pro_bonus_rate);
+				}
+				if(dir_count == 2){
+					var dir_rate = 0.0395;
+					pro_bonus_rate = account_rate - expense_rate - dir_rate;
+					pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(4));
+					$("#dir_rate").val(dir_rate);
+					$("#pro_bonus_rate").val(pro_bonus_rate);
+				}
+				calculate();
+			});
+			
+			$("#income").change(function(){
+				calculate();
+			});
+			$("#prize_rate").change(function(){
+				calculate();
+			});
+			 */
+			$('#btn_submit').on('click', function(e) {
+				e.preventDefault();
+				//runningCard_save();
+			});
+
+			WinMove();
+		});
+	</script>
 
 </body>
 </html>
