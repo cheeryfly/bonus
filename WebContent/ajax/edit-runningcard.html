@@ -61,7 +61,7 @@
 								</div>
 								<label class="col-sm-2 control-label">项目编号</label>
 								<div class="col-sm-4">
-									<input id="project_id" type="text" class="form-control"
+									<input id="pro_id" type="text" class="form-control"
 										data-toggle="tooltip" data-placement="bottom" title="项目编号">
 								</div>
 							</div>
@@ -105,6 +105,7 @@
 								<textarea class="form-control" rows="3" id="remark"></textarea>
 								</div>
 							</div>
+							<input type="hidden" id="id"  />
 						</fieldset>
 						<fieldset>
 							<legend>所权益明细</legend>
@@ -156,7 +157,7 @@
 						<fieldset>
 							<legend>审核意见</legend>
 							<div class="form-group has-error has-feedback">
-								<div class="col-sm-10">
+								<div class="col-sm-12">
 								<textarea class="form-control" rows="3" id="check_remark" disabled></textarea>
 								</div>
 							</div>
@@ -195,17 +196,6 @@
 			}
 		}
 
-		function load() {
-			var id = getUrlParam('id');
-			
-			$("#account_rate").val(0.32);
-			$("#prize_rate").val(1);
-			$("#dir_count").val(3);
-			$("#pro_bonus_rate").val(0.21);
-			$("#expense_rate").val(0.06);
-			$("#dir_rate").val(0.05);
-			
-		}
 
 		function calculate() {
 			if ($("#income").val() != null) {
@@ -267,7 +257,6 @@
 			//LoadBootstrapValidatorScript(DemoFormValidator);
 			// Add drag-n-drop feature to boxes
 			load();
-			/*
 			$("#account_rate").change(function(){
 				var account_rate = $("#account_rate").val();
 				var expense_rate = $("#expense_rate").val();
@@ -312,10 +301,9 @@
 			$("#prize_rate").change(function(){
 				calculate();
 			});
-			 */
 			$('#btn_submit').on('click', function(e) {
 				e.preventDefault();
-				//runningCard_save();
+				runningCard_save();
 			});
 
 			WinMove();
