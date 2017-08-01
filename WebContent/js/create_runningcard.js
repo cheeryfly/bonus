@@ -2,7 +2,7 @@ function runningCard_save(){
 	var department = $("#department").val();
 	var account_date = $("#account_date").val();
 	var account_item = $("#account_item").val();
-	var project_id = $("#project_id").val();
+	var pro_id = $("#pro_id").val();
 	var cardno = $("#cardno").val();
 	var income = $("#income").val();
 	var account_rate = $("#account_rate").val();
@@ -28,8 +28,8 @@ function runningCard_save(){
 	if(account_item != ""){
 		dataStr =dataStr+ ",\"account_item\":\"" + account_item + "\"";
 	}
-	if(project_id != ""){
-		dataStr =dataStr+ ",\"project_id\":\"" + project_id + "\"";
+	if(pro_id != ""){
+		dataStr =dataStr+ ",\"pro_id\":\"" + pro_id + "\"";
 	}
 	if(cardno != ""){
 		dataStr =dataStr+ ",\"cardno\":\"" + cardno + "\"";
@@ -98,7 +98,7 @@ function settlement_save(){
 	var department = $("#department").val();
 	var account_date = $("#account_date").val();
 	var account_item = $("#account_item").val();
-	var pro_id = $("#project_id").val();
+	var pro_id = $("#pro_id").val();
 	var cardno = $("#cardno").val();
 	var income = $("#income").val();
 	var account_rate = $("#account_rate").val();

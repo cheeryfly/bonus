@@ -38,6 +38,7 @@ function initiate(data){
 	var account_rate = data.equitiesList[0].account_rate;
 	var prize_rate = data.equitiesList[0].prize_rate;
 	var dir_count = data.equitiesList[0].dir_count;
+	var card_discount = data.equitiesList[0].card_discount;
 	var remark = data.equitiesList[0].remark;
 	var equity = data.equitiesList[0].equity;
 	var pro_bonus_amount = data.equitiesList[0].pro_bonus_amount;
@@ -57,6 +58,8 @@ function initiate(data){
 	if (typeof(account_rate) == "undefined")account_rate='0.32';
 	if (typeof(prize_rate) == "undefined")prize_rate='1';
 	if (typeof(dir_count) == "undefined")dir_count='3';
+	if (typeof(card_discount) == "undefined")card_discount='1';
+	
 	if (typeof(remark) == "undefined")remark='';
 	if (typeof(equity) == "undefined")equity='';
 	if (typeof(pro_bonus_amount) == "undefined")pro_bonus_amount='';
@@ -83,6 +86,7 @@ function initiate(data){
 	$("#account_rate").val(account_rate);
 	$("#prize_rate").val(prize_rate);
 	$("#dir_count").val(dir_count);
+	$("#card_discount").val(card_discount);
 	$("#remark").val(remark);
 	$("#equity").val(equity);
 	$("#pro_bonus_amount").val(pro_bonus_amount);
@@ -95,7 +99,7 @@ function initiate(data){
 	$("#check_remark").val(check_remark);	
 }
 
-function runningCard_save(){
+function settlement_save(){
 	var id = $("#id").val();
 	var department = $("#department").val();
 	var account_date = $("#account_date").val();
@@ -106,6 +110,7 @@ function runningCard_save(){
 	var account_rate = $("#account_rate").val();
 	var prize_rate = $("#prize_rate").val();
 	var dir_count = $("#dir_count").val();
+	var card_discount = $("#card_discount").val();
 	var remark = $("#remark").val();
 	var equity = $("#equity").val();
 	var pro_bonus_amount = $("#pro_bonus_amount").val();
@@ -148,6 +153,9 @@ function runningCard_save(){
 	if(dir_count != ""){
 		dataStr =dataStr+ ",\"dir_count\":\"" + dir_count + "\"";
 	}
+	if(card_discount != ""){
+		dataStr =dataStr+ ",\"card_discount\":\"" + card_discount + "\"";
+	}
 	if(remark != ""){
 		dataStr =dataStr+ ",\"remark\":\"" + remark + "\"";
 	}
@@ -179,7 +187,7 @@ function runningCard_save(){
 	dataStr = dataStr + "}";
 	$.ajax( {
 		type : 'post',
-		url : 'runningcard/edit',
+		url : 'settlement/edit',
 		data : {json : dataStr},
 		dataType : 'json',
 		timeout: 10000,

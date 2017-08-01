@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script src="js/edit_runningcard.js"></script>
+<script src="js/util.js"></script>
 <title>修改运行卡入账</title>
 </head>
 <body>
@@ -178,23 +179,6 @@
 	<script type="text/javascript">
 
 
-		function getUrlParam(paras) {
-			var url = location.href;
-			url = url.substring(url.indexOf("?") + 1, url.length);
-			var paraString = url.substring(url.indexOf("?") + 1, url.length)
-					.split("&");
-			var paraObj = {}
-			for (i = 0; j = paraString[i]; i++) {
-				paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j
-						.substring(j.indexOf("=") + 1, j.length);
-			}
-			var returnValue = paraObj[paras.toLowerCase()];
-			if (typeof (returnValue) == "undefined") {
-				return "";
-			} else {
-				return returnValue;
-			}
-		}
 
 
 		function calculate() {

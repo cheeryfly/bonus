@@ -52,7 +52,7 @@ public class CreateAction {
 			String department = map.get("department")==null?null:(String)map.get("department");
 			String account_date_st = map.get("account_date")==null?null:(String)map.get("account_date");
 			String account_item = map.get("account_item")==null?null:(String)map.get("account_item");
-			String project_id = map.get("project_id")==null?null:(String)map.get("project_id");
+			String pro_id = map.get("pro_id")==null?null:(String)map.get("pro_id");
 			String cardno = map.get("cardno")==null?null:(String)map.get("cardno");
 			BigDecimal income = map.get("income")==null?null:new BigDecimal((String)map.get("income"));
 			BigDecimal account_rate = map.get("account_rate")==null?null:new BigDecimal((String)map.get("account_rate"));
@@ -94,7 +94,7 @@ public class CreateAction {
 			eq.setRec_date(rec_date);
 			eq.setRec_employee(userName);
 			eq.setRemark(remark);
-			eq.setPro_id(project_id);
+			eq.setPro_id(pro_id);
 			eq.setStatus("0"); //草稿
 			eq.setType("1"); //运行卡
 			
@@ -142,7 +142,7 @@ public class CreateAction {
 			String department = map.get("department")==null?null:(String)map.get("department");
 			String account_date_st = map.get("account_date")==null?null:(String)map.get("account_date");
 			String account_item = map.get("account_item")==null?null:(String)map.get("account_item");
-			String project_id = map.get("project_id")==null?null:(String)map.get("project_id");
+			String pro_id = map.get("pro_id")==null?null:(String)map.get("pro_id");
 			String cardno = map.get("cardno")==null?null:(String)map.get("cardno");
 			BigDecimal income = map.get("income")==null?null:new BigDecimal((String)map.get("income"));
 			BigDecimal account_rate = map.get("account_rate")==null?null:new BigDecimal((String)map.get("account_rate"));
@@ -184,7 +184,7 @@ public class CreateAction {
 			eq.setRec_date(rec_date);
 			eq.setRec_employee(userName);
 			eq.setRemark(remark);
-			eq.setPro_id(project_id);
+			eq.setPro_id(pro_id);
 			eq.setStatus("0"); //草稿
 			eq.setType("2"); //结算卡
 			
