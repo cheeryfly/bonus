@@ -413,7 +413,7 @@ function showModal(obj) {
 			ajax_url = 'ajax/edit-settlementcard.html?id='+id;
 		}
 		else{
-			ajax_url = 'ajax/edit-runningcard.html?id='+id;
+			ajax_url = 'ajax/edit-other.html?id='+id;
 		}
 		window.location.hash = ajax_url;
 		LoadAjaxContent(ajax_url);
