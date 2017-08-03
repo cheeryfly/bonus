@@ -169,6 +169,22 @@
 			// Load example of form validation
 			//LoadBootstrapValidatorScript(DemoFormValidator);
 			// Add drag-n-drop feature to boxes
+			var table = $('#tb_test').DataTable( {
+				  "serverSide":true,
+				  "ajax": {
+					 "url": 'report/test',
+     				 "type": 'POST',
+				    "data": function ( d ) {
+				      return $.extend( {}, d, {
+				    	  "type": $("#type option:selected").val(),
+     				        "department":$("#department").val(),
+     				        "account_date_start":$("#account_date_start").val(),
+     				        "account_date_end":$("#account_date_end").val()
+				      } );
+				    }
+				  }
+				} );
+			/*
 			var table = $('#tb_test').DataTable({ 
 				//开启服务器模式
 			    
@@ -193,24 +209,48 @@
 		            }    
 		        },  
 		        "processing": true, //打开数据加载时的等待效果  
+		        "bDestroy": true
+		        
 		        serverSide: true,
 			   //数据来源（包括处理分页，排序，过滤） ，即url，action，接口，等等
 			   ajax: {
        				 	url: 'report/test',
-       				 	type: 'POST'
-       				 	"data": function ( d ) {
+       				 	type: 'POST',
+       				 	data: function ( d ) {
        				      return $.extend( {}, d, {
-       				        "extra_search": $('#extra').val()
-       				      } );
+       				        "type": $("#type option:selected").val(),
+       				        "department":$("#department").val(),
+       				        "account_date_start":$("#account_date_start").val(),
+       				        "account_date_end":$("#account_date_end").val()
+       				      } )
    					 }
+		        
 		        "columns": [  
-		            { "data": "total" },  
-		            { "data": "level" }  
+		            { "data": "department" },  
+		            { "data": "type" }  
+		            { "data": "account_date" }  
+		            { "data": "cardno" }  
+		            { "data": "account_item" }  
+		            { "data": "income" }  
+		            { "data": "account_rate" }  
+		            { "data": "prize_rate" }  
+		            { "data": "card_discount" }  
+		            { "data": "dir_count" }  
+		            { "data": "equity" }  
+		            { "data": "pro_bonus_rate" }  
+		            { "data": "pro_bonus_amount" }  
+		            { "data": "expense_rate" }  
+		            { "data": "expense_amount" }  
+		            { "data": "dir_rate" }  
+		            { "data": "dir_amount" } 
+		            { "data": "remark" }
 		        ]  
-			} );
+   					 
+			   });
+			*/
 			$('#btn_query').on('click', function(e) {
 				e.preventDefault();
-				 table.ajax.reload();  
+				$('#tb_test').ajax.reload();  
 			});
 			WinMove();
 		});
