@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="assets/DataTables/media/css/jquery.dataTables.css" rel="stylesheet">
+<script type="text/javascript" src="assets/DataTables/media/js/jquery.dataTables.js"></script>
+<script src="js/test.js"></script>
+<title>权益明细表</title>
+</head>
+<body>
+	<div class="row">
+		<div id="breadcrumb" class="col-md-12">
+			<ol class="breadcrumb">
+				<li><a href="index.html">首页</a></li>
+				<li><a href="#">查询</a></li>
+				<li><a href="#">权益明细表</a></li>
+			</ol>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<div class="box-name">
+						<i class="fa fa-check-square-o"></i> <span>权益明细查询</span>
+					</div>
+					<div class="box-icons">
+						<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+						</a> <a class="expand-link"> <i class="fa fa-expand"></i>
+						</a> <a class="close-link"> <i class="fa fa-times"></i>
+						</a>
+					</div>
+					<div class="no-move"></div>
+				</div>
+				<div class="box-content no-padding">
+					<form id="defaultForm"  class="form-horizontal">
+						<fieldset>
+							<legend>查询条件</legend>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">设计所</label>
+								<div class="col-sm-4">
+									<select class="form-control" id="department">
+										<option>不限</option>
+										<option>一所</option>
+										<option>二所</option>
+										<option>三所</option>
+										<option>四所</option>
+										<option>五所</option>
+									</select>
+								</div>
+								<label class="col-sm-2 control-label">入账类型</label>
+								<div class="col-sm-4">
+									<select class="form-control" id="type">
+										<option value="">不限</option>
+										<option value="1">运行卡</option>
+										<option value="2">结算卡</option>
+										<option value="11">提取项目奖金</option>
+										<option value="12">提取所长奖金</option>
+										<option value="13">成本报账</option>
+										<option value="15">其他</option>
+									</select>
+								</div>
+								
+							</div>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">到账日期起</label>
+								<div class="col-sm-4">
+									<input id="account_date_start" type="text" class="form-control"
+										placeholder="Date"> <span
+										class="fa fa-calendar txt-danger form-control-feedback"></span>
+								</div>
+								<label class="col-sm-2 control-label">到账时间止</label>
+								<div class="col-sm-4">
+									<input type="text" id="account_date_end" class="form-control"
+										placeholder="Date"> <span
+										class="fa fa-calendar txt-danger form-control-feedback"></span>
+								</div>
+							</div>
+						</fieldset>
+						<div class="clearfix"></div>
+						<div class="form-group">
+							<div class="col-sm-12 col-sm-offset-6">
+								<button id="btn_query" class="btn btn-primary btn-label-left">
+									<span><i class="fa fa-clock-o"></i></span>查询
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="well">
+				
+				<table
+					class="table table-bordered table-striped table-hover table-heading table-datatable"
+					id="tb_test">
+					<thead>
+						<tr>
+							<th style="text-align:center;vertical-align:middle;">设计所</th>
+							<th style="text-align:center;vertical-align:middle;">到账类型</th>
+							<th style="text-align:center;vertical-align:middle;">到账时间</th>
+							<th style="text-align:center;vertical-align:middle;">卡号</th>
+							<th style="text-align:center;vertical-align:middle;">项目名称</th>
+							<th style="text-align:center;vertical-align:middle;">到账产值</th>
+							<th style="text-align:center;vertical-align:middle;">核算比例</th>
+							<th style="text-align:center;vertical-align:middle;">各奖励系数</th>
+							<th style="text-align:center;vertical-align:middle;">已结算系数</th>
+							<th style="text-align:center;vertical-align:middle;">所长人数</th>
+							<th style="text-align:center;vertical-align:middle;">所权益</th>
+							<th style="text-align:center;vertical-align:middle;">项目奖金比例</th>
+							<th style="text-align:center;vertical-align:middle;">项目奖金金额</th>
+							<th style="text-align:center;vertical-align:middle;">报账成本比例</th>
+							<th style="text-align:center;vertical-align:middle;">报账成本金额</th>
+							<th style="text-align:center;vertical-align:middle;">所长奖金比例</th>
+							<th style="text-align:center;vertical-align:middle;">所长奖金金额</th>
+							<th style="text-align:center;vertical-align:middle;">备注</th>
+														
+						</tr>
+					</thead>
+					<tbody id="detail_record">
+						<!-- Start: list_row -->
+						<!-- End: list_row -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	jQuery(function($) {
+		$.datepicker.regional['zh-CN'] = {
+			closeText : '关闭',
+			prevText : '&#x3c;上月',
+			nextText : '下月&#x3e;',
+			currentText : '今天',
+			monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月',
+					'九月', '十月', '十一月', '十二月' ],
+			monthNamesShort : [ '一', '二', '三', '四', '五', '六', '七', '八',
+					'九', '十', '十一', '十二' ],
+			dayNames : [ '星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六' ],
+			dayNamesShort : [ '周日', '周一', '周二', '周三', '周四', '周五', '周六' ],
+			dayNamesMin : [ '日', '一', '二', '三', '四', '五', '六' ],
+			weekHeader : '周',
+			dateFormat : 'yy/mm/dd',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : true,
+			yearSuffix : '年'
+		};
+			$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
+		});
+		
+		$(document).ready(function() {
+			// Create Wysiwig editor for textare
+			//TinyMCEStart('#wysiwig_simple', null);
+			//TinyMCEStart('#wysiwig_full', 'extreme');
+			// Add slider for change test input length
+			FormLayoutExampleInputLength($(".slider-style"));
+			// Initialize datepicker
+			$('#account_date_start').datepicker({
+				setDate : new Date()
+			});
+			$('#account_date_end').datepicker({
+				setDate : new Date()
+			});
+			// Load Timepicker plugin
+			//LoadTimePickerScript(DemoTimePicker);
+			// Add tooltip to form-controls
+			$('.form-control').tooltip();
+			//LoadSelect2Script(DemoSelect2);
+			// Load example of form validation
+			//LoadBootstrapValidatorScript(DemoFormValidator);
+			// Add drag-n-drop feature to boxes
+			var table = $('#tb_test').DataTable({ 
+				//开启服务器模式
+			    
+			    "pagingType": "simple_numbers",//设置分页控件的模式  
+		         searching: false,//屏蔽datatales的查询框  
+		         aLengthMenu:[10],//设置一页展示10条记录  
+		         "bLengthChange": false,//屏蔽tables的一页展示多少条记录的下拉列表  
+		         "oLanguage": {  //对表格国际化  
+		            "sLengthMenu": "每页显示 _MENU_条",    
+		            "sZeroRecords": "没有找到符合条件的数据",    
+		        //  "sProcessing": "&lt;img src=’./loading.gif’ /&gt;",    
+		            "sInfo": "当前第 _START_ - _END_ 条　共计 _TOTAL_ 条",    
+		            "sInfoEmpty": "木有记录",    
+		            "sInfoFiltered": "(从 _MAX_ 条记录中过滤)",    
+		            "sSearch": "搜索：",    
+		            "oPaginate": {    
+		            "sFirst": "首页",    
+		            "sPrevious": "前一页",    
+		            "sNext": "后一页",    
+		            "sLast": "尾页"    
+		                   
+		            }    
+		        },  
+		        "processing": true, //打开数据加载时的等待效果  
+		        serverSide: true,
+			   //数据来源（包括处理分页，排序，过滤） ，即url，action，接口，等等
+			   ajax: {
+       				 	url: 'report/test',
+       				 	type: 'POST'
+       				 	"data": function ( d ) {
+       				      return $.extend( {}, d, {
+       				        "extra_search": $('#extra').val()
+       				      } );
+   					 }
+		        "columns": [  
+		            { "data": "total" },  
+		            { "data": "level" }  
+		        ]  
+			} );
+			$('#btn_query').on('click', function(e) {
+				e.preventDefault();
+				 table.ajax.reload();  
+			});
+			WinMove();
+		});
+	</script>
+</body>
+</html>

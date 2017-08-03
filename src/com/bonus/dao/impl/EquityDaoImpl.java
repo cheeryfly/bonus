@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bonus.bean.Equity;
+import com.bonus.bean.QueryResult;
 import com.bonus.dao.EquityDao;
 
 @Repository
 public class EquityDaoImpl implements EquityDao {
+	
+	private int pageCount = 10;
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -75,6 +78,36 @@ public class EquityDaoImpl implements EquityDao {
 		query.setMaxResults(20);
 		query.setFirstResult(0);
 		result = query.list();
+		return result;
+	}
+	
+	
+	public QueryResult reportDetail(int page, Equity e){
+		int start = (page-1) * pageCount;
+		StringBuilder sb = new StringBuilder();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		sb.append("from Equity e where 1=1");
+		if(e.getDepartment() != null){
+			sb.append(" and e.department='"+e.getDepartment()+"'");
+		}
+		if(e.getType() != null){
+			sb.append(" and e.type='"+e.getType()+"'");
+		}
+		if(e.getAccount_date() != null){
+			sb.append(" and e.account_date>='"+sdf.format(e.getAccount_date())+"'");
+		}
+		if(e.getRec_date() != null){
+			sb.append(" and e.account_date<='"+sdf.format(e.getRec_date())+"'");
+		}
+		sb.append(" and e.status='1'");
+		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
+		int total = query.list().size();
+		query.setMaxResults(pageCount);
+		query.setFirstResult(start);
+		QueryResult result = new QueryResult();
+		result.setTotalAmount(total);
+		result.setPage(page);
+		result.setResult((List<Equity>)query.list());
 		return result;
 	}
 

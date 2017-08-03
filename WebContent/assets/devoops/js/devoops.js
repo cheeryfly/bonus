@@ -2300,7 +2300,7 @@ $(document).ready(function () {
 	});
 	var ajax_url = location.hash.replace(/^#/, '');
 	if (ajax_url.length < 1) {
-		ajax_url = 'ajax/create-equity-detail.html';
+		ajax_url = 'ajax/create-runningcard.html';
 	}
 	LoadAjaxContent(ajax_url);
 	getUserInfo();
