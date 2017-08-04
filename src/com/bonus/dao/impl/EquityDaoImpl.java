@@ -1,9 +1,11 @@
 package com.bonus.dao.impl;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -82,15 +84,16 @@ public class EquityDaoImpl implements EquityDao {
 	}
 	
 	
-	public QueryResult reportDetail(int page, Equity e){
-		int start = (page-1) * pageCount;
+	public QueryResult reportDetail(int start, int length, Equity e){
 		StringBuilder sb = new StringBuilder();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		sb.append("from Equity e where 1=1");
-		if(e.getDepartment() != null){
+		String head2 = "from Equity e ";
+		String head = "select count(*) from equity_detail e ";
+		sb.append("where 1=1");
+		if(e.getDepartment() != null && !e.getDepartment().equals("不限") && !e.getDepartment().equals("")){
 			sb.append(" and e.department='"+e.getDepartment()+"'");
 		}
-		if(e.getType() != null){
+		if(e.getType() != null && !e.getType().equals("不限") && !e.getType().equals("")){
 			sb.append(" and e.type='"+e.getType()+"'");
 		}
 		if(e.getAccount_date() != null){
@@ -100,15 +103,19 @@ public class EquityDaoImpl implements EquityDao {
 			sb.append(" and e.account_date<='"+sdf.format(e.getRec_date())+"'");
 		}
 		sb.append(" and e.status='1'");
-		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
-		int total = query.list().size();
-		query.setMaxResults(pageCount);
+		String sql1 = head + sb.toString();
+		String sql2 = head2 + sb.toString();
+		SQLQuery q= sessionFactory.getCurrentSession().createSQLQuery(sql1);
+		BigInteger t = (BigInteger)q.uniqueResult();
+		int total = t.intValueExact();
+		Query query = sessionFactory.getCurrentSession().createQuery(sql2);
+		
+		query.setMaxResults(length);
 		query.setFirstResult(start);
-		QueryResult result = new QueryResult();
-		result.setTotalAmount(total);
-		result.setPage(page);
-		result.setResult((List<Equity>)query.list());
-		return result;
+		QueryResult re= new QueryResult();
+		re.setTotalAmount(total);
+		re.setResult(query.list());
+		return re;
 	}
 
 }

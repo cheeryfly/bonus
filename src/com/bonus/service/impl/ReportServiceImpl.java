@@ -16,8 +16,8 @@ public class ReportServiceImpl implements ReportService {
 	private EquityDao equitydao;
 	
 	@Transactional
-	public QueryResult reportDetail(int page, Equity e) {
-		return equitydao.reportDetail(page, e);
+	public QueryResult reportDetail(int start, int length, Equity e) {
+		return equitydao.reportDetail(start, length, e);
 	}
 	
 

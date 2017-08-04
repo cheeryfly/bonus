@@ -13,7 +13,7 @@
 			<ol class="breadcrumb">
 				<li><a href="index.html">首页</a></li>
 				<li><a href="#">查询</a></li>
-				<li><a href="#">权益明细表</a></li>
+				<li><a href="#">test2</a></li>
 			</ol>
 		</div>
 	</div>
@@ -22,7 +22,7 @@
 			<div class="box">
 				<div class="box-header">
 					<div class="box-name">
-						<i class="fa fa-check-square-o"></i> <span>权益明细查询</span>
+						<i class="fa fa-check-square-o"></i> <span>test2</span>
 					</div>
 					<div class="box-icons">
 						<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
@@ -125,6 +125,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+	var table = null;
 	jQuery(function($) {
 		$.datepicker.regional['zh-CN'] = {
 			closeText : '关闭',
@@ -148,7 +149,7 @@
 			$.datepicker.setDefaults($.datepicker.regional['zh-CN']);
 		});
 		
-		$(document).ready(function() {
+		$(document).ready(function() { 
 			// Create Wysiwig editor for textare
 			//TinyMCEStart('#wysiwig_simple', null);
 			//TinyMCEStart('#wysiwig_full', 'extreme');
@@ -166,93 +167,12 @@
 			// Add tooltip to form-controls
 			$('.form-control').tooltip();
 			//LoadSelect2Script(DemoSelect2);
-			// Load example of form validation
-			//LoadBootstrapValidatorScript(DemoFormValidator);
-			// Add drag-n-drop feature to boxes
-			var table = $('#tb_test').DataTable( {
-				  "serverSide":true,
-				  "ajax": {
-					 "url": 'report/test',
-     				 "type": 'POST',
-				    "data": function ( d ) {
-				      return $.extend( {}, d, {
-				    	  "type": $("#type option:selected").val(),
-     				        "department":$("#department").val(),
-     				        "account_date_start":$("#account_date_start").val(),
-     				        "account_date_end":$("#account_date_end").val()
-				      } );
-				    }
-				  }
-				} );
-			/*
-			var table = $('#tb_test').DataTable({ 
-				//开启服务器模式
-			    
-			    "pagingType": "simple_numbers",//设置分页控件的模式  
-		         searching: false,//屏蔽datatales的查询框  
-		         aLengthMenu:[10],//设置一页展示10条记录  
-		         "bLengthChange": false,//屏蔽tables的一页展示多少条记录的下拉列表  
-		         "oLanguage": {  //对表格国际化  
-		            "sLengthMenu": "每页显示 _MENU_条",    
-		            "sZeroRecords": "没有找到符合条件的数据",    
-		        //  "sProcessing": "&lt;img src=’./loading.gif’ /&gt;",    
-		            "sInfo": "当前第 _START_ - _END_ 条　共计 _TOTAL_ 条",    
-		            "sInfoEmpty": "木有记录",    
-		            "sInfoFiltered": "(从 _MAX_ 条记录中过滤)",    
-		            "sSearch": "搜索：",    
-		            "oPaginate": {    
-		            "sFirst": "首页",    
-		            "sPrevious": "前一页",    
-		            "sNext": "后一页",    
-		            "sLast": "尾页"    
-		                   
-		            }    
-		        },  
-		        "processing": true, //打开数据加载时的等待效果  
-		        "bDestroy": true
-		        
-		        serverSide: true,
-			   //数据来源（包括处理分页，排序，过滤） ，即url，action，接口，等等
-			   ajax: {
-       				 	url: 'report/test',
-       				 	type: 'POST',
-       				 	data: function ( d ) {
-       				      return $.extend( {}, d, {
-       				        "type": $("#type option:selected").val(),
-       				        "department":$("#department").val(),
-       				        "account_date_start":$("#account_date_start").val(),
-       				        "account_date_end":$("#account_date_end").val()
-       				      } )
-   					 }
-		        
-		        "columns": [  
-		            { "data": "department" },  
-		            { "data": "type" }  
-		            { "data": "account_date" }  
-		            { "data": "cardno" }  
-		            { "data": "account_item" }  
-		            { "data": "income" }  
-		            { "data": "account_rate" }  
-		            { "data": "prize_rate" }  
-		            { "data": "card_discount" }  
-		            { "data": "dir_count" }  
-		            { "data": "equity" }  
-		            { "data": "pro_bonus_rate" }  
-		            { "data": "pro_bonus_amount" }  
-		            { "data": "expense_rate" }  
-		            { "data": "expense_amount" }  
-		            { "data": "dir_rate" }  
-		            { "data": "dir_amount" } 
-		            { "data": "remark" }
-		        ]  
-   					 
-			   });
-			*/
+		
 			$('#btn_query').on('click', function(e) {
 				e.preventDefault();
-				$('#tb_test').ajax.reload();  
+				query();
+				WinMove();
 			});
-			WinMove();
 		});
 	</script>
 </body>

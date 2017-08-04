@@ -10,5 +10,5 @@ public interface EquityDao {
 	public List<Equity> queryEquities(Equity e);
 	public void updateEquity(Equity e);
 	
-	public QueryResult reportDetail(int page, Equity e);
+	public QueryResult reportDetail(int start, int length, Equity e);
 }
