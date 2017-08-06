@@ -9,6 +9,7 @@ function query(){
 		table =  $('#tb_test').DataTable( {
 			  "serverSide":true,
 			  "searching": false,
+			  "scrollX": true,
 			  "language": {  //对表格国际化  
 				  "sProcessing": "处理中...",
 			        "sLengthMenu": "显示 _MENU_ 项结果",

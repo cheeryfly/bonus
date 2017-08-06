@@ -19,6 +19,11 @@ public class ReportServiceImpl implements ReportService {
 	public QueryResult reportDetail(int start, int length, Equity e) {
 		return equitydao.reportDetail(start, length, e);
 	}
+
+	@Transactional
+	public QueryResult reportBonus(int start, int length, Equity e) {
+		return equitydao.reportBonus(start, length, e);
+	}
 	
 
 

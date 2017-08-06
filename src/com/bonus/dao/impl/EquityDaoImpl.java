@@ -1,5 +1,6 @@
 package com.bonus.dao.impl;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -114,6 +115,40 @@ public class EquityDaoImpl implements EquityDao {
 		query.setFirstResult(start);
 		QueryResult re= new QueryResult();
 		re.setTotalAmount(total);
+		re.setResult(query.list());
+		return re;
+	}
+
+	public QueryResult reportBonus(int start, int length, Equity e) {
+		StringBuilder sb = new StringBuilder();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		String head2 = "from Equity e ";
+		String head = "select count(*), sum(e.dir_amount) from equity_detail e ";
+		sb.append("where 1=1");
+		if(e.getDepartment() != null && !e.getDepartment().equals("不限") && !e.getDepartment().equals("")){
+			sb.append(" and e.department='"+e.getDepartment()+"'");
+		}
+		if(e.getAccount_date() != null){
+			sb.append(" and e.account_date>='"+sdf.format(e.getAccount_date())+"'");
+		}
+		if(e.getRec_date() != null){
+			sb.append(" and e.account_date<='"+sdf.format(e.getRec_date())+"'");
+		}
+		sb.append(" and e.status='1' and e.dir_amount>0");
+		String sql1 = head + sb.toString();
+		String sql2 = head2 + sb.toString();
+		SQLQuery q= sessionFactory.getCurrentSession().createSQLQuery(sql1);
+		//BigInteger t = (BigInteger)q.uniqueResult();
+		BigInteger t = (BigInteger)q.list().get(0);
+		int total = t.intValueExact();
+		BigDecimal bonus_amount = (BigDecimal)q.list().get(1);
+		Query query = sessionFactory.getCurrentSession().createQuery(sql2);
+		
+		query.setMaxResults(length);
+		query.setFirstResult(start);
+		QueryResult re= new QueryResult();
+		re.setTotalAmount(total);
+		re.setBonus_amount(bonus_amount);
 		re.setResult(query.list());
 		return re;
 	}
