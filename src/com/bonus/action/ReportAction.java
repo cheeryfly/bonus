@@ -153,92 +153,77 @@ public class ReportAction {
 				int dir_count = e.getDir_count()==null?3:e.getDir_count().intValue();
 				BigDecimal dir_amount = e.getDir_amount();
 				BigDecimal dir_rate = e.getDir_rate();
-				BigDecimal retained_amount = dir_amount.multiply(new BigDecimal(0.1)).setScale(4);
-				BigDecimal prebonus_amount = dir_amount.multiply(new BigDecimal(0.9)).setScale(4);
-				BigDecimal dir_amount1, dir_amount2, dir_amount3;
-				if(dir_rate == null) {
-					
-				}else {
-					
+				BigDecimal retained_amount = dir_amount.multiply(new BigDecimal(0.1)).setScale(2,BigDecimal.ROUND_HALF_UP);
+				BigDecimal prebonus_amount = dir_amount.multiply(new BigDecimal(0.9)).setScale(2,BigDecimal.ROUND_HALF_UP);
+				BigDecimal retained_rate = new BigDecimal(0.1).setScale(4,BigDecimal.ROUND_HALF_UP);
+				BigDecimal prebonus_rate = new BigDecimal(0.9).setScale(4,BigDecimal.ROUND_HALF_UP);
+				BigDecimal dir_amount1 = new BigDecimal(0);
+				BigDecimal dir_amount2 = new BigDecimal(0);
+				BigDecimal dir_amount3 = new BigDecimal(0);
+				BigDecimal dir_rate1 = new BigDecimal(0);
+				BigDecimal dir_rate2 = new BigDecimal(0);
+				BigDecimal dir_rate3 = new BigDecimal(0);
+				if(dir_count == 3) {
+					dir_amount1 = prebonus_amount.multiply(new BigDecimal(0.5)).setScale(2,BigDecimal.ROUND_HALF_UP);
+					dir_amount2 = prebonus_amount.multiply(new BigDecimal(0.25)).setScale(2,BigDecimal.ROUND_HALF_UP);
+					dir_amount3 = prebonus_amount.subtract(dir_amount1).subtract(dir_amount2).setScale(2,BigDecimal.ROUND_HALF_UP);
+					if(dir_rate != null) {
+						dir_rate1 = prebonus_rate.multiply(new BigDecimal(0.5)).setScale(4,BigDecimal.ROUND_HALF_UP);
+						dir_rate2 = prebonus_rate.multiply(new BigDecimal(0.25)).setScale(4,BigDecimal.ROUND_HALF_UP);
+						dir_rate3 = prebonus_rate.multiply(new BigDecimal(0.25)).setScale(4,BigDecimal.ROUND_HALF_UP);
+					}
+				}
+				if(dir_count == 2){
+					dir_amount1 = prebonus_amount.multiply(new BigDecimal(0.667)).setScale(2,BigDecimal.ROUND_HALF_UP);
+					dir_amount2 = prebonus_amount.subtract(dir_amount1).setScale(2,BigDecimal.ROUND_HALF_UP);
+					dir_amount3 = new BigDecimal(0);
+					if(dir_rate != null) {
+						dir_rate1 = prebonus_rate.multiply(new BigDecimal(0.667)).setScale(4,BigDecimal.ROUND_HALF_UP);
+						dir_rate2 = prebonus_rate.multiply(new BigDecimal(0.333)).setScale(4,BigDecimal.ROUND_HALF_UP);
+						dir_rate2 = new BigDecimal(0); 
+					}
+				}
+				if(dir_count == 1){
 				}
 				data.append("{");
 				data.append("\"department\":\"" + e.getDepartment()+"\",");
+				data.append("\"type\":\"" + filter.process(null, "type", e.getType())+"\",");
 				data.append("\"account_date\":\"" + sdf.format(e.getAccount_date())+"\",");
-				data.append("\"cardno\":\"" + e.getCardno()+"\",");
-				data.append("\"account_item\":\"" + e.getAccount_item()+"\",");
-				data.append("\"income\":\"" + e.getIncome()+"\",");
+				data.append("\"cardno\":\"" + filter.process(null, "cardno", e.getCardno())+"\",");
+				data.append("\"account_item\":\"" + filter.process(null, "account_item", e.getAccount_item())+"\",");
+				data.append("\"income\":\"" + filter.process(null, "income", e.getIncome())+"\",");
 				data.append("\"account_rate\":\"" + e.getAccount_rate()+"\",");
 				data.append("\"prize_rate\":\"" + e.getPrize_rate()+"\",");
-				if(dir_count == null) {
-					data.append("\"dir_count\":\" \",");
+				data.append("\"dir_count\":\""+ dir_count+" \",");
+				if(retained_rate.compareTo(new BigDecimal(0))!=0) {
+					data.append("\"retained_rate\":\""+ retained_rate+" \",");
+					data.append("\"retained_amount\":\""+ retained_amount+" \",");
+					data.append("\"prebonus_rate\":\""+ prebonus_rate+" \",");
+					data.append("\"prebonus_amount\":\""+ prebonus_amount+" \",");
+					data.append("\"dir_rate1\":\""+ dir_rate1+" \",");
+					data.append("\"dir_amount1\":\""+ dir_amount1+" \",");
+					data.append("\"dir_rate2\":\""+ dir_rate2+" \",");
+					data.append("\"dir_amount2\":\""+ dir_amount2+" \",");
+					data.append("\"dir_rate3\":\""+ dir_rate3+" \",");
+					data.append("\"dir_amount3\":\""+ dir_amount3+" \"");
 				}else {
-					data.append("\"dir_count\":\"" +dir_count +"\",");
+					data.append("\"retained_rate\":\"  \",");
+					data.append("\"retained_amount\":\""+ retained_amount+" \",");
+					data.append("\"prebonus_rate\":\" \",");
+					data.append("\"prebonus_amount\":\""+ prebonus_amount+" \",");
+					data.append("\"dir_rate1\":\" \",");
+					data.append("\"dir_amount1\":\""+ dir_amount1+" \",");
+					data.append("\"dir_rate2\":\" \",");
+					data.append("\"dir_amount2\":\""+ dir_amount2+" \",");
+					data.append("\"dir_rate3\":\" \",");
+					data.append("\"dir_amount3\":\""+ dir_amount3+" \"");
 				}
-				if(dir_rate.compareTo(new BigDecimal(0))==0) {
-					
-				}else {
-					
-				}
-				
-				BigDecimal retained_rate = e.getDir_rate().multiply(new BigDecimal(0.1)).setScale(4);
-				data.append("\"retained_rate\":\"" +retained_rate +"\",");
-				BigDecimal retained_amount = e.getDir_amount().multiply(e.getDir_rate().multiply(new BigDecimal(0.1))).setScale(2);
-				data.append("\"retained_amount\":\"" +retained_amount +"\",");
-				BigDecimal prebonus_rate = e.getDir_rate().multiply(new BigDecimal(0.9)).setScale(4);
-				data.append("\"prebonus_rate\":\"" +prebonus_rate +"\",");
-				BigDecimal prebonus_amount = e.getDir_amount().multiply(e.getDir_rate().multiply(new BigDecimal(0.9)).setScale(2));
-				data.append("\"prebonus_amount\":\"" +prebonus_amount +"\",");
-				
-				BigDecimal dir_rate1 = new BigDecimal(0);
-				BigDecimal dir_amount1= new BigDecimal(0);
-				BigDecimal dir_rate2= new BigDecimal(0);
-				BigDecimal dir_amount2= new BigDecimal(0);
-				BigDecimal dir_rate3= new BigDecimal(0);
-				BigDecimal dir_amount3= new BigDecimal(0);
-				if(dir_count == 3) {
-					dir_amount1 = dir_amount.multiply(new BigDecimal(0.5)).setScale(2);
-					dir_amount2 = dir_amount.multiply(new BigDecimal(0.25)).setScale(2);
-					dir_amount3 = dir_amount.subtract(dir_amount2).setScale(2);
-					if(dir_rate.compareTo(new BigDecimal(0)) != 0) {
-						dir_rate1 = prebonus_rate.multiply(new BigDecimal(0.5)).setScale(4);
-						dir_rate2 = prebonus_rate.multiply(new BigDecimal(0.25)).setScale(4);
-						dir_rate3 = prebonus_rate.multiply(new BigDecimal(0.25)).setScale(4);
-					}
-				}else if(dir_count == 2) {
-					dir_amount1 = dir_amount.multiply(new BigDecimal(0.667)).setScale(2);
-					dir_amount2 = dir_amount.subtract(dir_amount1).setScale(2);
-					if(dir_rate.compareTo(new BigDecimal(0)) != 0) {
-						dir_rate1 = prebonus_rate.multiply(new BigDecimal(0.5)).setScale(4);
-						dir_rate2 = prebonus_rate.multiply(new BigDecimal(0.25)).setScale(4);
-					}
-				}else if(dir_count ==1) {
-					
-					dir_amount1 = dir_amount;
-					dir_rate1 = prebonus_rate;
-				}
-				data.append("\"dir_rate1\":\"" +dir_rate1+"\",");
-				
-				data.append("\"dir_amount1\":\"" + dir_amount1+"\",");
-				data.append("\"dir_rate2\":\"" + dir_rate2+"\",");
-				data.append("\"dir_amount2\":\"" + dir_amount2+"\",");
-				data.append("\"dir_rate3\":\"" + dir_rate3+"\",");
-				data.append("\"dir_amount3\":\"" + dir_amount3+"\",");
 				data.append("},");
 			}
 			data.deleteCharAt(data.lastIndexOf(","));
 			data.append("]");
 			repStr = "{" + data + "}";
 			System.out.println(repStr);
-			/*
-			 	"data":[
-			 			{"account_date":"2017-07-17","account_item":"龙泉总体规划","account_rate":0.3200,"card_discount":"","cardno":"67222","check_date":"2017-07-28","check_employee":"陈苹","check_remark":"审核通过","department":"一所","dir_amount":122000.00,"dir_count":3,"dir_rate":0.0500,"equity":754400.00,"expense_amount":120000.00,"expense_rate":0.0600,"id":2,"income":2000000.00,"prize_rate":1.2200,"pro_bonus_amount":512400.00,"pro_bonus_rate":0.2100,"pro_id":"ZG8901","rec_date":"2017-07-19","rec_employee":"陈苹","remark":"运行卡测试","status":"1","type":"运行卡"}
-			 			,
-			 			{"account_date":"2017-07-01","account_item":"慢行交通规划","account_rate":0.3200,"card_discount":2.2000,"cardno":"782221","check_date":"","check_employee":"","check_remark":"","department":"四所","dir_amount":21780.00,"dir_count":3,"dir_rate":0.0500,"equity":113256.00,"expense_amount":0.00,"expense_rate":0.0600,"id":3,"income":990000.00,"prize_rate":2.6400,"pro_bonus_amount":91476.00,"pro_bonus_rate":0.2100,"pro_id":"","rec_date":"2017-07-19","rec_employee":"陈苹","remark":"结算卡测试入账","status":"1","type":"结算卡"}
-			 			,
-			 			{"account_date":"2017-07-05","account_item":"灯光专项规划","account_rate":"","card_discount":"","cardno":"","check_date":"2017-07-30","check_employee":"陈苹","check_remark":"未填写要素","department":"五所","dir_amount":87000.00,"dir_count":"","dir_rate":"","equity":87000.00,"expense_amount":0.00,"expense_rate":"","id":4,"income":"","prize_rate":"","pro_bonus_amount":0.00,"pro_bonus_rate":"","pro_id":"","rec_date":"2017-07-20","rec_employee":"陈苹","remark":"所长奖金补发","status":"1","type":"成本报账"}
-			 		   ]
-
-			 */
 
 		} catch (Exception e) {
 			e.printStackTrace();
