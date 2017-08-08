@@ -8,6 +8,7 @@
 		<property name="show_sql">true</property>
 		<mapping class="com.bonus.bean.User" />
 		<mapping class="com.bonus.bean.Equity" />
+		<mapping class="com.bonus.bean.Balance" />
 	</session-factory>
 </hibernate-configuration>
 

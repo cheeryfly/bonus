@@ -192,8 +192,8 @@ public class ReportAction {
 				data.append("\"cardno\":\"" + filter.process(null, "cardno", e.getCardno())+"\",");
 				data.append("\"account_item\":\"" + filter.process(null, "account_item", e.getAccount_item())+"\",");
 				data.append("\"income\":\"" + filter.process(null, "income", e.getIncome())+"\",");
-				data.append("\"account_rate\":\"" + e.getAccount_rate()+"\",");
-				data.append("\"prize_rate\":\"" + e.getPrize_rate()+"\",");
+				data.append("\"account_rate\":\"" + filter.process(null, "account_rate", e.getAccount_rate())+"\",");
+				data.append("\"prize_rate\":\"" + filter.process(null, "prize_rate", e.getPrize_rate())+"\",");
 				data.append("\"dir_count\":\""+ dir_count+" \",");
 				if(retained_rate.compareTo(new BigDecimal(0))!=0) {
 					data.append("\"retained_rate\":\""+ retained_rate+" \",");
