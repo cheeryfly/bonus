@@ -18,7 +18,6 @@ import com.bonus.dao.EquityDao;
 @Repository
 public class EquityDaoImpl implements EquityDao {
 	
-	private int pageCount = 10;
 
 	@Autowired
 	private SessionFactory sessionFactory;

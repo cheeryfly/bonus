@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bonus.bean.Balance;
 import com.bonus.bean.Equity;
 import com.bonus.bean.QueryResult;
+import com.bonus.dao.BalanceDao;
 import com.bonus.dao.EquityDao;
 import com.bonus.service.BalanceService;
 
@@ -19,6 +21,9 @@ public class BalanceServiceImpl implements BalanceService {
 
 	@Autowired
 	private EquityDao equitydao;
+	@Autowired
+	private BalanceDao balancedao;
+	
 	@Transactional
 	public void createBalance(Equity e) {
 		// 汇总
@@ -47,7 +52,26 @@ public class BalanceServiceImpl implements BalanceService {
 			count++;
 		}
 		//查询balance
-
+		Balance b = balancedao.queryBalance(department, year, month);
+		if(b == null) {
+			Balance ba = new Balance(); 
+			ba.setDepartment(department);
+			ba.setEquity(equity);
+			ba.setExpense(expense);
+			ba.setDir_bonus(dir_bonus);
+			ba.setPro_bonus(pro_bonus);
+			ba.setYear(year);
+			ba.setMonth(month);
+			ba.setCount(count);
+			balancedao.createBalance(ba);
+		}else {
+			b.setCount(count);
+			b.setEquity(equity);
+			b.setExpense(expense);
+			b.setDir_bonus(dir_bonus);
+			b.setPro_bonus(pro_bonus);
+			balancedao.updateBalance(b);
+		}
 	}
 
 	 public Date getLastDay(Date date){
