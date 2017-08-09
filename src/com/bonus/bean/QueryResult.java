@@ -11,7 +11,7 @@ public class QueryResult {
 		this.bonus_amount = bonus_amount;
 	}
 	private int totalAmount;
-	private List<Equity> result;
+	private List<Object> result;
 	private BigDecimal bonus_amount;
 	public int getTotalAmount() {
 		return totalAmount;
@@ -19,10 +19,10 @@ public class QueryResult {
 	public void setTotalAmount(int totalAmount) {
 		this.totalAmount = totalAmount;
 	}
-	public List<Equity> getResult() {
+	public List<Object> getResult() {
 		return result;
 	}
-	public void setResult(List<Equity> result) {
+	public void setResult(List<Object> result) {
 		this.result = result;
 	}
 	

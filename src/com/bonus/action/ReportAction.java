@@ -15,15 +15,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.ValueFilter;
+import com.bonus.bean.Balance;
 import com.bonus.bean.Equity;
 import com.bonus.bean.QueryResult;
 import com.bonus.bean.User;
+import com.bonus.service.BalanceService;
 import com.bonus.service.ReportService;
 
 @Controller
 public class ReportAction {
 	@Autowired
 	private ReportService reportService;
+	@Autowired
+	private BalanceService balanceService;
 
 	@RequestMapping("/report/detail")
 	public void queryDetail(HttpServletRequest request, HttpServletResponse response, String json) {
@@ -134,7 +138,7 @@ public class ReportAction {
 			query.setAccount_date(account_date_start);
 			query.setRec_date(account_date_end);
 
-			QueryResult result = reportService.reportDetail(start, length, query);
+			QueryResult result = reportService.reportBonus(start, length, query);
 
 			StringBuffer data = new StringBuffer();
 			data.append("\"draw\":" + draw + "," + "\"recordsTotal\":" + result.getTotalAmount() + ","
@@ -142,7 +146,8 @@ public class ReportAction {
 				//+ JSON.toJSONString(result.getResult(), filter));
 			// repStr = ActionUtil.getResponse("200", "操作成功", data.toString());
 			sdf = new SimpleDateFormat("yyyy-MM-dd");
-			for(Equity e : result.getResult()) {
+			for(Object o : result.getResult()) {
+				Equity e = (Equity) o;
 				String department = e.getDepartment()==null?"":e.getDepartment();
 				String account_date = e.getAccount_date()==null?"":sdf.format(e.getAccount_date());
 				String cardno = e.getCardno()==null?"":e.getCardno();
@@ -218,6 +223,83 @@ public class ReportAction {
 					data.append("\"dir_rate3\":\" \",");
 					data.append("\"dir_amount3\":\""+ dir_amount3+" \"");
 				}
+				data.append("},");
+			}
+			data.deleteCharAt(data.lastIndexOf(","));
+			data.append("]");
+			repStr = "{" + data + "}";
+			System.out.println(repStr);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			repStr = ActionUtil.getResponse("500", "提交过程出错！");
+		}
+
+		ActionUtil.sendJSONToClient(repStr, response);
+	}
+	
+	@RequestMapping("/report/balance")
+	public void queryBalance(HttpServletRequest request, HttpServletResponse response, String json) {
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
+		HttpSession session = req.getSession();
+
+		String draw = request.getParameter("draw");
+		String st = request.getParameter("start");
+		int start = Integer.parseInt(st);
+		String le = request.getParameter("length");
+		int length = Integer.parseInt(le);
+		// 获取前台额外传递过来的查询条件
+		String department_qu = request.getParameter("department");
+		if (department_qu.equals("不限"))
+			department_qu = null;
+		String year_p = request.getParameter("year");
+		int year = -1;
+		String month_p = request.getParameter("month");
+		int month = -1;
+
+		Enumeration<String> headers = request.getHeaderNames();
+		String repStr = "";
+		while (headers.hasMoreElements()) {
+			String head = headers.nextElement();
+		}
+		try {
+			if (year_p != null && year_p != "") {
+				year = Integer.parseInt(year_p);
+			}
+			if (month_p != null && month_p != "") {
+				month = Integer.parseInt(month_p);
+			}
+			Balance query = new Balance();
+			query.setDepartment(department_qu);
+			query.setYear(year);
+			query.setMonth(month);
+
+			QueryResult result = reportService.reportBalance(start, length, query);
+
+			StringBuffer data = new StringBuffer();
+			data.append("\"draw\":" + draw + "," + "\"recordsTotal\":" + result.getTotalAmount() + ","
+					+ "\"recordsFiltered\":" + result.getTotalAmount() + "," + "\"data\":[");
+				//+ JSON.toJSONString(result.getResult(), filter));
+			// repStr = ActionUtil.getResponse("200", "操作成功", data.toString());
+			for(Object o : result.getResult()) {
+				Balance b = (Balance) o;
+				String department = b.getDepartment()==null?"":b.getDepartment();
+				year = b.getYear();
+				month = b.getMonth();
+				BigDecimal equity = b.getEquity();
+				BigDecimal pro_bonus = b.getPro_bonus();
+				BigDecimal expense = b.getExpense();
+				BigDecimal dir_bonus = b.getDir_bonus();
+				data.append("{");
+				data.append("\"department\":\"" + b.getDepartment()+"\",");
+				data.append("\"year\":\"" + year+"\",");
+				data.append("\"month\":\"" + month+"\",");
+				data.append("\"income\":\"" + "\",");
+				data.append("\"equity\":\"" + filter.process(null, "equity", equity)+"\",");
+				data.append("\"pro_bonus\":\"" + filter.process(null, "pro_bonus", pro_bonus)+"\",");
+				data.append("\"expense\":\"" + filter.process(null, "expense", expense)+"\",");
+				data.append("\"dir_bonus\":\"" + filter.process(null, "dir_bonus", dir_bonus)+"\"");
 				data.append("},");
 			}
 			data.deleteCharAt(data.lastIndexOf(","));

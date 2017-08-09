@@ -1,10 +1,139 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="assets/DataTables/media/css/jquery.dataTables.css" rel="stylesheet">
+<script type="text/javascript" src="assets/DataTables/media/js/jquery.dataTables.js"></script>
+<script src="js/report_summary.js"></script>
+<title>经济责任制汇总信息</title>
 </head>
 <body>
+	<div class="row">
+		<div id="breadcrumb" class="col-md-12">
+			<ol class="breadcrumb">
+				<li><a href="index.html">首页</a></li>
+				<li><a href="#">查询</a></li>
+				<li><a href="#">经济责任制汇总</a></li>
+			</ol>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<div class="box-name">
+						<i class="fa fa-check-square-o"></i> <span>经济责任制汇总查询</span>
+					</div>
+					<div class="box-icons">
+						<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+						</a> <a class="expand-link"> <i class="fa fa-expand"></i>
+						</a> <a class="close-link"> <i class="fa fa-times"></i>
+						</a>
+					</div>
+					<div class="no-move"></div>
+				</div>
+				<div class="box-content no-padding">
+					<form id="defaultForm"  class="form-horizontal">
+						<fieldset>
+							<legend>查询条件</legend>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">设计所</label>
+								<div class="col-sm-4">
+									<select class="form-control" id="department">
+										<option>不限</option>
+										<option>一所</option>
+										<option>二所</option>
+										<option>三所</option>
+										<option>四所</option>
+										<option>五所</option>
+									</select>
+								</div>
+								
+							</div>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">年份</label>
+								<div class="col-sm-4">
+									<input id="year" type="text" class="form-control"> 
+								</div>
+								<label class="col-sm-2 control-label">月份</label>
+								<div class="col-sm-4">
+									<select class="form-control" id="month">
+										<option value="">不限</option>
+										<option value="1">一月</option>
+										<option value="2">二月</option>
+										<option value="3">三月</option>
+										<option value="4">四月</option>
+										<option value="5">五月</option>
+										<option value="6">六月</option>
+										<option value="7">七月</option>
+										<option value="8">八月</option>
+										<option value="9">九月</option>
+										<option value="10">十月</option>
+										<option value="11">十一月</option>
+										<option value="12">十二月</option>
 
+									</select>
+								</div>
+							</div>
+						</fieldset>
+						<div class="clearfix"></div>
+						<div class="form-group">
+							<div class="col-sm-12 col-sm-offset-6">
+								<button id="btn_query" class="btn btn-primary btn-label-left">
+									<span><i class="fa fa-clock-o"></i></span>查询
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="well">
+				
+				<table
+					class="table table-bordered table-striped table-hover table-heading table-datatable"
+					id="tb_test">
+					<thead>
+						<tr>
+							<th >设计所</th>
+							<th >年份</th>
+							<th >月份</th>
+							<th >产值</th>
+							<th >所权益</th>
+							<th >项目奖金</th>
+							<th >报账成本</th>
+							<th >所长奖金</th>
+						</tr>
+					</thead>
+					<tbody id="detail_record">
+						<!-- Start: list_row -->
+						<!-- End: list_row -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	var table = null;
+		
+		$(document).ready(function() { 
+			// Create Wysiwig editor for textare
+			//TinyMCEStart('#wysiwig_simple', null);
+			//TinyMCEStart('#wysiwig_full', 'extreme');
+			// Add slider for change test input length
+			FormLayoutExampleInputLength($(".slider-style"));
+			// Initialize datepicker
+			// Load Timepicker plugin
+			//LoadTimePickerScript(DemoTimePicker);
+			// Add tooltip to form-controls
+			$('.form-control').tooltip();
+			//LoadSelect2Script(DemoSelect2);
+		
+			$('#btn_query').on('click', function(e) {
+				e.preventDefault();
+				query();
+				WinMove();
+			});
+		});
+	</script>
 </body>
 </html>

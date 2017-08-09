@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSON;
 import com.bonus.bean.Equity;
 import com.bonus.bean.User;
+import com.bonus.service.BalanceService;
 import com.bonus.service.QueryService;
 
 @Controller
 public class CheckAction {
 	@Autowired
 	private QueryService queryService;
+	@Autowired
+	private BalanceService balanceService;
 	@RequestMapping("/check/query")
 	public void queryDetail(HttpServletRequest request,HttpServletResponse response, String json){
 		HttpServletRequest req = (HttpServletRequest) request;
@@ -126,6 +129,9 @@ public class CheckAction {
 			eq.setStatus(action); 
 			eq.setCheck_remark(check_remark);
 			queryService.updateEquity(eq);
+			if(action.equals("1")){//审核通过后进行汇总计算
+				balanceService.createBalance(eq);
+			}
 			StringBuffer data = new StringBuffer();
 			data.append("\"result\":" + "1" );
 			repStr = ActionUtil.getResponse("200", "操作成功", data.toString());

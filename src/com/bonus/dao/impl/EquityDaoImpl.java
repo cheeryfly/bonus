@@ -121,8 +121,9 @@ public class EquityDaoImpl implements EquityDao {
 	public QueryResult reportBonus(int start, int length, Equity e) {
 		StringBuilder sb = new StringBuilder();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		String head2 = "from Equity e ";
 		String head = "select count(*), sum(e.dir_amount) from equity_detail e ";
+		String head2 = "from Equity e ";
+		
 		sb.append("where 1=1");
 		if(e.getDepartment() != null && !e.getDepartment().equals("不限") && !e.getDepartment().equals("")){
 			sb.append(" and e.department='"+e.getDepartment()+"'");
@@ -137,10 +138,10 @@ public class EquityDaoImpl implements EquityDao {
 		String sql1 = head + sb.toString();
 		String sql2 = head2 + sb.toString();
 		SQLQuery q= sessionFactory.getCurrentSession().createSQLQuery(sql1);
-		//BigInteger t = (BigInteger)q.uniqueResult();
-		BigInteger t = (BigInteger)q.list().get(0);
+		Object[] w = (Object[])q.uniqueResult();
+		BigInteger t = (BigInteger)w[0];
 		int total = t.intValueExact();
-		BigDecimal bonus_amount = (BigDecimal)q.list().get(1);
+		BigDecimal bonus_amount = (BigDecimal)w[1];
 		Query query = sessionFactory.getCurrentSession().createQuery(sql2);
 		
 		query.setMaxResults(length);

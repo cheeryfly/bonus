@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bonus.bean.Equity;
+import com.bonus.bean.QueryResult;
 import com.bonus.bean.Balance;
 import com.bonus.dao.BalanceDao;
 
@@ -26,8 +27,11 @@ public class BalanceDaoImpl implements BalanceDao {
 		if(department != null){
 			sb.append(" and b.department='" + department + "'");
 		}
-		sb.append(" and b.year='"+year);
-		sb.append(" and b.month='"+month);
+		if(year>0)
+		sb.append(" and b.year="+year);
+		if(month>0)
+		sb.append(" and b.month="+month);
+		sb.append(" order by b.department, b.year, b.month");
 		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
 		query.setMaxResults(20);
 		query.setFirstResult(0);
@@ -45,6 +49,37 @@ public class BalanceDaoImpl implements BalanceDao {
 
 	public void updateBalance(Balance b) {
 		sessionFactory.getCurrentSession().update(b);
+	}
+	
+	public QueryResult reportBalance(int start, int length, Balance b){
+		StringBuilder sb = new StringBuilder();
+		String head = "select count(*)  from equity_balance b ";
+		String head2 = "from Balance b ";
+		
+		sb.append("where 1=1");
+		if(b.getDepartment() != null && !b.getDepartment().equals("不限") && !b.getDepartment().equals("")){
+			sb.append(" and b.department='"+b.getDepartment()+"'");
+		}
+		if(b.getYear() > 0){
+			sb.append(" and b.year ="+ b.getYear());
+		}
+		if(b.getMonth() > 0){
+			sb.append(" and b.month='"+b.getMonth());
+		}
+		sb.append(" order by b.department, b.year, b.month");
+		String sql1 = head + sb.toString();
+		String sql2 = head2 + sb.toString();
+		SQLQuery q= sessionFactory.getCurrentSession().createSQLQuery(sql1);
+		BigInteger t = (BigInteger)q.uniqueResult();
+		int total = t.intValueExact();
+		Query query = sessionFactory.getCurrentSession().createQuery(sql2);
+		
+		query.setMaxResults(length);
+		query.setFirstResult(start);
+		QueryResult re= new QueryResult();
+		re.setTotalAmount(total);
+		re.setResult(query.list());
+		return re;
 	}
 
 }
