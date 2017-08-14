@@ -21,7 +21,7 @@ public class BalanceDaoImpl implements BalanceDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	public Balance queryBalance(String department, int year, int month) {
+	public Balance queryBalance(String department, int year, int month, String type) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("from Balance b where 1=1");
 		if(department != null){
@@ -31,6 +31,7 @@ public class BalanceDaoImpl implements BalanceDao {
 		sb.append(" and b.year="+year);
 		if(month>0)
 		sb.append(" and b.month="+month);
+		sb.append(" and b.type='"+type+ "'");
 		sb.append(" order by b.department, b.year, b.month");
 		Query query = sessionFactory.getCurrentSession().createQuery(sb.toString());
 		query.setMaxResults(20);
@@ -81,5 +82,6 @@ public class BalanceDaoImpl implements BalanceDao {
 		re.setResult(query.list());
 		return re;
 	}
+
 
 }

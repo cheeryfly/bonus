@@ -1,6 +1,7 @@
 package com.bonus.service.impl;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,22 @@ public class BalanceServiceImpl implements BalanceService {
 	private EquityDao equitydao;
 	@Autowired
 	private BalanceDao balancedao;
+	
+	@Transactional
+	public void initiateBalance(){
+		/**
+		 * 从2017年1月开始第一期
+		 */
+		int year = 2017;
+		int month = 1;
+		while(checkLastDate(year, month)){
+			createOrUpdateBalace(year, month);
+			createOrUpdateBalaceEnd(year, month);
+			//进入下个月
+			year = nextYear(year, month);
+			month = nextMonth(month);
+		}
+	}
 	
 	@Transactional
 	public void createBalance(Equity e) {
@@ -53,7 +70,7 @@ public class BalanceServiceImpl implements BalanceService {
 			count++;
 		}
 		//查询balance
-		Balance b = balancedao.queryBalance(department, year, month);
+		Balance b = balancedao.queryBalance(department, year, month, "0");
 		if(b == null) {
 			Balance ba = new Balance(); 
 			ba.setDepartment(department);
@@ -64,6 +81,7 @@ public class BalanceServiceImpl implements BalanceService {
 			ba.setYear(year);
 			ba.setMonth(month);
 			ba.setCount(count);
+			ba.setType("0");
 			balancedao.createBalance(ba);
 		}else {
 			b.setCount(count);
@@ -75,21 +93,116 @@ public class BalanceServiceImpl implements BalanceService {
 		}
 	}
 
-	 public Date getLastDay(Date date){
-	        //创建日历
-	        Calendar calendar = Calendar.getInstance();
-	        calendar.setTime(date);
-	        calendar.add(Calendar.MONTH, 1);    //加一个月
-	        calendar.set(Calendar.DATE, 1);     //设置为该月第一天
-	        calendar.add(Calendar.DATE, -1);    //再减一天即为上个月最后一天
-	        return calendar.getTime();
-	    }
-	    
-	    public Date getFirstDay(Date date){
-	        //创建日历
-	        Calendar calendar = Calendar.getInstance();
-	        calendar.setTime(date);
-	        calendar.set(Calendar.DAY_OF_MONTH, 1);
-	        return calendar.getTime();
-	    }
+	public Date getLastDay(Date date) {
+		// 创建日历
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.MONTH, 1); // 加一个月
+		calendar.set(Calendar.DATE, 1); // 设置为该月第一天
+		calendar.add(Calendar.DATE, -1); // 再减一天即为上个月最后一天
+		return calendar.getTime();
+	}
+
+	public Date getFirstDay(Date date) {
+		// 创建日历
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		return calendar.getTime();
+	}
+	
+	public boolean checkLastDate(int year, int month){
+		Date today = new Date();
+		Calendar cal = Calendar.getInstance(); 
+		cal.setTime(today);
+		int last_year = cal.get(Calendar.YEAR);
+		int last_month = cal.get(Calendar.MONTH)+1;
+		if(year < last_year){
+			return true;
+		}
+		else{
+			if(year == last_year && month <= last_month) return true;
+		}
+		return false;
+	}
+	
+	public int nextYear(int year, int month){
+		if(month == 12) return year++;
+		return year;
+	}
+	
+	public int nextMonth(int month){
+		if(month == 12) return 1;
+		return month++;
+	}
+	
+	public int lastYear(int year, int month){
+		if(month == 1) return year--;
+		return year;
+	}
+	
+	public int lastMonth(int month){
+		if(month == 1) return 12;
+		return month--;
+	}
+	public void createOrUpdateBalace(int year, int month){
+		SimpleDateFormat sdf = sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String sdate = year +"-"+month+"-01";
+		Date ad = null;
+		try{
+			ad = sdf.parse(sdate);
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		Equity e = new Equity();
+		e.setAccount_date(ad);
+		e.setDepartment("一所");
+		createBalance(e);
+		e.setDepartment("二所");
+		createBalance(e);
+		e.setDepartment("三所");
+		createBalance(e);
+		e.setDepartment("四所");
+		createBalance(e);
+		e.setDepartment("五所");
+		createBalance(e);
+	}
+	
+	public void createOrUpdateBalaceEnd(int year, int month){
+		createBalanceEnd(year, month, "一所");
+		createBalanceEnd(year, month, "二所");
+		createBalanceEnd(year, month, "三所");
+		createBalanceEnd(year, month, "四所");
+		createBalanceEnd(year, month, "五所");
+		
+		
+	}
+	
+	public void createBalanceEnd(int year, int month, String department){
+		int lastYear = lastYear(year, month);
+		int lastMonth = lastMonth(month);
+		Balance lastEnd = balancedao.queryBalance(department, lastYear, lastMonth, "1");
+		Balance b = balancedao.queryBalance(department, year, month, "0");
+		Balance end = balancedao.queryBalance(department, year, month, "1");
+		if(end == null){
+			Balance ba = new Balance(); 
+			ba.setDepartment(department);
+			ba.setEquity(lastEnd.getEquity().add(b.getEquity()));
+			ba.setExpense(lastEnd.getExpense().add(b.getExpense()));
+			ba.setDir_bonus(lastEnd.getDir_bonus().add(b.getDir_bonus()));
+			ba.setPro_bonus(lastEnd.getPro_bonus().add(b.getPro_bonus()));
+			ba.setYear(year);
+			ba.setMonth(month);
+			ba.setCount(0);
+			ba.setType("1");
+			balancedao.createBalance(ba);
+		}else {
+			end.setEquity(lastEnd.getEquity().add(b.getEquity()));
+			end.setExpense(lastEnd.getExpense().add(b.getExpense()));
+			end.setDir_bonus(lastEnd.getDir_bonus().add(b.getDir_bonus()));
+			end.setPro_bonus(lastEnd.getPro_bonus().add(b.getPro_bonus()));
+			balancedao.updateBalance(b);
+		}
+	}
 }

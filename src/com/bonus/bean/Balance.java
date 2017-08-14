@@ -31,6 +31,14 @@ public class Balance {
 	private BigDecimal dir_bonus;
 	@Column(name="count")
 	private Integer count;
+	@Column(name="type")
+	private String type;
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public Integer getId() {
 		return id;
 	}
