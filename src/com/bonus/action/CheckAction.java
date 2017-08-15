@@ -130,7 +130,8 @@ public class CheckAction {
 			eq.setCheck_remark(check_remark);
 			queryService.updateEquity(eq);
 			if(action.equals("1")){//审核通过后进行汇总计算
-				balanceService.createBalance(eq);
+				//balanceService.createBalance(eq);
+				balanceService.initiateBalance();
 			}
 			StringBuffer data = new StringBuffer();
 			data.append("\"result\":" + "1" );

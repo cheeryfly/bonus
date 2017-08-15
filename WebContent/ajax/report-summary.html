@@ -81,6 +81,9 @@
 							<div class="col-sm-12 col-sm-offset-6">
 								<button id="btn_query" class="btn btn-primary btn-label-left">
 									<span><i class="fa fa-clock-o"></i></span>查询
+								</button> &nbsp;&nbsp; &nbsp;&nbsp;
+								<button id="btn_download" class="btn btn-success btn-label-left">
+									<span><i class="fa  fa-download"></i></span>下载报表
 								</button>
 							</div>
 						</div>
@@ -97,7 +100,7 @@
 							<th >设计所</th>
 							<th >年份</th>
 							<th >月份</th>
-							<th >产值</th>
+							<th >类型</th>
 							<th >所权益</th>
 							<th >项目奖金</th>
 							<th >报账成本</th>
@@ -131,6 +134,12 @@
 			$('#btn_query').on('click', function(e) {
 				e.preventDefault();
 				query();
+				WinMove();
+			});
+			
+			$('#btn_download').on('click', function(e) {
+				e.preventDefault();
+				download();
 				WinMove();
 			});
 		});

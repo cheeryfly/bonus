@@ -1,5 +1,6 @@
 package com.bonus.action;
 
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,6 +22,17 @@ import com.bonus.bean.QueryResult;
 import com.bonus.bean.User;
 import com.bonus.service.BalanceService;
 import com.bonus.service.ReportService;
+
+import jxl.Workbook;
+import jxl.format.Alignment;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
+import jxl.write.Label;
+import jxl.write.NumberFormat;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 
 @Controller
 public class ReportAction {
@@ -89,7 +101,6 @@ public class ReportAction {
 					+ JSON.toJSONString(result.getResult(), filter));
 			// repStr = ActionUtil.getResponse("200", "操作成功", data.toString());
 			repStr = "{" + data + "}";
-			System.out.println(repStr);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -228,7 +239,6 @@ public class ReportAction {
 			data.deleteCharAt(data.lastIndexOf(","));
 			data.append("]");
 			repStr = "{" + data + "}";
-			System.out.println(repStr);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -287,6 +297,13 @@ public class ReportAction {
 				String department = b.getDepartment()==null?"":b.getDepartment();
 				year = b.getYear();
 				month = b.getMonth();
+				String type = b.getType();
+				if(type.equals("1")){
+					type = "当月余额";
+				}
+				if(type.equals("0")){
+					type = "发生额";
+				}
 				BigDecimal equity = b.getEquity();
 				BigDecimal pro_bonus = b.getPro_bonus();
 				BigDecimal expense = b.getExpense();
@@ -295,7 +312,7 @@ public class ReportAction {
 				data.append("\"department\":\"" + b.getDepartment()+"\",");
 				data.append("\"year\":\"" + year+"\",");
 				data.append("\"month\":\"" + month+"\",");
-				data.append("\"income\":\"" + "\",");
+				data.append("\"type\":\"" +type +"\",");
 				data.append("\"equity\":\"" + filter.process(null, "equity", equity)+"\",");
 				data.append("\"pro_bonus\":\"" + filter.process(null, "pro_bonus", pro_bonus)+"\",");
 				data.append("\"expense\":\"" + filter.process(null, "expense", expense)+"\",");
@@ -305,7 +322,7 @@ public class ReportAction {
 			data.deleteCharAt(data.lastIndexOf(","));
 			data.append("]");
 			repStr = "{" + data + "}";
-			System.out.println(repStr);
+			System.out.println("结算报表："+repStr);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -313,6 +330,55 @@ public class ReportAction {
 		}
 
 		ActionUtil.sendJSONToClient(repStr, response);
+	}
+	
+	@RequestMapping("/download/balance")
+	public void downloadBalance(HttpServletRequest request, HttpServletResponse response, String json) throws Exception{
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
+		HttpSession session = req.getSession();
+		
+		res.setContentType("application/vnd.ms-excel");
+		res.setHeader("Content-disposition", "attachment;filename=report.xls");
+		OutputStream os = response.getOutputStream();
+		
+		String department_qu = request.getParameter("department");
+		if (department_qu.equals("不限"))
+			department_qu = null;
+		String year_p = request.getParameter("year");
+		int year = -1;
+		String month_p = request.getParameter("month");
+		int month = -1;
+		if (year_p != null && year_p != "") {
+			year = Integer.parseInt(year_p);
+		}
+		if (month_p != null && month_p != "") {
+			month = Integer.parseInt(month_p);
+		}
+		WritableWorkbook wwb = Workbook.createWorkbook(os);
+		WritableSheet sheet = wwb.createSheet("汇总报表", 0);
+		jxl.write.WritableFont wfont = new jxl.write.WritableFont(WritableFont.createFont("楷书"), 10); 
+		Label label = new Label(0, 0, "设计所");
+		WritableCellFormat wc = new WritableCellFormat(wfont); 
+        // 设置居中 
+        wc.setAlignment(Alignment.CENTRE); 
+        // 设置边框线 
+        wc.setBorder(Border.ALL, BorderLineStyle.THIN); 
+        // 设置单元格的背景颜色 
+        wc.setBackground(jxl.format.Colour.AQUA); 
+		label.setCellFormat(wc);
+		
+		sheet.addCell(label);
+		NumberFormat nf = new jxl.write.NumberFormat("#.##"); 
+        WritableCellFormat wcf = new jxl.write.WritableCellFormat(nf); 
+        jxl.write.Number n = new jxl.write.Number(0, 1, 21300002.45, wcf); 
+        sheet.addCell(n);
+        wwb.write(); 
+        // 关闭文件 
+        wwb.close(); 
+
+//		os.flush();
+//		os.close();
 	}
 
 	private static ValueFilter filter = new ValueFilter() {
@@ -326,7 +392,6 @@ public class ReportAction {
 				String value = (String) v;
 				if (s.equals("type")) {
 					if (value.equals("1")) {
-						System.out.println("运行卡");
 						return "运行卡";
 					}
 					if (value.equals("2"))

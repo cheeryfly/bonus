@@ -127,23 +127,31 @@ public class BalanceServiceImpl implements BalanceService {
 	}
 	
 	public int nextYear(int year, int month){
-		if(month == 12) return year++;
+		if(month == 12){
+			year++;
+			return year;
+		}
 		return year;
 	}
 	
 	public int nextMonth(int month){
 		if(month == 12) return 1;
-		return month++;
+		month++;
+		return month;
 	}
 	
 	public int lastYear(int year, int month){
-		if(month == 1) return year--;
+		if(month == 1) {
+			year--;
+			return year;
+		}
 		return year;
 	}
 	
 	public int lastMonth(int month){
 		if(month == 1) return 12;
-		return month--;
+		month--;
+		return month;
 	}
 	public void createOrUpdateBalace(int year, int month){
 		SimpleDateFormat sdf = sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -179,7 +187,7 @@ public class BalanceServiceImpl implements BalanceService {
 		
 	}
 	
-	public void createBalanceEnd(int year, int month, String department){
+	private void createBalanceEnd(int year, int month, String department){
 		int lastYear = lastYear(year, month);
 		int lastMonth = lastMonth(month);
 		Balance lastEnd = balancedao.queryBalance(department, lastYear, lastMonth, "1");

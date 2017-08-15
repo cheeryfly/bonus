@@ -1,3 +1,36 @@
+function download(){
+	 var url = 'download/balance';
+	 var department = $("#department").val();
+	 var year =  $("#year").val();
+	 var month = $("#month option:selected").val();
+	 var form=$("<form>");//定义一个form表单
+	 form.attr("style","display:none");
+	 form.attr("target","");
+	 form.attr("method","get");  //请求类型
+	 form.attr("action",url);   //请求地址
+	 $("body").append(form);//将表单放置在web中
+	 
+	 var input1=$("<input>");
+	 input1.attr("type","hidden");
+	 input1.attr("name","department");
+	 input1.attr("value",department);
+	 form.append(input1);
+	 
+	 var input2=$("<input>");
+	 input2.attr("type","hidden");
+	 input2.attr("name","year");
+	 input2.attr("value",year);
+	 form.append(input2);
+	 
+	 var input3=$("<input>");
+	 input3.attr("type","hidden");
+	 input3.attr("name","month");
+	 input3.attr("value",month);
+	 form.append(input3);
+	 
+	 form.submit();//表单提交
+}
+
 function query(){
 	var department = $("#department").val();
 	var year =  $("#year").val();
@@ -32,7 +65,7 @@ function query(){
 			        { data: 'department' },
 			        { data: 'year' }  ,
 			        { data: 'month' }  ,
-			        { data: 'income' }  ,
+			        { data: 'type' }  ,
 			        { data: 'equity' }  ,
 			        { data: 'pro_bonus' }  ,
 			        { data: 'expense' }  ,
@@ -53,7 +86,7 @@ function query(){
 	}
 	else{
 		table.settings()[0].ajax.data=param;
-		table.ajax.url("report/bonus").load();
+		table.ajax.url("report/balance").load();
 	}
 	
 }
