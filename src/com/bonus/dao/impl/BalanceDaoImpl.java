@@ -65,9 +65,9 @@ public class BalanceDaoImpl implements BalanceDao {
 			sb.append(" and b.year ="+ b.getYear());
 		}
 		if(b.getMonth() > 0){
-			sb.append(" and b.month='"+b.getMonth());
+			sb.append(" and b.month="+b.getMonth());
 		}
-		sb.append(" order by b.department, b.year, b.month");
+		sb.append(" order by b.department, b.year, b.month, b.type");
 		String sql1 = head + sb.toString();
 		String sql2 = head2 + sb.toString();
 		SQLQuery q= sessionFactory.getCurrentSession().createSQLQuery(sql1);

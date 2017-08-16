@@ -355,30 +355,10 @@ public class ReportAction {
 		if (month_p != null && month_p != "") {
 			month = Integer.parseInt(month_p);
 		}
-		WritableWorkbook wwb = Workbook.createWorkbook(os);
-		WritableSheet sheet = wwb.createSheet("汇总报表", 0);
-		jxl.write.WritableFont wfont = new jxl.write.WritableFont(WritableFont.createFont("楷书"), 10); 
-		Label label = new Label(0, 0, "设计所");
-		WritableCellFormat wc = new WritableCellFormat(wfont); 
-        // 设置居中 
-        wc.setAlignment(Alignment.CENTRE); 
-        // 设置边框线 
-        wc.setBorder(Border.ALL, BorderLineStyle.THIN); 
-        // 设置单元格的背景颜色 
-        wc.setBackground(jxl.format.Colour.AQUA); 
-		label.setCellFormat(wc);
-		
-		sheet.addCell(label);
-		NumberFormat nf = new jxl.write.NumberFormat("#.##"); 
-        WritableCellFormat wcf = new jxl.write.WritableCellFormat(nf); 
-        jxl.write.Number n = new jxl.write.Number(0, 1, 21300002.45, wcf); 
-        sheet.addCell(n);
+		WritableWorkbook wwb = reportService.downladBalance(department_qu, year, month, os);
         wwb.write(); 
         // 关闭文件 
         wwb.close(); 
-
-//		os.flush();
-//		os.close();
 	}
 
 	private static ValueFilter filter = new ValueFilter() {
