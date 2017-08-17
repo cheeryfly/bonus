@@ -339,7 +339,7 @@ public class ReportAction {
 		HttpSession session = req.getSession();
 		
 		res.setContentType("application/vnd.ms-excel");
-		res.setHeader("Content-disposition", "attachment;filename=report.xls");
+		res.setHeader("Content-disposition", "attachment;filename=summary.xls");
 		OutputStream os = response.getOutputStream();
 		
 		String department_qu = request.getParameter("department");
@@ -361,6 +361,37 @@ public class ReportAction {
         wwb.close(); 
 	}
 
+	@RequestMapping("/download/bonus")
+	public void downloadBonus(HttpServletRequest request, HttpServletResponse response, String json) throws Exception{
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
+		HttpSession session = req.getSession();
+		
+		res.setContentType("application/vnd.ms-excel");
+		res.setHeader("Content-disposition", "attachment;filename=bonus.xls");
+		OutputStream os = response.getOutputStream();
+		
+		String department_qu = request.getParameter("department");
+		if (department_qu.equals("不限"))
+			department_qu = null;
+		String account_date_st = request.getParameter("account_date_start");
+		String account_date_en = request.getParameter("account_date_end");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		Date account_date_start = null;
+		if (account_date_st != null && account_date_st != "") {
+			account_date_start = sdf.parse(account_date_st);
+		}
+		Date account_date_end = null;
+		if (account_date_en != null && account_date_en != "") {
+			account_date_end = sdf.parse(account_date_en);
+		}
+
+		WritableWorkbook wwb = reportService.downladBonus(department_qu, account_date_start, account_date_end, os);
+        wwb.write(); 
+        // 关闭文件 
+        wwb.close(); 
+	}
+	
 	private static ValueFilter filter = new ValueFilter() {
 		@Override
 		public Object process(Object obj, String s, Object v) {

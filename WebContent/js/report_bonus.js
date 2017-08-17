@@ -1,3 +1,36 @@
+function download(){
+	 var url = 'download/bonus';
+	 var department = $("#department").val();
+	 var account_date_start =  $("#account_date_start").val();
+	 var account_date_end = $("#account_date_end").val();
+	 var form=$("<form>");//定义一个form表单
+	 form.attr("style","display:none");
+	 form.attr("target","");
+	 form.attr("method","get");  //请求类型
+	 form.attr("action",url);   //请求地址
+	 $("body").append(form);//将表单放置在web中
+	 
+	 var input1=$("<input>");
+	 input1.attr("type","hidden");
+	 input1.attr("name","department");
+	 input1.attr("value",department);
+	 form.append(input1);
+	 
+	 var input2=$("<input>");
+	 input2.attr("type","hidden");
+	 input2.attr("name","start");
+	 input2.attr("value",account_date_start);
+	 form.append(input2);
+	 
+	 var input3=$("<input>");
+	 input3.attr("type","hidden");
+	 input3.attr("name","end");
+	 input3.attr("value",account_date_end);
+	 form.append(input3);
+	 
+	 form.submit();//表单提交
+}
+
 function query(){
 	var department = $("#department").val();
 	var account_date_start =  $("#account_date_start").val();

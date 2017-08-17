@@ -1,6 +1,8 @@
 package com.bonus.service.impl;
 
 import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +27,6 @@ import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
-import jxl.write.Number;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -219,42 +220,101 @@ public class ReportServiceImpl implements ReportService {
 //        WritableCellFormat wcf = new jxl.write.WritableCellFormat(nf); 
         int row = 1;
 		for(Object o : list){
-			WritableCellFormat w = null;
 
 			Equity eq = (Equity) o;
-			String type = ba.getType();
+			Label l_department = new Label(0, row, eq.getDepartment(), wc);
+			String type = eq.getType();
 			if(type.equals("1")){
-				type="当期余额";
-				w = wc2;
+				type="运行卡";
 			}
-			if(type.equals("0")){
-				type="发生额";
-				w = wc;
+			if(type.equals("2")){
+				type="结算卡";
 			}
-			Label l_department = new Label(0, row, ba.getDepartment());
-			l_department.setCellFormat(w);
-			Label l_year = new Label(1, row, ba.getYear().toString()+"-"+ba.getMonth().toString());
-			l_year.setCellFormat(w);
+			if(type.equals("3")){
+				type="其他入账";
+			}
+			if(type.equals("11")){
+				type="提取项目奖金";
+			}
+			if(type.equals("12")){
+				type="提取所长奖金";
+			}
+			if(type.equals("13")){
+				type="成本报账";
+			}
+			if(type.equals("14")){
+				type="冲预发";
+			}
+			if(type.equals("15")){
+				type="其他出账";
+			}
+			Label l_type = new Label(1, row, type, wc);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Label l_account_date = new Label(2, row, sdf.format(eq.getAccount_date()), wc);
+			Label l_cardo = new Label(3, row, eq.getCardno(), wc);
+			Label l_account_item = new Label(4, row, eq.getAccount_item(), wc);
+			Label l_income = new Label(5, row, getString(eq.getIncome()), wc);
+			Label l_account_rate = new Label(6, row, getString(eq.getAccount_rate()), wc);
+			Label l_prize_rate = new Label(7, row, getString(eq.getPrize_rate()), wc);
+			Label l_dir_count = new Label(8, row, getString(eq.getDir_count()), wc);
+			Label l_reserve_rate = new Label(9, row, "10%", wc);
+			Label l_reserve_amount = new Label(10, row, getString(eq.getDir_amount().multiply(new BigDecimal(0.1)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
+			Label l_pre_rate = new Label(11, row, "90%", wc);
+			Label l_pre_bonus = new Label(12, row, getString(eq.getDir_amount().multiply(new BigDecimal(0.9)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
+			BigDecimal pre_amount = eq.getDir_amount().multiply(new BigDecimal(0.9)).setScale(2,BigDecimal.ROUND_HALF_UP);
+			BigDecimal dir_rate = eq.getDir_rate();
+			Label l_dir1_rate ;
+			Label l_dir2_rate ;
+			Label l_dir3_rate ;
+			if(dir_rate == null) {
+				l_dir1_rate = new Label(13, row, "-", wc);
+				l_dir2_rate = new Label(15, row, "-", wc);
+				l_dir3_rate = new Label(17, row, "-", wc);
 			
-			Label l_type = new Label(2, row, type);
-			l_type.setCellFormat(w);
-			Label n_equity = new Label(3, row, ba.getEquity().toPlainString(), w); 
-			Label n_pro_bonus = new Label(4, row, ba.getPro_bonus().toPlainString(), w); 
-			Label n_expense = new Label(5, row, ba.getExpense().toPlainString(), w); 
-			Label n_dir_bonus = new Label(6, row, ba.getDir_bonus().toPlainString(), w); 
+			}
+			else {
+				l_dir1_rate = new Label(13, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.5)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
+				l_dir2_rate = new Label(15, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.25)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
+				l_dir3_rate = new Label(17, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.25)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
+			}
+			Label l_dir1_amount = new Label(14, row, getString(pre_amount.multiply(new BigDecimal(0.5)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
+			Label l_dir2_amount = new Label(16, row, getString(pre_amount.multiply(new BigDecimal(0.25)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
+			Label l_dir3_amount = new Label(18, row, getString(pre_amount.multiply(new BigDecimal(0.25)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
+			
 			
 			sheet.addCell(l_department);
-			sheet.addCell(l_year);
 			sheet.addCell(l_type);
-			sheet.addCell(n_equity);
-			sheet.addCell(n_pro_bonus);
-			sheet.addCell(n_expense);
-			sheet.addCell(n_dir_bonus);
+			sheet.addCell(l_account_date);
+			sheet.addCell(l_cardo);
+			sheet.addCell(l_account_item);
+			sheet.addCell(l_income);
+			sheet.addCell(l_account_rate);
+			sheet.addCell(l_prize_rate);
+			sheet.addCell(l_dir_count);
+			sheet.addCell(l_reserve_rate);
+			sheet.addCell(l_reserve_amount);
+			sheet.addCell(l_pre_rate);
+			sheet.addCell(l_pre_bonus);
+			sheet.addCell(l_dir1_rate);
+			sheet.addCell(l_dir1_amount);
+			sheet.addCell(l_dir2_rate);
+			sheet.addCell(l_dir2_amount);
+			sheet.addCell(l_dir3_rate);
+			sheet.addCell(l_dir3_amount);
+
 			row++;
 		}
 		return wwb;
 	}
 	
+	public String getString(Object o){
+		if(o == null)return "";
+		if(o instanceof BigDecimal){
+			BigDecimal b = (BigDecimal)o;
+			return b.toPlainString();
+		}
+		return o.toString();
+	}
 
 
 	
