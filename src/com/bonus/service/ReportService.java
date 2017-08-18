@@ -13,6 +13,7 @@ public interface ReportService {
 	public QueryResult reportBonus(int start, int length, Equity e);
 	public QueryResult reportBalance(int start, int length, Balance b);
 	
-	public WritableWorkbook downladBonus(String department, Date start_date, Date end_date, OutputStream os)throws Exception;
-	public WritableWorkbook downladBalance(String department, int year, int month, OutputStream os)throws Exception;
+	public WritableWorkbook downloadBonus(String department, Date start_date, Date end_date, OutputStream os)throws Exception;
+	public WritableWorkbook downloadBalance(String department, int year, int month, OutputStream os)throws Exception;
+	public WritableWorkbook downloadDetail(String department, String type, Date start_date, Date end_date, OutputStream os)throws Exception;
 }

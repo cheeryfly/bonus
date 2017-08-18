@@ -355,7 +355,7 @@ public class ReportAction {
 		if (month_p != null && month_p != "") {
 			month = Integer.parseInt(month_p);
 		}
-		WritableWorkbook wwb = reportService.downladBalance(department_qu, year, month, os);
+		WritableWorkbook wwb = reportService.downloadBalance(department_qu, year, month, os);
         wwb.write(); 
         // 关闭文件 
         wwb.close(); 
@@ -386,7 +386,40 @@ public class ReportAction {
 			account_date_end = sdf.parse(account_date_en);
 		}
 
-		WritableWorkbook wwb = reportService.downladBonus(department_qu, account_date_start, account_date_end, os);
+		WritableWorkbook wwb = reportService.downloadBonus(department_qu, account_date_start, account_date_end, os);
+        wwb.write(); 
+        // 关闭文件 
+        wwb.close(); 
+	}
+	
+	@RequestMapping("/download/detail")
+	public void downloadDetail(HttpServletRequest request, HttpServletResponse response, String json) throws Exception{
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
+		HttpSession session = req.getSession();
+		
+		res.setContentType("application/vnd.ms-excel");
+		res.setHeader("Content-disposition", "attachment;filename=detail.xls");
+		OutputStream os = response.getOutputStream();
+		
+		String department_qu = request.getParameter("department");
+		if (department_qu.equals("不限"))
+			department_qu = null;
+		String type = request.getParameter("type");
+
+		String account_date_st = request.getParameter("start");
+		String account_date_en = request.getParameter("end");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		Date account_date_start = null;
+		if (account_date_st != null && account_date_st != "") {
+			account_date_start = sdf.parse(account_date_st);
+		}
+		Date account_date_end = null;
+		if (account_date_en != null && account_date_en != "") {
+			account_date_end = sdf.parse(account_date_en);
+		}
+
+		WritableWorkbook wwb = reportService.downloadDetail(department_qu, type, account_date_start, account_date_end, os);
         wwb.write(); 
         // 关闭文件 
         wwb.close(); 
