@@ -12,4 +12,5 @@ public interface EquityDao {
 	
 	public QueryResult reportDetail(int start, int length, Equity e);
 	public QueryResult reportBonus(int start, int length, Equity e);
+	public int getEventByRole(String role);
 }

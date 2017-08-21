@@ -153,4 +153,19 @@ public class EquityDaoImpl implements EquityDao {
 		return re;
 	}
 
+	public int getEventByRole(String role) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("select count(*) from equity_detail e where 1=1 ");
+		if(role.equals("1")){//管理员
+			sb.append(" and e.status='0'");
+		}
+		if(role.equals("2")){//科员
+			sb.append(" and e.status='2'");
+		}
+		SQLQuery q= sessionFactory.getCurrentSession().createSQLQuery(sb.toString());
+		BigInteger t = (BigInteger)q.uniqueResult();
+		int total = t.intValueExact();
+		return total;
+	}
+
 }

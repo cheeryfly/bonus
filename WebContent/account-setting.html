@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>账户设置</title>
+		<meta name="description" content="description">
+		<meta name="author" content="zhangcheng">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	 
+		<link href="assets/devoops/plugins/bootstrap/bootstrap.css" rel="stylesheet">
+		<link href="assets/devoops/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+		<link href="assets/devoops/css/font-awesome.css" rel="stylesheet">
+		<link href="assets/devoops/css/googleapis.css" rel="stylesheet">
+		<link href="assets/devoops/plugins/fancybox/jquery.fancybox.css" rel="stylesheet">
+		<link href="assets/devoops/plugins/fullcalendar/fullcalendar.css" rel="stylesheet">
+		<link href="assets/devoops/plugins/xcharts/xcharts.min.css" rel="stylesheet">
+		<link href="assets/devoops/plugins/select2/select2.css" rel="stylesheet">
+		<link href="assets/devoops/css/style.css" rel="stylesheet">
+		<script src="js/account-setting.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+	<div id="page-login" class="row">
+		<div class="col-xs-12 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+			<div class="text-right">
+				<a href="index.html" class="txt-default">返回首页</a>
+			</div>
+			<div class="box">
+				<div class="box-content">
+					<div class="text-center">
+						<h3 class="page-header">修改密码</h3>
+					</div>
+					<div class="form-group">
+						<label class="control-label">用户名</label>
+						<input id="username" type="text" class="form-control" name="username" />
+					</div>
+					<div class="form-group">
+						<label class="control-label">原密码</label>
+						<input id="password" type="password" class="form-control" name="password" />
+					</div>
+					<div class="form-group">
+						<label class="control-label">新密码</label>
+						<input id="newpassword" type="password" class="form-control" name="new-password" />
+					</div>
+					<div class="form-group">
+						<label class="control-label">重复新密码</label>
+						<input id="repeatword" type="password" class="form-control" name="repeat-password" />
+					</div>
+					<div class="text-center">
+						<button id="btn_submit" class="btn btn-primary btn-label-left">提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="assets/devoops/plugins/jquery/jquery-2.1.0.min.js"></script>
+<script src="assets/devoops/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#btn_submit').on('click', function(e) {
+		e.preventDefault();
+		change();
+	});
+	
+	WinMove();
+});
+</script>
+</body>
+</html>

@@ -78,13 +78,51 @@ public class UserAction {
 					repStr=ActionUtil.getResponse("500", "没有有效用户");
 				}
 				else{
+					int event = userService.getEvent(user);
 					StringBuffer data = new StringBuffer();
-					data.append("\"showname\":"+JSON.toJSONString(user.getNickname())+","+"\"role\":"+JSON.toJSONString(user.getRole()));
+					data.append("\"showname\":"+JSON.toJSONString(user.getNickname())+","+"\"role\":"+JSON.toJSONString(user.getRole())+","+"\"event\":"+event);
 					repStr = ActionUtil.getResponse("200", "查询信息成功", data.toString());	
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			repStr=ActionUtil.getResponse("500", "获取信息失败！");
+		}
+		ActionUtil.sendJSONToClient(repStr, response);
+	}
+	
+	@RequestMapping("/login/change")
+	public void changePassword(HttpServletRequest request,HttpServletResponse response, String json){
+       Enumeration<String> headers=request.getHeaderNames();
+		String repStr="";
+		while(headers.hasMoreElements()){
+			String head=headers.nextElement();
+		}
+		try {
+			if(json==null || json.equals("")) {
+				repStr = ActionUtil.getResponse("500", "网络传输错误");
+			}
+			
+			Map map = (Map) JSON.parse(json);
+			if(map==null) {
+				map = new HashMap();
+			}
+			
+			String username = map.get("username")==null?null:(String)map.get("username");
+			String password = map.get("password")==null?null:(String)map.get("password");
+			String newpassword = map.get("newpassword")==null?null:(String)map.get("newpassword");
+		    User user = userService.loginValidate(username, password);
+		    
+		    if(user != null){
+		    	user.setPassword(newpassword);
+		    	userService.changePwd(user);
+		    	repStr=ActionUtil.getResponse("200", "修改密码成功");
+		    }
+		    else{
+		    	repStr=ActionUtil.getResponse("500", "用户名密码错误");
+		    }
+			} catch (Exception e) {
+				e.printStackTrace();
+			repStr=ActionUtil.getResponse("500", "修改失败");
 		}
 		ActionUtil.sendJSONToClient(repStr, response);
 	}

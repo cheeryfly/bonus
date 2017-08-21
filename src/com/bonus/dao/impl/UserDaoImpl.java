@@ -34,4 +34,9 @@ public class UserDaoImpl implements UserDao {
 		return null;
 	}
 
+	public void updateUser(User u) {
+		sessionFactory.getCurrentSession().update(u);
+		
+	}
+
 }
