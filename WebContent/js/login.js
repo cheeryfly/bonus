@@ -62,6 +62,15 @@ var Login = function () {
 						success : function(result) {
 						    
 							if (result.returnFlag === "200") {
+								var role = result.role;
+								var event = result.event;
+								/*
+								if(role == 3){
+									window.location.href = 'query.html';
+								}else{
+									window.location.href = 'index.html';
+								}
+								*/
 								window.location.href = 'index.html';
 							}else {
 								alert(result.returnMsg); 

@@ -80,7 +80,7 @@ public class UserAction {
 				else{
 					int event = userService.getEvent(user);
 					StringBuffer data = new StringBuffer();
-					data.append("\"showname\":"+JSON.toJSONString(user.getNickname())+","+"\"role\":"+JSON.toJSONString(user.getRole())+","+"\"event\":"+event);
+					data.append("\"username\":"+JSON.toJSONString(user.getUsername())+","+"\"showname\":"+JSON.toJSONString(user.getNickname())+","+"\"role\":"+JSON.toJSONString(user.getRole())+","+"\"event\":"+event);
 					repStr = ActionUtil.getResponse("200", "查询信息成功", data.toString());	
 				}
 			} catch (Exception e) {

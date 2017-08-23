@@ -50,26 +50,22 @@ public class ReportAction {
 		int role = us.getRole();
 
 		String draw = request.getParameter("draw");
-		System.out.println("draw: " + draw);
 		String st = request.getParameter("start");
 		int start = Integer.parseInt(st);
-		System.out.println("start: " + start);
 		String le = request.getParameter("length");
 		int length = Integer.parseInt(le);
-		System.out.println("length: " + length);
 		// 获取前台额外传递过来的查询条件
 		String department = request.getParameter("department");
-		System.out.println("department: " + department);
 		if (department.equals("不限"))
 			department = null;
+		if(role == 3){
+			department = us.getNickname();
+		}
 		String type = request.getParameter("type");
 		if (type.equals(""))
 			type = null;
-		System.out.println("type: " + type);
 		String account_date_st = request.getParameter("account_date_start");
-		System.out.println("account_date_start: " + account_date_st);
 		String account_date_en = request.getParameter("account_date_end");
-		System.out.println("account_date_end: " + account_date_en);
 
 		Enumeration<String> headers = request.getHeaderNames();
 		String repStr = "";
@@ -99,6 +95,7 @@ public class ReportAction {
 			data.append("\"draw\":" + draw + "," + "\"recordsTotal\":" + result.getTotalAmount() + ","
 					+ "\"recordsFiltered\":" + result.getTotalAmount() + "," + "\"data\":"
 					+ JSON.toJSONString(result.getResult(), filter));
+			System.out.println(data.toString());
 			// repStr = ActionUtil.getResponse("200", "操作成功", data.toString());
 			repStr = "{" + data + "}";
 
@@ -115,7 +112,8 @@ public class ReportAction {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
-
+		User us = (User) session.getAttribute("user");
+		int role = us.getRole();
 		String draw = request.getParameter("draw");
 		String st = request.getParameter("start");
 		int start = Integer.parseInt(st);
@@ -125,6 +123,9 @@ public class ReportAction {
 		String department_qu = request.getParameter("department");
 		if (department_qu.equals("不限"))
 			department_qu = null;
+		if(role == 3){
+			department_qu = us.getNickname();
+		}
 		String account_date_st = request.getParameter("account_date_start");
 		String account_date_en = request.getParameter("account_date_end");
 
@@ -151,9 +152,10 @@ public class ReportAction {
 
 			QueryResult result = reportService.reportBonus(start, length, query);
 
+			StringBuffer data1 = new StringBuffer();
 			StringBuffer data = new StringBuffer();
-			data.append("\"draw\":" + draw + "," + "\"recordsTotal\":" + result.getTotalAmount() + ","
-					+ "\"recordsFiltered\":" + result.getTotalAmount() + "," + "\"data\":[");
+			data1.append("\"draw\":" + draw + "," + "\"recordsTotal\":" + result.getTotalAmount() + ","
+					+ "\"recordsFiltered\":" + result.getTotalAmount() + "," + "\"data\":"+"[");
 				//+ JSON.toJSONString(result.getResult(), filter));
 			// repStr = ActionUtil.getResponse("200", "操作成功", data.toString());
 			sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -184,9 +186,9 @@ public class ReportAction {
 					dir_amount2 = prebonus_amount.multiply(new BigDecimal(0.25)).setScale(2,BigDecimal.ROUND_HALF_UP);
 					dir_amount3 = prebonus_amount.subtract(dir_amount1).subtract(dir_amount2).setScale(2,BigDecimal.ROUND_HALF_UP);
 					if(dir_rate != null) {
-						dir_rate1 = prebonus_rate.multiply(new BigDecimal(0.5)).setScale(4,BigDecimal.ROUND_HALF_UP);
-						dir_rate2 = prebonus_rate.multiply(new BigDecimal(0.25)).setScale(4,BigDecimal.ROUND_HALF_UP);
-						dir_rate3 = prebonus_rate.multiply(new BigDecimal(0.25)).setScale(4,BigDecimal.ROUND_HALF_UP);
+						dir_rate1 = prebonus_rate.multiply(new BigDecimal(0.5)).multiply(dir_rate).setScale(4,BigDecimal.ROUND_HALF_UP);
+						dir_rate2 = prebonus_rate.multiply(new BigDecimal(0.25)).multiply(dir_rate).setScale(4,BigDecimal.ROUND_HALF_UP);
+						dir_rate3 = prebonus_rate.multiply(new BigDecimal(0.25)).multiply(dir_rate).setScale(4,BigDecimal.ROUND_HALF_UP);
 					}
 				}
 				if(dir_count == 2){
@@ -194,9 +196,9 @@ public class ReportAction {
 					dir_amount2 = prebonus_amount.subtract(dir_amount1).setScale(2,BigDecimal.ROUND_HALF_UP);
 					dir_amount3 = new BigDecimal(0);
 					if(dir_rate != null) {
-						dir_rate1 = prebonus_rate.multiply(new BigDecimal(0.667)).setScale(4,BigDecimal.ROUND_HALF_UP);
-						dir_rate2 = prebonus_rate.multiply(new BigDecimal(0.333)).setScale(4,BigDecimal.ROUND_HALF_UP);
-						dir_rate2 = new BigDecimal(0); 
+						dir_rate1 = prebonus_rate.multiply(new BigDecimal(0.667)).multiply(dir_rate).setScale(4,BigDecimal.ROUND_HALF_UP);
+						dir_rate2 = prebonus_rate.multiply(new BigDecimal(0.333)).multiply(dir_rate).setScale(4,BigDecimal.ROUND_HALF_UP);
+						dir_rate3 = new BigDecimal(0); 
 					}
 				}
 				if(dir_count == 1){
@@ -236,10 +238,13 @@ public class ReportAction {
 				}
 				data.append("},");
 			}
-			data.deleteCharAt(data.lastIndexOf(","));
-			data.append("]");
-			repStr = "{" + data + "}";
-
+			int ind = data.lastIndexOf(",");
+			if(ind>0)
+			data.deleteCharAt(ind);
+			data1.append(data.toString());
+			data1.append("]");
+			repStr = "{" + data1 + "}";
+			System.out.println(data1.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			repStr = ActionUtil.getResponse("500", "提交过程出错！");
@@ -253,7 +258,8 @@ public class ReportAction {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
-
+		User us = (User) session.getAttribute("user");
+		int role = us.getRole();
 		String draw = request.getParameter("draw");
 		String st = request.getParameter("start");
 		int start = Integer.parseInt(st);
@@ -263,6 +269,9 @@ public class ReportAction {
 		String department_qu = request.getParameter("department");
 		if (department_qu.equals("不限"))
 			department_qu = null;
+		if(role == 3){
+			department_qu = us.getNickname();
+		}
 		String year_p = request.getParameter("year");
 		int year = -1;
 		String month_p = request.getParameter("month");
@@ -337,7 +346,8 @@ public class ReportAction {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
-		
+		User us = (User) session.getAttribute("user");
+		int role = us.getRole();
 		res.setContentType("application/vnd.ms-excel");
 		res.setHeader("Content-disposition", "attachment;filename=summary.xls");
 		OutputStream os = response.getOutputStream();
@@ -366,7 +376,8 @@ public class ReportAction {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
-		
+		User us = (User) session.getAttribute("user");
+		int role = us.getRole();
 		res.setContentType("application/vnd.ms-excel");
 		res.setHeader("Content-disposition", "attachment;filename=bonus.xls");
 		OutputStream os = response.getOutputStream();
@@ -397,7 +408,8 @@ public class ReportAction {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
-		
+		User us = (User) session.getAttribute("user");
+		int role = us.getRole();
 		res.setContentType("application/vnd.ms-excel");
 		res.setHeader("Content-disposition", "attachment;filename=detail.xls");
 		OutputStream os = response.getOutputStream();

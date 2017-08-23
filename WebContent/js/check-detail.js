@@ -404,6 +404,7 @@ function check_pass(id){
 			if (result.returnFlag === "200") {
 				CloseModalBox();
 				query();
+				getUserInfo();
 			}
 			if(result.returnFlag === "500"){
 				alert("失败" + result.returnMsg);
@@ -437,7 +438,7 @@ function check_deny(id){
 			if (result.returnFlag === "200") {
 				CloseModalBox();
 				query();
-				
+				getUserInfo();
 			}
 			if(result.returnFlag === "500"){
 				alert("失败" + result.returnMsg);

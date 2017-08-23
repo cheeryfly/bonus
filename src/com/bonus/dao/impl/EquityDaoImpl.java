@@ -134,7 +134,7 @@ public class EquityDaoImpl implements EquityDao {
 		if(e.getRec_date() != null){
 			sb.append(" and e.account_date<='"+sdf.format(e.getRec_date())+"'");
 		}
-		sb.append(" and e.status='1' and e.dir_amount>0");
+		sb.append(" and e.status='1' and e.dir_amount<>0");
 		String sql1 = head + sb.toString();
 		String sql2 = head2 + sb.toString();
 		SQLQuery q= sessionFactory.getCurrentSession().createSQLQuery(sql1);

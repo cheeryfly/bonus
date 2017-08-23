@@ -131,7 +131,7 @@
 	<div class="row">
 		<div id="sidebar-left" class="col-xs-2 col-sm-2">
 			<ul class="nav main-menu">
-				<li class="dropdown">
+				<li id="action_index" class="dropdown">
 					<a href="#" class="dropdown-toggle">
 						<i class="fa fa-pencil"></i>
 						<span class="hidden-xs">入账记录操作</span>
@@ -195,10 +195,18 @@ function getUserInfo(){
 					var event = result.event;
 					if(role == 1){
 						$("#role").text("主任"); 
+						LoadAjaxContent("ajax/check-detail.html");
 					}
 					if(role == 2){
 						$("#role").text("室员"); 
 						$("#check_index").hide();
+						LoadAjaxContent("ajax/report-detail.html");
+					}
+					if(role == 3){
+						$("#role").text("设计所"); 
+						$("#check_index").hide();
+						$("#action_index").hide();
+						LoadAjaxContent("ajax/report-detail.html");
 						
 					}
 					$("#show-name").text(showname); 

@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 	public int getEvent(User u) {
 		Integer role = u.getRole();
 		String r = role.toString();
-		equitydao.queryEquities(new Equity());
+		if(r.equals("3"))return 0;
 		int event = equitydao.getEventByRole(r);
 		return event;
 	}

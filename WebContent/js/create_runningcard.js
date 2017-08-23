@@ -201,6 +201,7 @@ function other_save(){
 	var type = $("#type option:selected").val();
 	var remark = $("#remark").val();
 	var equity = $("#equity").val();
+	var dir_count = $("#dir_count").val();
 	var pro_bonus_amount = $("#pro_bonus_amount").val();
 	var expense_amount = $("#expense_amount").val();
 	var dir_amount = $("#dir_amount").val();
@@ -218,6 +219,9 @@ function other_save(){
 	}
 	if(type != ""){
 		dataStr =dataStr+ ",\"type\":\"" + type + "\"";
+	}
+	if(dir_count != ""){
+		dataStr =dataStr+ ",\"dir_count\":\"" + dir_count + "\"";
 	}
 	if(remark != ""){
 		dataStr =dataStr+ ",\"remark\":\"" + remark + "\"";

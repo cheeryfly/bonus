@@ -37,6 +37,7 @@ function initiate(data){
 	var expense_amount_bak = data.equitiesList[0].expense_amount;
 	var dir_amount_bak = data.equitiesList[0].dir_amount;
 	var remark = data.equitiesList[0].remark;
+	var dir_count = data.equitiesList[0].dir_count;
 	var equity = data.equitiesList[0].equity;
 	var pro_bonus_amount = data.equitiesList[0].pro_bonus_amount;
 	var pro_bonus_rate = data.equitiesList[0].pro_bonus_rate;
@@ -47,6 +48,7 @@ function initiate(data){
 	var check_remark = data.equitiesList[0].check_remark;
 	
 	if (typeof(department) == "undefined")department='';
+	if (typeof(dir_count) == "undefined")dir_count='';
 	if (typeof(account_date) == "undefined")account_date='';
 	if (typeof(type) == "undefined")type='';
 	if (typeof(account_item) == "undefined")account_item='';
@@ -72,6 +74,7 @@ function initiate(data){
 	}
 	
 	$("#department").val(department);
+	$("#dir_count").val(dir_count);
 	$("#account_date").val(account_date);
 	$("#type").val(type);
 	$("#account_item").val(account_item);
@@ -95,6 +98,7 @@ function other_save(){
 	var department = $("#department").val();
 	var account_date = $("#account_date").val();
 	var account_item = $("#account_item").val();
+	var dir_count = $("#dir_count").val();
 	var type = $("#type option:selected").val();
 	var remark = $("#remark").val();
 	var equity = $("#equity").val();
@@ -110,6 +114,9 @@ function other_save(){
 	}
 	if(department != ""){
 		dataStr =dataStr+ ",\"department\":\"" + department + "\"";
+	}
+	if(dir_count != ""){
+		dataStr =dataStr+ ",\"dir_count\":\"" + dir_count + "\"";
 	}
 	if(account_date != ""){
 		dataStr =dataStr+ ",\"account_date\":\"" + account_date + "\"";

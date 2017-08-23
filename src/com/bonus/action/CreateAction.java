@@ -233,6 +233,7 @@ public class CreateAction {
 			String account_date_st = map.get("account_date")==null?null:(String)map.get("account_date");
 			String account_item = map.get("account_item")==null?null:(String)map.get("account_item");
 			String pro_id = map.get("pro_id")==null?null:(String)map.get("pro_id");
+			Integer dir_count = map.get("dir_count")==null?null:new Integer((String)map.get("dir_count"));
 			String remark = map.get("remark")==null?null:(String)map.get("remark");
 			BigDecimal equity = map.get("equity")==null?null:new BigDecimal((String)map.get("equity"));
 			BigDecimal pro_bonus_amount = map.get("pro_bonus_amount")==null?null:new BigDecimal((String)map.get("pro_bonus_amount"));
@@ -256,6 +257,7 @@ public class CreateAction {
 			eq.setRec_employee(userName);
 			eq.setRemark(remark);
 			eq.setType(type);
+			eq.setDir_count(dir_count);
 			eq.setStatus("0"); //草稿
 			
 			

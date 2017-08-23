@@ -263,9 +263,13 @@ public class ReportServiceImpl implements ReportService {
 			Label l_pre_bonus = new Label(12, row, getString(eq.getDir_amount().multiply(new BigDecimal(0.9)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
 			BigDecimal pre_amount = eq.getDir_amount().multiply(new BigDecimal(0.9)).setScale(2,BigDecimal.ROUND_HALF_UP);
 			BigDecimal dir_rate = eq.getDir_rate();
+			int dir_count = eq.getDir_count()==null?3:eq.getDir_count();
 			Label l_dir1_rate ;
 			Label l_dir2_rate ;
 			Label l_dir3_rate ;
+			Label l_dir1_amount ;
+			Label l_dir2_amount ;
+			Label l_dir3_amount ;
 			if(dir_rate == null) {
 				l_dir1_rate = new Label(13, row, "-", wc);
 				l_dir2_rate = new Label(15, row, "-", wc);
@@ -273,13 +277,45 @@ public class ReportServiceImpl implements ReportService {
 			
 			}
 			else {
-				l_dir1_rate = new Label(13, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.5)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
-				l_dir2_rate = new Label(15, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.25)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
-				l_dir3_rate = new Label(17, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.25)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
+				if(dir_count == 3){
+					l_dir1_rate = new Label(13, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.45)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
+					l_dir2_rate = new Label(15, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.225)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
+					l_dir3_rate = new Label(17, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.225)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
+				}
+				if(dir_count == 2){
+					l_dir1_rate = new Label(13, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.6003)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
+					l_dir2_rate = new Label(15, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.2997)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
+					l_dir3_rate = new Label(17, row, "-", wc);
+				}
+				else{
+					l_dir1_rate = new Label(13, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.9)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
+					l_dir2_rate = new Label(15, row, "-", wc);
+					l_dir3_rate = new Label(17, row, "-", wc);
+				}
 			}
-			Label l_dir1_amount = new Label(14, row, getString(pre_amount.multiply(new BigDecimal(0.5)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
-			Label l_dir2_amount = new Label(16, row, getString(pre_amount.multiply(new BigDecimal(0.25)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
-			Label l_dir3_amount = new Label(18, row, getString(pre_amount.multiply(new BigDecimal(0.25)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
+			if (dir_count == 3) {
+				l_dir1_amount = new Label(14, row,
+						getString(pre_amount.multiply(new BigDecimal(0.5)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
+				l_dir2_amount = new Label(16, row,
+						getString(pre_amount.multiply(new BigDecimal(0.25)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
+				l_dir3_amount = new Label(18, row,
+						getString(pre_amount.multiply(new BigDecimal(0.25)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
+			} else {
+				if (dir_count == 2) {
+					l_dir1_amount = new Label(14, row,
+							getString(pre_amount.multiply(new BigDecimal(0.667)).setScale(2, BigDecimal.ROUND_HALF_UP)),
+							wc);
+					l_dir2_amount = new Label(16, row,
+							getString(pre_amount.multiply(new BigDecimal(0.333)).setScale(2, BigDecimal.ROUND_HALF_UP)),
+							wc);
+					l_dir3_amount = new Label(18, row, "-", wc);
+				} else {
+					l_dir1_amount = new Label(14, row, getString(pre_amount), wc);
+					l_dir2_amount = new Label(16, row, "-", wc);
+					l_dir3_amount = new Label(18, row, "-", wc);
+				}
+			}
+			
 			
 			
 			sheet.addCell(l_department);

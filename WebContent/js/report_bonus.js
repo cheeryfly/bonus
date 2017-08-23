@@ -102,3 +102,36 @@ function query(){
 	}
 	
 }
+
+
+function initiateForm(){
+	var dataStr =  "{\"pwd\":\""+"123"+"\"}";
+	
+	$.ajax( {
+		type : 'post',
+		url : 'user/getinfo',
+		data : {json : dataStr},
+		dataType : 'json',
+		timeout: 10000,
+		success : function(result) {
+		    
+			if (result.returnFlag === "200") {
+				var showname = result.showname;
+				var username = result.username;
+				var role = result.role;
+				if(role == 3){
+					//alert(123);
+					$("#department").attr("disabled",true);
+					 $("#department").val(showname);
+				}
+			}else {
+				alert(result.returnMsg); 
+			}
+
+		},
+		error : function(result) {
+			alert("失败" + result.returnMsg);
+
+		}
+	});
+}
