@@ -108,6 +108,10 @@
 								<div class="col-sm-4">
 									<input id="dir1_rate" type="text" class="form-control"> 
 								</div>
+								<label class="col-sm-2 control-label" id="dir1_name2">所长1奖金</label>
+								<div class="col-sm-4">
+									<input id="dir1_amount" type="text" class="form-control"> 
+								</div>
 							</div>
 							<div class="form-group has-error has-feedback" id="dir2">
 								<label class="col-sm-2 control-label" id="dir2_name">所长2奖金比例</label>
@@ -115,12 +119,20 @@
 								<div class="col-sm-4">
 									<input id="dir2_rate" type="text" class="form-control"> 
 								</div>
+								<label class="col-sm-2 control-label" id="dir2_name2">所长2奖金</label>
+								<div class="col-sm-4">
+									<input id="dir2_amount" type="text" class="form-control"> 
+								</div>
 							</div>
 							<div class="form-group has-error has-feedback" id="dir3">
 								<label class="col-sm-2 control-label" id="dir3_name">所长3奖金比例</label>
 								<input type="hidden" id="dir3_id"  />
 								<div class="col-sm-4">
 									<input id="dir3_rate" type="text" class="form-control"> 
+								</div>
+								<label class="col-sm-2 control-label" id="dir3_name2">所长3奖金</label>
+								<div class="col-sm-4">
+									<input id="dir3_amount" type="text" class="form-control"> 
 								</div>
 							</div>
 						</fieldset>
@@ -212,6 +224,21 @@
 			$("#pro_bonus_amount").val(parseFloat(pro_bonus_amount.toFixed(2)));
 			var equity = expense_amount + dir_amount + pro_bonus_amount;
 			$("#equity").val(parseFloat(equity.toFixed(2)));
+			var dir1_rate = $("#dir1_rate").val();
+			var dir2_rate = $("#dir2_rate").val();
+			var dir3_rate = $("#dir3_rate").val();
+			if(dir1_rate != null){
+				var dir1_amount = dir_amount * dir1_rate;
+				$("#dir1_amount").val(parseFloat(dir1_amount.toFixed(2)));
+			}
+			if(dir2_rate != null){
+				var dir2_amount = dir_amount * dir2_rate;
+				$("#dir2_amount").val(parseFloat(dir2_amount.toFixed(2)));
+			}
+			if(dir3_rate != null){
+				var dir3_amount = dir_amount * dir3_rate;
+				$("#dir3_amount").val(parseFloat(dir3_amount.toFixed(2)));
+			}
 		}
 	}
 	jQuery(function($) {
@@ -269,29 +296,18 @@ $(document).ready(function() {
 		calculate();
 	});
 	
-	$("#dir_count").change(function(){
-		var dir_count = $("#dir_count").val();
-		var account_rate = $("#account_rate").val();
-		var expense_rate = $("#expense_rate").val();
-		var pro_bonus_rate = 0;
-		if(dir_count == 3) {
-			var dir_rate = 0.05;
-			pro_bonus_rate = account_rate - expense_rate - dir_rate;
-			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(2));
-			$("#dir_rate").val(dir_rate);
-			$("#pro_bonus_rate").val(pro_bonus_rate);
-		}
-		if(dir_count == 2){
-			var dir_rate = 0.0395;
-			pro_bonus_rate = account_rate - expense_rate - dir_rate;
-			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(4));
-			$("#dir_rate").val(dir_rate);
-			$("#pro_bonus_rate").val(pro_bonus_rate);
-		}
-		calculate();
-	});
+	
 	
 	$("#income").change(function(){
+		calculate();
+	});
+	$("#dir1_rate").change(function(){
+		calculate();
+	});
+	$("#dir2_rate").change(function(){
+		calculate();
+	});
+	$("#dir3_rate").change(function(){
 		calculate();
 	});
 	$("#prize_rate").change(function(){

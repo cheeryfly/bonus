@@ -20,23 +20,46 @@ function initDir(){
 						$("#dir1_id").val(result.dirList[0].id);
 						$("#dir1_name").html(result.dirList[0].name+"奖金比例");
 						$("#dir1_rate").val("0.5");
+						$("#dir1_name2").html(result.dirList[0].name+"奖金");
 						$("#dir2_id").val(result.dirList[1].id);
 						$("#dir2_name").html(result.dirList[1].name+"奖金比例");
 						$("#dir2_rate").val("0.25");
+						$("#dir2_name2").html(result.dirList[1].name+"奖金");
 						$("#dir3_id").val(result.dirList[2].id);
 						$("#dir3_name").html(result.dirList[2].name+"奖金比例");
 						$("#dir3_rate").val("0.25");
+						$("#dir3_name2").html(result.dirList[2].name+"奖金");
 						$("#dir3").show();
+						var account_rate = $("#account_rate").val();
+						var expense_rate = $("#expense_rate").val();
+						var pro_bonus_rate = 0;
+						var dir_rate = 0.05;
+						pro_bonus_rate = account_rate - expense_rate - dir_rate;
+						pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(2));
+						$("#dir_rate").val(dir_rate);
+						$("#pro_bonus_rate").val(pro_bonus_rate);
 					}
 					if(dir_count == 2){
 						$("#dir1_id").val(result.dirList[0].id);
 						$("#dir1_name").html(result.dirList[0].name+"奖金比例");
 						$("#dir1_rate").val("0.667");
+						$("#dir1_name2").html(result.dirList[0].name+"奖金");
 						$("#dir2_id").val(result.dirList[1].id);
 						$("#dir2_name").html(result.dirList[1].name+"奖金比例");
 						$("#dir2_rate").val("0.333");
+						$("#dir2_name2").html(result.dirList[1].name+"奖金");
 						$("#dir3").hide();
+						var dir_count = $("#dir_count").val();
+						var account_rate = $("#account_rate").val();
+						var expense_rate = $("#expense_rate").val();
+						var pro_bonus_rate = 0;
+						var dir_rate = 0.0395;
+						pro_bonus_rate = account_rate - expense_rate - dir_rate;
+						pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(4));
+						$("#dir_rate").val(dir_rate);
+						$("#pro_bonus_rate").val(pro_bonus_rate);
 					}
+					calculate();
 				}else {
 					alert(result.returnMsg); 
 				}
@@ -46,5 +69,6 @@ function initDir(){
 				alert("创建失败：" + result.returnMsg);
 			}
 		});
-
 }
+
+
