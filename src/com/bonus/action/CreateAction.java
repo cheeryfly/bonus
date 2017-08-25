@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,14 +16,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
+import com.bonus.bean.Director;
 import com.bonus.bean.Equity;
 import com.bonus.bean.User;
 import com.bonus.service.CreateService;
+import com.bonus.service.DirectorService;
 
 @Controller
 public class CreateAction {
 	@Autowired
 	private CreateService createService;
+	@Autowired
+	private DirectorService directorService;
 	
 	@RequestMapping("/runningcard/save")
 	public void createRunningCard(HttpServletRequest request,HttpServletResponse response, String json){
@@ -272,6 +277,44 @@ public class CreateAction {
 	    catch (Exception e) {
 			e.printStackTrace();
 			repStr=ActionUtil.getResponse("500", "提交过程出错！");
+	    }
+	    ActionUtil.sendJSONToClient(repStr, response);
+	}
+	
+	@RequestMapping("/director/info")
+	public void getDirectorInfo(HttpServletRequest request,HttpServletResponse response, String json){
+	//data.append("\"username\":"+JSON.toJSONString(user.getUsername())+","+"\"showname\":"+JSON.toJSONString(user.getNickname())+","+"\"role\":"+JSON.toJSONString(user.getRole())+","+"\"event\":"+event);
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
+		HttpSession session = req.getSession();
+		
+		Enumeration<String> headers=request.getHeaderNames();
+		String repStr="";
+		while(headers.hasMoreElements()){
+			String head=headers.nextElement();
+		}
+	    try{
+			if(json==null || json.equals("")) {
+				repStr = ActionUtil.getResponse("500", "网络传输错误！");
+			}
+			
+			Map map = (Map) JSON.parse(json);
+			if(map==null) {
+				map = new HashMap();
+			}
+			String department = map.get("department")==null?null:(String)map.get("department");
+			Director d = new Director();
+			d.setDepartment(department);
+			List<Director> ds = directorService.queryDirectors(d);
+
+			StringBuffer data = new StringBuffer();
+			data.append("\"dir_count\":" + ds.size()+",\"dirList\":"	+ JSON.toJSONString(ds));
+			System.out.println(data.toString());
+			repStr = ActionUtil.getResponse("200", "查询成功", data.toString());
+	    }
+	    catch (Exception e) {
+			e.printStackTrace();
+			repStr=ActionUtil.getResponse("500", "查询过程出错！");
 	    }
 	    ActionUtil.sendJSONToClient(repStr, response);
 	}

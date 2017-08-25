@@ -9,6 +9,7 @@
 		<mapping class="com.bonus.bean.User" />
 		<mapping class="com.bonus.bean.Equity" />
 		<mapping class="com.bonus.bean.Balance" />
+		<mapping class="com.bonus.bean.Director" />
 	</session-factory>
 </hibernate-configuration>
 

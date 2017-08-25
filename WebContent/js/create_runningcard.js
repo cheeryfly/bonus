@@ -1,3 +1,8 @@
+
+
+
+
+
 function runningCard_save(){
 	var department = $("#department").val();
 	var account_date = $("#account_date").val();

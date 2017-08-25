@@ -64,6 +64,36 @@ public class Equity {
 	private String remark;
 	@Column(name="pro_id")
 	private String pro_id;
+	@Column(name="dir1_id")
+	private Integer dir1_id;
+	@Column(name="dir1_name")
+	private String dir1_name;
+	@Column(name="dir1_rate")
+	private BigDecimal dir1_rate;
+	@Column(name="dir1_amount")
+	private BigDecimal dir1_amount;
+	@Column(name="dir2_id")
+	private Integer dir2_id;
+	@Column(name="dir2_name")
+	private String dir2_name;
+	@Column(name="dir2_rate")
+	private BigDecimal dir2_rate;
+	@Column(name="dir2_amount")
+	private BigDecimal dir2_amount;
+	@Column(name="dir3_id")
+	private Integer dir3_id;
+	@Column(name="dir3_name")
+	private String dir3_name;
+	@Column(name="dir3_rate")
+	private BigDecimal dir3_rate;
+	@Column(name="dir3_amount")
+	private BigDecimal dir3_amount;
+	
+	
+	
+	
+	
+	
 	public String getCheck_remark() {
 		return check_remark;
 	}
@@ -221,6 +251,78 @@ public class Equity {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public Integer getDir1_id() {
+		return dir1_id;
+	}
+	public void setDir1_id(Integer dir1_id) {
+		this.dir1_id = dir1_id;
+	}
+	public String getDir1_name() {
+		return dir1_name;
+	}
+	public void setDir1_name(String dir1_name) {
+		this.dir1_name = dir1_name;
+	}
+	public BigDecimal getDir1_rate() {
+		return dir1_rate;
+	}
+	public void setDir1_rate(BigDecimal dir1_rate) {
+		this.dir1_rate = dir1_rate;
+	}
+	public BigDecimal getDir1_amount() {
+		return dir1_amount;
+	}
+	public void setDir1_amount(BigDecimal dir1_amount) {
+		this.dir1_amount = dir1_amount;
+	}
+	public Integer getDir2_id() {
+		return dir2_id;
+	}
+	public void setDir2_id(Integer dir2_id) {
+		this.dir2_id = dir2_id;
+	}
+	public String getDir2_name() {
+		return dir2_name;
+	}
+	public void setDir2_name(String dir2_name) {
+		this.dir2_name = dir2_name;
+	}
+	public BigDecimal getDir2_rate() {
+		return dir2_rate;
+	}
+	public void setDir2_rate(BigDecimal dir2_rate) {
+		this.dir2_rate = dir2_rate;
+	}
+	public BigDecimal getDir2_amount() {
+		return dir2_amount;
+	}
+	public void setDir2_amount(BigDecimal dir2_amount) {
+		this.dir2_amount = dir2_amount;
+	}
+	public Integer getDir3_id() {
+		return dir3_id;
+	}
+	public void setDir3_id(Integer dir3_id) {
+		this.dir3_id = dir3_id;
+	}
+	public String getDir3_name() {
+		return dir3_name;
+	}
+	public void setDir3_name(String dir3_name) {
+		this.dir3_name = dir3_name;
+	}
+	public BigDecimal getDir3_rate() {
+		return dir3_rate;
+	}
+	public void setDir3_rate(BigDecimal dir3_rate) {
+		this.dir3_rate = dir3_rate;
+	}
+	public BigDecimal getDir3_amount() {
+		return dir3_amount;
+	}
+	public void setDir3_amount(BigDecimal dir3_amount) {
+		this.dir3_amount = dir3_amount;
 	}
 
 
