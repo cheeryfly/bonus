@@ -103,8 +103,9 @@
 						<fieldset>
 							<legend>所长奖金比例</legend>
 							<div class="form-group has-error has-feedback" id="dir1">
-								<label class="col-sm-2 control-label" id="dir1_name">所长1奖金比例</label>
+								<label class="col-sm-2 control-label" id="dir1_name1">所长1奖金比例</label>
 								<input type="hidden" id="dir1_id"  />
+								<input type="hidden" id="dir1_name"  />
 								<div class="col-sm-4">
 									<input id="dir1_rate" type="text" class="form-control"> 
 								</div>
@@ -114,8 +115,9 @@
 								</div>
 							</div>
 							<div class="form-group has-error has-feedback" id="dir2">
-								<label class="col-sm-2 control-label" id="dir2_name">所长2奖金比例</label>
+								<label class="col-sm-2 control-label" id="dir2_name1">所长2奖金比例</label>
 								<input type="hidden" id="dir2_id"  />
+								<input type="hidden" id="dir2_name"  />
 								<div class="col-sm-4">
 									<input id="dir2_rate" type="text" class="form-control"> 
 								</div>
@@ -125,8 +127,9 @@
 								</div>
 							</div>
 							<div class="form-group has-error has-feedback" id="dir3">
-								<label class="col-sm-2 control-label" id="dir3_name">所长3奖金比例</label>
+								<label class="col-sm-2 control-label" id="dir3_name1">所长3奖金比例</label>
 								<input type="hidden" id="dir3_id"  />
+								<input type="hidden" id="dir3_name"  />
 								<div class="col-sm-4">
 									<input id="dir3_rate" type="text" class="form-control"> 
 								</div>
@@ -201,7 +204,6 @@
 	function setDefault() {
 		$("#account_rate").val(0.32);
 		$("#prize_rate").val(1);
-		$("#dir_count").val(3);
 		$("#pro_bonus_rate").val(0.21);
 		$("#expense_rate").val(0.06);
 		$("#dir_rate").val(0.05);
@@ -284,14 +286,8 @@ $(document).ready(function() {
 		var account_rate = $("#account_rate").val();
 		var expense_rate = $("#expense_rate").val();
 		var dir_rate = $("#dir_rate").val();
-		var dir_count = $("#dir_count").val();
 		var pro_bonus_rate = account_rate - expense_rate - dir_rate;
-		if(dir_count == 3) {
-			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(2));
-		}
-		if(dir_count == 2) {
-			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(4));
-		}
+		pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(4));
 		$("#pro_bonus_rate").val(pro_bonus_rate);
 		calculate();
 	});

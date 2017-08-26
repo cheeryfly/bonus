@@ -1,8 +1,3 @@
-
-
-
-
-
 function runningCard_save(){
 	var department = $("#department").val();
 	var account_date = $("#account_date").val();
@@ -12,8 +7,19 @@ function runningCard_save(){
 	var income = $("#income").val();
 	var account_rate = $("#account_rate").val();
 	var prize_rate = $("#prize_rate").val();
-	var dir_count = $("#dir_count").val();
 	var remark = $("#remark").val();
+	var dir1_id = $("#dir1_id").val();
+	var dir1_name = $("#dir1_name").val();
+	var dir1_rate = $("#dir1_rate").val();
+	var dir1_amount = $("#dir1_amount").val();
+	var dir2_id = $("#dir2_id").val();
+	var dir2_name = $("#dir2_name").val();
+	var dir2_rate = $("#dir2_rate").val();
+	var dir2_amount = $("#dir2_amount").val();
+	var dir3_id = $("#dir3_id").val();
+	var dir3_name = $("#dir3_name").val();
+	var dir3_rate = $("#dir3_rate").val();
+	var dir3_amount = $("#dir3_amount").val();
 	var equity = $("#equity").val();
 	var pro_bonus_amount = $("#pro_bonus_amount").val();
 	var pro_bonus_rate = $("#pro_bonus_rate").val();
@@ -48,8 +54,41 @@ function runningCard_save(){
 	if(prize_rate != ""){
 		dataStr =dataStr+ ",\"prize_rate\":\"" + prize_rate + "\"";
 	}
-	if(dir_count != ""){
-		dataStr =dataStr+ ",\"dir_count\":\"" + dir_count + "\"";
+	if(dir1_id != ""){
+		dataStr =dataStr+ ",\"dir1_id\":\"" + dir1_id + "\"";
+	}
+	if(dir1_name != ""){
+		dataStr =dataStr+ ",\"dir1_name\":\"" + dir1_name + "\"";
+	}
+	if(dir1_rate != ""){
+		dataStr =dataStr+ ",\"dir1_rate\":\"" + dir1_rate + "\"";
+	}
+	if(dir1_amount != ""){
+		dataStr =dataStr+ ",\"dir1_amount\":\"" + dir1_amount + "\"";
+	}
+	if(dir2_id != ""){
+		dataStr =dataStr+ ",\"dir2_id\":\"" + dir2_id + "\"";
+	}
+	if(dir2_name != ""){
+		dataStr =dataStr+ ",\"dir2_name\":\"" + dir2_name + "\"";
+	}
+	if(dir2_rate != ""){
+		dataStr =dataStr+ ",\"dir2_rate\":\"" + dir2_rate + "\"";
+	}
+	if(dir2_amount != ""){
+		dataStr =dataStr+ ",\"dir2_amount\":\"" + dir2_amount + "\"";
+	}
+	if(dir3_id != ""){
+		dataStr =dataStr+ ",\"dir3_id\":\"" + dir3_id + "\"";
+	}
+	if(dir3_name != ""){
+		dataStr =dataStr+ ",\"dir3_name\":\"" + dir3_name + "\"";
+	}
+	if(dir3_rate != ""){
+		dataStr =dataStr+ ",\"dir3_rate\":\"" + dir3_rate + "\"";
+	}
+	if(dir3_amount != ""){
+		dataStr =dataStr+ ",\"dir3_amount\":\"" + dir3_amount + "\"";
 	}
 	if(remark != ""){
 		dataStr =dataStr+ ",\"remark\":\"" + remark + "\"";

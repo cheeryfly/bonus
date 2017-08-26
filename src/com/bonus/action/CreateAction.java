@@ -62,7 +62,20 @@ public class CreateAction {
 			BigDecimal income = map.get("income")==null?null:new BigDecimal((String)map.get("income"));
 			BigDecimal account_rate = map.get("account_rate")==null?null:new BigDecimal((String)map.get("account_rate"));
 			BigDecimal prize_rate = map.get("prize_rate")==null?null:new BigDecimal((String)map.get("prize_rate"));
-			Integer dir_count = map.get("dir_count")==null?null:new Integer((String)map.get("dir_count"));
+			
+			int dir1_id = map.get("dir1_id")==null?null:new Integer((String)map.get("dir1_id"));
+			String dir1_name = map.get("dir1_name")==null?null:(String)map.get("dir1_name");
+			BigDecimal dir1_rate = map.get("dir1_rate")==null?null:new BigDecimal((String)map.get("dir1_rate"));
+			BigDecimal dir1_amount = map.get("dir1_amount")==null?null:new BigDecimal((String)map.get("dir1_amount"));
+			int dir2_id = map.get("dir2_id")==null?null:new Integer((String)map.get("dir2_id"));
+			String dir2_name = map.get("dir2_name")==null?null:(String)map.get("dir2_name");
+			BigDecimal dir2_rate = map.get("dir2_rate")==null?null:new BigDecimal((String)map.get("dir2_rate"));
+			BigDecimal dir2_amount = map.get("dir2_amount")==null?null:new BigDecimal((String)map.get("dir2_amount"));
+			int dir3_id = map.get("dir3_id")==null?null:new Integer((String)map.get("dir3_id"));
+			String dir3_name = map.get("dir3_name")==null?null:(String)map.get("dir3_name");
+			BigDecimal dir3_rate = map.get("dir3_rate")==null?null:new BigDecimal((String)map.get("dir3_rate"));
+			BigDecimal dir3_amount = map.get("dir3_amount")==null?null:new BigDecimal((String)map.get("dir3_amount"));
+			
 			String remark = map.get("remark")==null?null:(String)map.get("remark");
 			BigDecimal equity = map.get("equity")==null?null:new BigDecimal((String)map.get("equity"));
 			BigDecimal pro_bonus_amount = map.get("pro_bonus_amount")==null?null:new BigDecimal((String)map.get("pro_bonus_amount"));
@@ -85,8 +98,19 @@ public class CreateAction {
 			eq.setCardno(cardno);
 			eq.setDepartment(department);
 			eq.setDir_amount(dir_amount);
-			eq.setDir_count(dir_count);
 			eq.setDir_rate(dir_rate);
+			eq.setDir1_id(dir1_id);
+			eq.setDir1_name(dir1_name);
+			eq.setDir1_rate(dir1_rate);
+			eq.setDir1_amount(dir1_amount);
+			eq.setDir2_id(dir2_id);
+			eq.setDir2_name(dir2_name);
+			eq.setDir2_rate(dir2_rate);
+			eq.setDir2_amount(dir2_amount);
+			eq.setDir3_id(dir3_id);
+			eq.setDir3_name(dir3_name);
+			eq.setDir3_rate(dir3_rate);
+			eq.setDir3_amount(dir3_amount);
 		//	eq.setCard_discount(card_discount);
 			eq.setEquity(equity);
 			eq.setExpense_amount(expense_amount);

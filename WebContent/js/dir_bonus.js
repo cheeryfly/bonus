@@ -18,15 +18,18 @@ function initDir(){
 					var dir_count = result.dir_count;
 					if(dir_count == 3){
 						$("#dir1_id").val(result.dirList[0].id);
-						$("#dir1_name").html(result.dirList[0].name+"奖金比例");
+						$("#dir1_name1").html(result.dirList[0].name+"奖金比例");
+						$("#dir1_name").val(result.dirList[0].name);
 						$("#dir1_rate").val("0.5");
 						$("#dir1_name2").html(result.dirList[0].name+"奖金");
 						$("#dir2_id").val(result.dirList[1].id);
-						$("#dir2_name").html(result.dirList[1].name+"奖金比例");
+						$("#dir2_name1").html(result.dirList[1].name+"奖金比例");
+						$("#dir2_name").val(result.dirList[1].name);
 						$("#dir2_rate").val("0.25");
 						$("#dir2_name2").html(result.dirList[1].name+"奖金");
 						$("#dir3_id").val(result.dirList[2].id);
-						$("#dir3_name").html(result.dirList[2].name+"奖金比例");
+						$("#dir3_name1").html(result.dirList[2].name+"奖金比例");
+						$("#dir3_name").val(result.dirList[2].name);
 						$("#dir3_rate").val("0.25");
 						$("#dir3_name2").html(result.dirList[2].name+"奖金");
 						$("#dir3").show();
@@ -41,11 +44,13 @@ function initDir(){
 					}
 					if(dir_count == 2){
 						$("#dir1_id").val(result.dirList[0].id);
-						$("#dir1_name").html(result.dirList[0].name+"奖金比例");
+						$("#dir1_name1").html(result.dirList[0].name+"奖金比例");
+						$("#dir1_name").val(result.dirList[0].name);
 						$("#dir1_rate").val("0.667");
 						$("#dir1_name2").html(result.dirList[0].name+"奖金");
 						$("#dir2_id").val(result.dirList[1].id);
-						$("#dir2_name").html(result.dirList[1].name+"奖金比例");
+						$("#dir2_name1").html(result.dirList[1].name+"奖金比例");
+						$("#dir2_name").val(result.dirList[1].name);
 						$("#dir2_rate").val("0.333");
 						$("#dir2_name2").html(result.dirList[1].name+"奖金");
 						$("#dir3").hide();
