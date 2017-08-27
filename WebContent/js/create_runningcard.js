@@ -8,6 +8,7 @@ function runningCard_save(){
 	var account_rate = $("#account_rate").val();
 	var prize_rate = $("#prize_rate").val();
 	var remark = $("#remark").val();
+	var dir_count = $("#dir_count").val();
 	var dir1_id = $("#dir1_id").val();
 	var dir1_name = $("#dir1_name").val();
 	var dir1_rate = $("#dir1_rate").val();
@@ -53,6 +54,10 @@ function runningCard_save(){
 	}
 	if(prize_rate != ""){
 		dataStr =dataStr+ ",\"prize_rate\":\"" + prize_rate + "\"";
+	}
+	
+	if(dir_count != ""){
+		dataStr =dataStr+ ",\"dir_count\":\"" + dir_count + "\"";
 	}
 	if(dir1_id != ""){
 		dataStr =dataStr+ ",\"dir1_id\":\"" + dir1_id + "\"";

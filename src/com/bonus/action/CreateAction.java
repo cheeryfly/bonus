@@ -63,6 +63,7 @@ public class CreateAction {
 			BigDecimal account_rate = map.get("account_rate")==null?null:new BigDecimal((String)map.get("account_rate"));
 			BigDecimal prize_rate = map.get("prize_rate")==null?null:new BigDecimal((String)map.get("prize_rate"));
 			
+			int dir_count = map.get("dir_count")==null?null:new Integer((String)map.get("dir_count"));
 			int dir1_id = map.get("dir1_id")==null?null:new Integer((String)map.get("dir1_id"));
 			String dir1_name = map.get("dir1_name")==null?null:(String)map.get("dir1_name");
 			BigDecimal dir1_rate = map.get("dir1_rate")==null?null:new BigDecimal((String)map.get("dir1_rate"));
@@ -98,6 +99,8 @@ public class CreateAction {
 			eq.setCardno(cardno);
 			eq.setDepartment(department);
 			eq.setDir_amount(dir_amount);
+			
+			eq.setDir_count(dir_count);
 			eq.setDir_rate(dir_rate);
 			eq.setDir1_id(dir1_id);
 			eq.setDir1_name(dir1_name);

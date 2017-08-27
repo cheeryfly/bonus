@@ -16,6 +16,7 @@ function initDir(){
 			success : function(result) {
 				if (result.returnFlag === "200") {
 					var dir_count = result.dir_count;
+					$("#dir_count").val(dir_count);
 					if(dir_count == 3){
 						$("#dir1_id").val(result.dirList[0].id);
 						$("#dir1_name1").html(result.dirList[0].name+"奖金比例");
