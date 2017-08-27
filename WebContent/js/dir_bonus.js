@@ -54,6 +54,11 @@ function initDir(){
 						$("#dir2_name").val(result.dirList[1].name);
 						$("#dir2_rate").val("0.333");
 						$("#dir2_name2").html(result.dirList[1].name+"奖金");
+						$("#dir3_id").val("");
+						$("#dir3_name1").html("奖金比例");
+						$("#dir3_name").val("");
+						$("#dir3_rate").val("");
+						$("#dir3_name2").html("奖金");
 						$("#dir3").hide();
 						var dir_count = $("#dir_count").val();
 						var account_rate = $("#account_rate").val();

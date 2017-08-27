@@ -38,6 +38,20 @@ function initiate(data){
 	var account_rate = data.equitiesList[0].account_rate;
 	var prize_rate = data.equitiesList[0].prize_rate;
 	var dir_count = data.equitiesList[0].dir_count;
+	
+	var dir1_id = data.equitiesList[0].dir1_id;
+	var dir1_name = data.equitiesList[0].dir1_name;
+	var dir1_rate = data.equitiesList[0].dir1_rate;
+	var dir1_amount = data.equitiesList[0].dir1_amount;
+	var dir2_id = data.equitiesList[0].dir2_id;
+	var dir2_name = data.equitiesList[0].dir2_name;
+	var dir2_rate = data.equitiesList[0].dir2_rate;
+	var dir2_amount = data.equitiesList[0].dir2_amount;
+	var dir3_id = data.equitiesList[0].dir3_id;
+	var dir3_name = data.equitiesList[0].dir3_name;
+	var dir3_rate = data.equitiesList[0].dir3_rate;
+	var dir3_amount = data.equitiesList[0].dir3_amount;
+	
 	var remark = data.equitiesList[0].remark;
 	var equity = data.equitiesList[0].equity;
 	var pro_bonus_amount = data.equitiesList[0].pro_bonus_amount;
@@ -56,7 +70,21 @@ function initiate(data){
 	if (typeof(income) == "undefined")income='';
 	if (typeof(account_rate) == "undefined")account_rate='0.32';
 	if (typeof(prize_rate) == "undefined")prize_rate='1';
-	if (typeof(dir_count) == "undefined")dir_count='3';
+	if (typeof(dir_count) == "undefined")dir_count='';
+	
+	if (typeof(dir1_id) == "undefined")dir1_id='';
+	if (typeof(dir1_name) == "undefined")dir1_name='';
+	if (typeof(dir1_rate) == "undefined")dir1_rate='';
+	if (typeof(dir1_amount) == "undefined")dir1_amount='';
+	if (typeof(dir2_id) == "undefined")dir2_id='';
+	if (typeof(dir2_name) == "undefined")dir2_name='';
+	if (typeof(dir2_rate) == "undefined")dir2_rate='';
+	if (typeof(dir2_amount) == "undefined")dir2_amount='';
+	if (typeof(dir3_id) == "undefined")dir3_id='';
+	if (typeof(dir3_name) == "undefined")dir3_name='';
+	if (typeof(dir3_rate) == "undefined")dir3_rate='';
+	if (typeof(dir3_amount) == "undefined")dir3_amount='';
+	
 	if (typeof(remark) == "undefined")remark='';
 	if (typeof(equity) == "undefined")equity='';
 	if (typeof(pro_bonus_amount) == "undefined")pro_bonus_amount='';
@@ -92,7 +120,31 @@ function initiate(data){
 	$("#dir_amount").val(dir_amount);
 	$("#dir_rate").val(dir_rate);
 	$("#id").val(id);
-	$("#check_remark").val(check_remark);	
+	$("#check_remark").val(check_remark);
+	$("#dir1_id").val(dir1_id);
+	$("#dir1_name").val(dir1_name);
+	$("#dir1_name1").html(dir1_name+"奖金比例");
+	$("#dir1_rate").val(dir1_rate);
+	$("#dir1_name2").html(dir1_name+"奖金");
+	$("#dir1_amount").val(dir1_amount);
+	$("#dir2_id").val(dir2_id);
+	$("#dir2_name").val(dir2_name);
+	$("#dir2_name1").html(dir2_name+"奖金比例");
+	$("#dir2_rate").val(dir2_rate);
+	$("#dir2_name2").html(dir2_name+"奖金");
+	$("#dir2_amount").val(dir2_amount);
+	if(dir_count == 3){
+		$("#dir3_id").val(dir3_id);
+		$("#dir3_name").val(dir3_name);
+		$("#dir3_name1").html(dir3_name+"奖金比例");
+		$("#dir3_rate").val(dir3_rate);
+		$("#dir3_name2").html(dir3_name+"奖金");
+		$("#dir3_amount").val(dir3_amount);
+		$("#dir3").show();
+	}else{
+		$("#dir3").hide();
+	}
+	
 }
 
 function runningCard_save(){
@@ -105,8 +157,20 @@ function runningCard_save(){
 	var income = $("#income").val();
 	var account_rate = $("#account_rate").val();
 	var prize_rate = $("#prize_rate").val();
-	var dir_count = $("#dir_count").val();
 	var remark = $("#remark").val();
+	var dir_count = $("#dir_count").val();
+	var dir1_id = $("#dir1_id").val();
+	var dir1_name = $("#dir1_name").val();
+	var dir1_rate = $("#dir1_rate").val();
+	var dir1_amount = $("#dir1_amount").val();
+	var dir2_id = $("#dir2_id").val();
+	var dir2_name = $("#dir2_name").val();
+	var dir2_rate = $("#dir2_rate").val();
+	var dir2_amount = $("#dir2_amount").val();
+	var dir3_id = $("#dir3_id").val();
+	var dir3_name = $("#dir3_name").val();
+	var dir3_rate = $("#dir3_rate").val();
+	var dir3_amount = $("#dir3_amount").val();
 	var equity = $("#equity").val();
 	var pro_bonus_amount = $("#pro_bonus_amount").val();
 	var pro_bonus_rate = $("#pro_bonus_rate").val();
@@ -147,6 +211,42 @@ function runningCard_save(){
 	}
 	if(dir_count != ""){
 		dataStr =dataStr+ ",\"dir_count\":\"" + dir_count + "\"";
+	}
+	if(dir1_id != ""){
+		dataStr =dataStr+ ",\"dir1_id\":\"" + dir1_id + "\"";
+	}
+	if(dir1_name != ""){
+		dataStr =dataStr+ ",\"dir1_name\":\"" + dir1_name + "\"";
+	}
+	if(dir1_rate != ""){
+		dataStr =dataStr+ ",\"dir1_rate\":\"" + dir1_rate + "\"";
+	}
+	if(dir1_amount != ""){
+		dataStr =dataStr+ ",\"dir1_amount\":\"" + dir1_amount + "\"";
+	}
+	if(dir2_id != ""){
+		dataStr =dataStr+ ",\"dir2_id\":\"" + dir2_id + "\"";
+	}
+	if(dir2_name != ""){
+		dataStr =dataStr+ ",\"dir2_name\":\"" + dir2_name + "\"";
+	}
+	if(dir2_rate != ""){
+		dataStr =dataStr+ ",\"dir2_rate\":\"" + dir2_rate + "\"";
+	}
+	if(dir2_amount != ""){
+		dataStr =dataStr+ ",\"dir2_amount\":\"" + dir2_amount + "\"";
+	}
+	if(dir3_id != ""){
+		dataStr =dataStr+ ",\"dir3_id\":\"" + dir3_id + "\"";
+	}
+	if(dir3_name != ""){
+		dataStr =dataStr+ ",\"dir3_name\":\"" + dir3_name + "\"";
+	}
+	if(dir3_rate != ""){
+		dataStr =dataStr+ ",\"dir3_rate\":\"" + dir3_rate + "\"";
+	}
+	if(dir3_amount != ""){
+		dataStr =dataStr+ ",\"dir3_amount\":\"" + dir3_amount + "\"";
 	}
 	if(remark != ""){
 		dataStr =dataStr+ ",\"remark\":\"" + remark + "\"";

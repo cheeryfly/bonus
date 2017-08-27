@@ -176,6 +176,15 @@ function generateMD(data) {
 	var prize_rate = eq.prize_rate;
 	var card_discount = eq.card_discount;
 	var dir_count = eq.dir_count;
+	var dir1_name = eq.dir1_name;
+	var dir1_rate = eq.dir1_rate;
+	var dir1_amount = eq.dir1_amount;
+	var dir2_name = eq.dir2_name;
+	var dir2_rate = eq.dir2_rate;
+	var dir2_amount = eq.dir2_amount;
+	var dir3_name = eq.dir3_name;
+	var dir3_rate = eq.dir3_rate;
+	var dir3_amount = eq.dir3_amount;
 	var equity = eq.equity;
 	var pro_bonus_rate = eq.pro_bonus_rate;
 	var pro_bonus_amount = eq.pro_bonus_amount;
@@ -275,6 +284,23 @@ function generateMD(data) {
 	$('#dir_amount-md').html(dir_amount);
 	$('#remark-md').html(remark);
 	$('#check_remark-md').html(check_remark);
+	$('#dir1_name1-md').html(dir1_name+"奖金比例");
+	$('#dir1_rate-md').html(dir1_rate);
+	$('#dir1_name2-md').html(dir1_name+"奖金金额");
+	$('#dir1_amount-md').html(dir1_amount);
+	$('#dir2_name1-md').html(dir2_name+"奖金比例");
+	$('#dir2_rate-md').html(dir2_rate);
+	$('#dir2_name2-md').html(dir2_name+"奖金金额");
+	$('#dir2_amount-md').html(dir2_amount);
+	if(dir_count ==3){
+		$('#dir3_name1-md').html(dir3_name+"奖金比例");
+		$('#dir3_rate-md').html(dir3_rate);
+		$('#dir3_name2-md').html(dir3_name+"奖金金额");
+		$('#dir3_amount-md').html(dir3_amount);
+		$('#dir3-md').show();
+	}else{
+		$('#dir3-md').hide();
+	}
 }
 
 
@@ -318,6 +344,24 @@ function showModal(obj) {
 			+ '							<td style="text-align:center;vertical-align:middle;" id="card_discount-md"></td>    '
 			+ '						</tr>                                                                                 '
 			+ '						<tr>                                                                                  '
+			+ '							<td style="text-align:center;vertical-align:middle;" id="dir1_name1-md"><b></b></td>       '
+			+ '							<td style="text-align:center;vertical-align:middle;" id="dir1_rate-md"></td>         '
+			+ '							<td style="text-align:center;vertical-align:middle;" id="dir1_name2-md"><b></b></td>           '
+			+ '							<td style="text-align:center;vertical-align:middle;" id="dir1_amount-md"></td>       '
+			+ '						</tr>                                                                                 '
+			+ '						<tr>                                                                                  '
+			+ '							<td style="text-align:center;vertical-align:middle;" id="dir2_name1-md"><b></b></td>       '
+			+ '							<td style="text-align:center;vertical-align:middle;" id="dir2_rate-md"></td>         '
+			+ '							<td style="text-align:center;vertical-align:middle;" id="dir2_name2-md"><b></b></td>           '
+			+ '							<td style="text-align:center;vertical-align:middle;" id="dir2_amount-md"></td>       '
+			+ '						</tr>                                                                                 '
+			+ '						<tr id="dir3-md">                                                                                  '
+			+ '							<td style="text-align:center;vertical-align:middle;" id="dir3_name1-md"><b></b></td>       '
+			+ '							<td style="text-align:center;vertical-align:middle;" id="dir3_rate-md"></td>         '
+			+ '							<td style="text-align:center;vertical-align:middle;" id="dir3_name2-md"><b></b></td>           '
+			+ '							<td style="text-align:center;vertical-align:middle;" id="dir3_amount-md"></td>       '
+			+ '						</tr>                                                                                 '
+			+ '						<tr>                                                                                  '
 			+ '							<td style="text-align:center;vertical-align:middle;"><b>所权益</b></td>             '
 			+ '							<td  colspan="3"  style="text-align:center;vertical-align:middle;" id="equity-md"></td>           '
 			+ '						</tr>                                                                                 '
@@ -351,7 +395,7 @@ function showModal(obj) {
 			'	<div class="row show-grid-forms">                                           '+
 			'		<div class="form-group has-error has-feedback">                           '+
 			'			<div class="col-sm-12">                                                 '+
-			'				<textarea class="form-control" rows="3" id="check_remark-md"></textarea> '+
+			'				<textarea class="form-control" rows="3" id="check_remark-md" disabled></textarea> '+
 			'			</div>                                                                  '+
 			'		</div>                                                                    '+
 			'	</div>                                                                      '+
