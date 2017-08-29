@@ -309,28 +309,6 @@ $(document).ready(function() {
 		calculate();
 	});
 	
-	$("#dir_count").change(function(){
-		var dir_count = $("#dir_count").val();
-		var account_rate = $("#account_rate").val();
-		var expense_rate = $("#expense_rate").val();
-		var pro_bonus_rate = 0;
-		if(dir_count == 3) {
-			var dir_rate = 0.05;
-			pro_bonus_rate = account_rate - expense_rate - dir_rate;
-			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(2));
-			$("#dir_rate").val(dir_rate);
-			$("#pro_bonus_rate").val(pro_bonus_rate);
-		}
-		if(dir_count == 2){
-			var dir_rate = 0.0395;
-			pro_bonus_rate = account_rate - expense_rate - dir_rate;
-			pro_bonus_rate = parseFloat(pro_bonus_rate.toFixed(4));
-			$("#dir_rate").val(dir_rate);
-			$("#pro_bonus_rate").val(pro_bonus_rate);
-		}
-		calculate();
-	});
-	
 	$("#income").change(function(){
 		calculate();
 	});
@@ -354,7 +332,7 @@ $(document).ready(function() {
 		initDir();
 	});
 	WinMove();
-	initDir();
+	//initDir();
 });
 </script>
 </body>

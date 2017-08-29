@@ -70,14 +70,6 @@
 								</div>
 							</div>
 							<div class="form-group has-error has-feedback">
-							<label class="col-sm-2 control-label">所长人数</label>
-								<div class="col-sm-4">
-									<select class="form-control" id="dir_count">
-										<option>3</option>
-										<option>2</option>
-									</select>
-								</div>
-							</div>
 							<div class="form-group has-error has-feedback">
 								<label class="col-sm-2 control-label">项目奖金</label>
 								<div class="col-sm-4">
@@ -100,6 +92,34 @@
 								<label class="col-sm-2 control-label">备注</label>
 								<div class="col-sm-10">
 								<textarea class="form-control" rows="3" id="remark"></textarea>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend>所长奖金比例</legend>
+							<div class="form-group has-error has-feedback" id="dir1">
+								<label class="col-sm-2 control-label" id="dir1_name2">所长1奖金</label>
+								<input type="hidden" id="dir_count"  />
+								<input type="hidden" id="dir1_id"  />
+								<input type="hidden" id="dir1_name"  />
+								<div class="col-sm-4">
+									<input id="dir1_amount" type="text" class="form-control"> 
+								</div>
+							</div>
+							<div class="form-group has-error has-feedback" id="dir2">
+								<label class="col-sm-2 control-label" id="dir2_name2">所长2奖金</label>
+								<input type="hidden" id="dir2_id"  />
+								<input type="hidden" id="dir2_name"  />
+								<div class="col-sm-4">
+									<input id="dir2_amount" type="text" class="form-control"> 
+								</div>
+							</div>
+							<div class="form-group has-error has-feedback" id="dir3">
+								<label class="col-sm-2 control-label" id="dir3_name2">所长3奖金</label>
+								<input type="hidden" id="dir3_id"  />
+								<input type="hidden" id="dir3_name"  />
+								<div class="col-sm-4">
+									<input id="dir3_amount" type="text" class="form-control"> 
 								</div>
 							</div>
 						</fieldset>
