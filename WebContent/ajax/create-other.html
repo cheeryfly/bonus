@@ -82,7 +82,7 @@
 								</div>
 							</div>
 							<div  id="div_dir">
-							<div class="form-group has-error has-feedback">
+							<div class="form-group has-error has-feedback" id="div_dir_amount">
 								<label class="col-sm-2 control-label">所长奖金</label>
 								<div class="col-sm-4">
 									<input id="dir_amount_bak" type="text" class="form-control">
@@ -189,6 +189,14 @@
 		$("#pro_bonus_amount_bak").val(0);
 		$("#expense_amount_bak").val(0);
 		$("#dir_amount_bak").val(0);
+		$("#div_pro").show();
+		$("#div_dir").hide();
+		$("#div_exp").hide();
+		$("#expense_amount").val("0");
+		$("#dir_amount").val("0");
+		$("#dir1_amount").val("0");
+		$("#dir2_amount").val("0");
+		$("#dir3_amount").val("0");
 	}
 	
 	jQuery(function($) {
@@ -272,36 +280,50 @@ $(document).ready(function() {
 			$("#div_pro").show();
 			$("#div_dir").hide();
 			$("#div_exp").hide();
-			$("#pro_bonus_amount").val("0");
+			$("#expense_amount_bak").val("0");
+			$("#dir_amount_bak").val("0");
 			$("#expense_amount").val("0");
 			$("#dir_amount").val("0");
+			$("#dir1_amount").val("0");
+			$("#dir2_amount").val("0");
+			$("#dir3_amount").val("0");
 		}
 		if(type == "12"){
 			$("#div_dir").show();
 			$("#div_pro").hide();
 			$("#div_exp").hide();
+			$("#div_dir_amount").hide();
+			$("#dir1").show();
+			$("#dir2").show();
+			$("#dir3").show();
+			$("#pro_bonus_amount_bak").val("0");
+			$("#expense_amount_bak").val("0");
 			$("#pro_bonus_amount").val("0");
 			$("#expense_amount").val("0");
-			$("#dir_amount").val("0");
 		}
 		if(type == "13"){
 			$("#div_exp").show();
 			$("#div_dir").hide();
 			$("#div_pro").hide();
+			$("#pro_bonus_amount_bak").val("0");
+			$("#dir_amount_bak").val("0");
 			$("#pro_bonus_amount").val("0");
-			$("#expense_amount").val("0");
 			$("#dir_amount").val("0");
+			$("#dir1_amount").val("0");
+			$("#dir2_amount").val("0");
+			$("#dir3_amount").val("0");
 		}
 		if(type == "15"){
 			$("#div_pro").show();
 			$("#div_dir").show();
 			$("#div_exp").show();
+			$("#div_dir_amount").show();
 			$("#dir1").hide();
 			$("#dir2").hide();
-			$("#dir37").hide();
-			$("#pro_bonus_amount").val("0");
-			$("#expense_amount").val("0");
-			$("#dir_amount").val("0");
+			$("#dir3").hide();
+			$("#dir1_amount").val("0");
+			$("#dir2_amount").val("0");
+			$("#dir3_amount").val("0");
 		}
 	});
 	
