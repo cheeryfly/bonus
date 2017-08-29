@@ -69,34 +69,26 @@
 										data-toggle="tooltip" data-placement="bottom" title="项目名称">
 								</div>
 							</div>
-							<div class="form-group has-error has-feedback">
-							<div class="form-group has-error has-feedback">
+							<div class="form-group has-error has-feedback" id="div_pro">
 								<label class="col-sm-2 control-label">项目奖金</label>
 								<div class="col-sm-4">
 									<input id="pro_bonus_amount_bak" type="text" class="form-control">
 								</div>
 							</div>
-							<div class="form-group has-error has-feedback">
+							<div class="form-group has-error has-feedback" id="div_exp">
 								<label class="col-sm-2 control-label">报账成本</label>
 								<div class="col-sm-4">
 									<input id="expense_amount_bak" type="text" class="form-control">
 								</div>
 							</div>
+							<div  id="div_dir">
 							<div class="form-group has-error has-feedback">
 								<label class="col-sm-2 control-label">所长奖金</label>
 								<div class="col-sm-4">
 									<input id="dir_amount_bak" type="text" class="form-control">
 								</div>
+								
 							</div>
-							<div class="form-group has-error has-feedback">
-								<label class="col-sm-2 control-label">备注</label>
-								<div class="col-sm-10">
-								<textarea class="form-control" rows="3" id="remark"></textarea>
-								</div>
-							</div>
-						</fieldset>
-						<fieldset>
-							<legend>所长奖金比例</legend>
 							<div class="form-group has-error has-feedback" id="dir1">
 								<label class="col-sm-2 control-label" id="dir1_name2">所长1奖金</label>
 								<input type="hidden" id="dir_count"  />
@@ -120,6 +112,13 @@
 								<input type="hidden" id="dir3_name"  />
 								<div class="col-sm-4">
 									<input id="dir3_amount" type="text" class="form-control"> 
+								</div>
+							</div>
+							</div>
+							<div class="form-group has-error has-feedback">
+								<label class="col-sm-2 control-label">备注</label>
+								<div class="col-sm-10">
+								<textarea class="form-control" rows="3" id="remark"></textarea>
 								</div>
 							</div>
 						</fieldset>
@@ -265,6 +264,45 @@ $(document).ready(function() {
 	$('#btn_submit').on('click', function(e) {
 		e.preventDefault();
 		other_save();
+	});
+	$("#type").change(function(){
+		var department = $("#department").val();
+		var type = $("#type option:selected").val();
+		if(type == "11"){
+			$("#div_pro").show();
+			$("#div_dir").hide();
+			$("#div_exp").hide();
+			$("#pro_bonus_amount").val("0");
+			$("#expense_amount").val("0");
+			$("#dir_amount").val("0");
+		}
+		if(type == "12"){
+			$("#div_dir").show();
+			$("#div_pro").hide();
+			$("#div_exp").hide();
+			$("#pro_bonus_amount").val("0");
+			$("#expense_amount").val("0");
+			$("#dir_amount").val("0");
+		}
+		if(type == "13"){
+			$("#div_exp").show();
+			$("#div_dir").hide();
+			$("#div_pro").hide();
+			$("#pro_bonus_amount").val("0");
+			$("#expense_amount").val("0");
+			$("#dir_amount").val("0");
+		}
+		if(type == "15"){
+			$("#div_pro").show();
+			$("#div_dir").show();
+			$("#div_exp").show();
+			$("#dir1").hide();
+			$("#dir2").hide();
+			$("#dir37").hide();
+			$("#pro_bonus_amount").val("0");
+			$("#expense_amount").val("0");
+			$("#dir_amount").val("0");
+		}
 	});
 	
 	
