@@ -161,81 +161,39 @@ public class ReportAction {
 			sdf = new SimpleDateFormat("yyyy-MM-dd");
 			for(Object o : result.getResult()) {
 				Equity e = (Equity) o;
-				String department = e.getDepartment()==null?"":e.getDepartment();
-				String account_date = e.getAccount_date()==null?"":sdf.format(e.getAccount_date());
-				String cardno = e.getCardno()==null?"":e.getCardno();
-				String account_item = e.getAccount_item()==null?"":e.getAccount_item();
-				String income = e.getIncome()==null?"":e.getIncome().toString();
-				String account_rate = e.getAccount_rate()==null?"":e.getAccount_rate().toString();
-				String prize_rate = e.getPrize_rate()==null?"":e.getPrize_rate().toString();
+				String department = e.getDepartment()==null?"-":e.getDepartment();
+				String account_date = e.getAccount_date()==null?"-":sdf.format(e.getAccount_date());
+				String cardno = e.getCardno()==null?"-":e.getCardno();
+				String account_item = e.getAccount_item()==null?"-":e.getAccount_item();
+				String income = e.getIncome()==null?"-":e.getIncome().toString();
+				String account_rate = e.getAccount_rate()==null?"-":e.getAccount_rate().toString();
+				String prize_rate = e.getPrize_rate()==null?"-":e.getPrize_rate().toString();
 				int dir_count = e.getDir_count()==null?3:e.getDir_count().intValue();
 				BigDecimal dir_amount = e.getDir_amount();
 				BigDecimal dir_rate = e.getDir_rate();
-				BigDecimal retained_amount = dir_amount.multiply(new BigDecimal(0.1)).setScale(2,BigDecimal.ROUND_HALF_UP);
-				BigDecimal prebonus_amount = dir_amount.multiply(new BigDecimal(0.9)).setScale(2,BigDecimal.ROUND_HALF_UP);
-				BigDecimal retained_rate = new BigDecimal(0.1).setScale(4,BigDecimal.ROUND_HALF_UP);
-				BigDecimal prebonus_rate = new BigDecimal(0.9).setScale(4,BigDecimal.ROUND_HALF_UP);
-				BigDecimal dir_amount1 = new BigDecimal(0);
-				BigDecimal dir_amount2 = new BigDecimal(0);
-				BigDecimal dir_amount3 = new BigDecimal(0);
-				BigDecimal dir_rate1 = new BigDecimal(0);
-				BigDecimal dir_rate2 = new BigDecimal(0);
-				BigDecimal dir_rate3 = new BigDecimal(0);
-				if(dir_count == 3) {
-					dir_amount1 = prebonus_amount.multiply(new BigDecimal(0.5)).setScale(2,BigDecimal.ROUND_HALF_UP);
-					dir_amount2 = prebonus_amount.multiply(new BigDecimal(0.25)).setScale(2,BigDecimal.ROUND_HALF_UP);
-					dir_amount3 = prebonus_amount.subtract(dir_amount1).subtract(dir_amount2).setScale(2,BigDecimal.ROUND_HALF_UP);
-					if(dir_rate != null) {
-						dir_rate1 = prebonus_rate.multiply(new BigDecimal(0.5)).multiply(dir_rate).setScale(4,BigDecimal.ROUND_HALF_UP);
-						dir_rate2 = prebonus_rate.multiply(new BigDecimal(0.25)).multiply(dir_rate).setScale(4,BigDecimal.ROUND_HALF_UP);
-						dir_rate3 = prebonus_rate.multiply(new BigDecimal(0.25)).multiply(dir_rate).setScale(4,BigDecimal.ROUND_HALF_UP);
-					}
-				}
-				if(dir_count == 2){
-					dir_amount1 = prebonus_amount.multiply(new BigDecimal(0.667)).setScale(2,BigDecimal.ROUND_HALF_UP);
-					dir_amount2 = prebonus_amount.subtract(dir_amount1).setScale(2,BigDecimal.ROUND_HALF_UP);
-					dir_amount3 = new BigDecimal(0);
-					if(dir_rate != null) {
-						dir_rate1 = prebonus_rate.multiply(new BigDecimal(0.667)).multiply(dir_rate).setScale(4,BigDecimal.ROUND_HALF_UP);
-						dir_rate2 = prebonus_rate.multiply(new BigDecimal(0.333)).multiply(dir_rate).setScale(4,BigDecimal.ROUND_HALF_UP);
-						dir_rate3 = new BigDecimal(0); 
-					}
-				}
-				if(dir_count == 1){
-				}
+				String dir_amount1 = e.getDir1_amount()==null?"-":e.getDir1_amount().toString();
+				String dir_amount2 = e.getDir2_amount()==null?"-":e.getDir2_amount().toString();
+				String dir_amount3 = e.getDir3_amount()==null?"-":e.getDir3_amount().toString();
+				String dir_rate1 = e.getDir1_rate()==null?"-":e.getDir1_rate().toString();
+				String dir_rate2 = e.getDir2_rate()==null?"-":e.getDir2_rate().toString();
+				String dir_rate3 = e.getDir3_rate()==null?"-":e.getDir3_rate().toString();
+
 				data.append("{");
-				data.append("\"department\":\"" + e.getDepartment()+"\",");
-				data.append("\"type\":\"" + filter.process(null, "type", e.getType())+"\",");
-				data.append("\"account_date\":\"" + sdf.format(e.getAccount_date())+"\",");
-				data.append("\"cardno\":\"" + filter.process(null, "cardno", e.getCardno())+"\",");
-				data.append("\"account_item\":\"" + filter.process(null, "account_item", e.getAccount_item())+"\",");
-				data.append("\"income\":\"" + filter.process(null, "income", e.getIncome())+"\",");
-				data.append("\"account_rate\":\"" + filter.process(null, "account_rate", e.getAccount_rate())+"\",");
-				data.append("\"prize_rate\":\"" + filter.process(null, "prize_rate", e.getPrize_rate())+"\",");
-				data.append("\"dir_count\":\""+ dir_count+" \",");
-				if(retained_rate.compareTo(new BigDecimal(0))!=0) {
-					data.append("\"retained_rate\":\""+ retained_rate+" \",");
-					data.append("\"retained_amount\":\""+ retained_amount+" \",");
-					data.append("\"prebonus_rate\":\""+ prebonus_rate+" \",");
-					data.append("\"prebonus_amount\":\""+ prebonus_amount+" \",");
-					data.append("\"dir_rate1\":\""+ dir_rate1+" \",");
-					data.append("\"dir_amount1\":\""+ dir_amount1+" \",");
-					data.append("\"dir_rate2\":\""+ dir_rate2+" \",");
-					data.append("\"dir_amount2\":\""+ dir_amount2+" \",");
-					data.append("\"dir_rate3\":\""+ dir_rate3+" \",");
-					data.append("\"dir_amount3\":\""+ dir_amount3+" \"");
-				}else {
-					data.append("\"retained_rate\":\"  \",");
-					data.append("\"retained_amount\":\""+ retained_amount+" \",");
-					data.append("\"prebonus_rate\":\" \",");
-					data.append("\"prebonus_amount\":\""+ prebonus_amount+" \",");
-					data.append("\"dir_rate1\":\" \",");
-					data.append("\"dir_amount1\":\""+ dir_amount1+" \",");
-					data.append("\"dir_rate2\":\" \",");
-					data.append("\"dir_amount2\":\""+ dir_amount2+" \",");
-					data.append("\"dir_rate3\":\" \",");
-					data.append("\"dir_amount3\":\""+ dir_amount3+" \"");
-				}
+				data.append("\"department\":\"-" + e.getDepartment()+"\",");
+				data.append("\"type\":\"-" + filter.process(null, "type", e.getType())+"\",");
+				data.append("\"account_date\":\"-" + sdf.format(e.getAccount_date())+"\",");
+				data.append("\"cardno\":\"-" + filter.process(null, "cardno", e.getCardno())+"\",");
+				data.append("\"account_item\":\"-" + filter.process(null, "account_item", e.getAccount_item())+"\",");
+				data.append("\"income\":\"-" + filter.process(null, "income", e.getIncome())+"\",");
+				data.append("\"account_rate\":\"-" + filter.process(null, "account_rate", e.getAccount_rate())+"\",");
+				data.append("\"prize_rate\":\"-" + filter.process(null, "prize_rate", e.getPrize_rate())+"\",");
+				data.append("\"dir_count\":\"-"+ dir_count+" \",");
+				data.append("\"dir_rate1\":\"-"+ dir_rate1+" \",");
+				data.append("\"dir_amount1\":\"-"+ dir_amount1+" \",");
+				data.append("\"dir_rate2\":\"-"+ dir_rate2+" \",");
+				data.append("\"dir_amount2\":\"-"+ dir_amount2+" \",");
+				data.append("\"dir_rate3\":\"-"+ dir_rate3+" \",");
+				data.append("\"dir_amount3\":\"-"+ dir_amount3+" \"-");
 				data.append("},");
 			}
 			int ind = data.lastIndexOf(",");
@@ -278,15 +236,15 @@ public class ReportAction {
 		int month = -1;
 
 		Enumeration<String> headers = request.getHeaderNames();
-		String repStr = "";
+		String repStr = "-";
 		while (headers.hasMoreElements()) {
 			String head = headers.nextElement();
 		}
 		try {
-			if (year_p != null && year_p != "") {
+			if (year_p != null && year_p != "-") {
 				year = Integer.parseInt(year_p);
 			}
-			if (month_p != null && month_p != "") {
+			if (month_p != null && month_p != "-") {
 				month = Integer.parseInt(month_p);
 			}
 			Balance query = new Balance();
@@ -303,7 +261,7 @@ public class ReportAction {
 			// repStr = ActionUtil.getResponse("200", "操作成功", data.toString());
 			for(Object o : result.getResult()) {
 				Balance b = (Balance) o;
-				String department = b.getDepartment()==null?"":b.getDepartment();
+				String department = b.getDepartment()==null?"-":b.getDepartment();
 				year = b.getYear();
 				month = b.getMonth();
 				String type = b.getType();
@@ -318,14 +276,14 @@ public class ReportAction {
 				BigDecimal expense = b.getExpense();
 				BigDecimal dir_bonus = b.getDir_bonus();
 				data.append("{");
-				data.append("\"department\":\"" + b.getDepartment()+"\",");
-				data.append("\"year\":\"" + year+"\",");
-				data.append("\"month\":\"" + month+"\",");
-				data.append("\"type\":\"" +type +"\",");
-				data.append("\"equity\":\"" + filter.process(null, "equity", equity)+"\",");
-				data.append("\"pro_bonus\":\"" + filter.process(null, "pro_bonus", pro_bonus)+"\",");
-				data.append("\"expense\":\"" + filter.process(null, "expense", expense)+"\",");
-				data.append("\"dir_bonus\":\"" + filter.process(null, "dir_bonus", dir_bonus)+"\"");
+				data.append("\"department\":\"-" + b.getDepartment()+"\",");
+				data.append("\"year\":\"-" + year+"\",");
+				data.append("\"month\":\"-" + month+"\",");
+				data.append("\"type\":\"-" +type +"\",");
+				data.append("\"equity\":\"-" + filter.process(null, "equity", equity)+"\",");
+				data.append("\"pro_bonus\":\"-" + filter.process(null, "pro_bonus", pro_bonus)+"\",");
+				data.append("\"expense\":\"-" + filter.process(null, "expense", expense)+"\",");
+				data.append("\"dir_bonus\":\"-" + filter.process(null, "dir_bonus", dir_bonus)+"\"-");
 				data.append("},");
 			}
 			data.deleteCharAt(data.lastIndexOf(","));
@@ -359,10 +317,10 @@ public class ReportAction {
 		int year = -1;
 		String month_p = request.getParameter("month");
 		int month = -1;
-		if (year_p != null && year_p != "") {
+		if (year_p != null && year_p != "-") {
 			year = Integer.parseInt(year_p);
 		}
-		if (month_p != null && month_p != "") {
+		if (month_p != null && month_p != "-") {
 			month = Integer.parseInt(month_p);
 		}
 		WritableWorkbook wwb = reportService.downloadBalance(department_qu, year, month, os);
@@ -389,11 +347,11 @@ public class ReportAction {
 		String account_date_en = request.getParameter("account_date_end");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		Date account_date_start = null;
-		if (account_date_st != null && account_date_st != "") {
+		if (account_date_st != null && account_date_st != "-") {
 			account_date_start = sdf.parse(account_date_st);
 		}
 		Date account_date_end = null;
-		if (account_date_en != null && account_date_en != "") {
+		if (account_date_en != null && account_date_en != "-") {
 			account_date_end = sdf.parse(account_date_en);
 		}
 
@@ -423,11 +381,11 @@ public class ReportAction {
 		String account_date_en = request.getParameter("end");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		Date account_date_start = null;
-		if (account_date_st != null && account_date_st != "") {
+		if (account_date_st != null && account_date_st != "-") {
 			account_date_start = sdf.parse(account_date_st);
 		}
 		Date account_date_end = null;
-		if (account_date_en != null && account_date_en != "") {
+		if (account_date_en != null && account_date_en != "-") {
 			account_date_end = sdf.parse(account_date_en);
 		}
 
@@ -442,7 +400,7 @@ public class ReportAction {
 		public Object process(Object obj, String s, Object v) {
 
 			if (v == null)
-				return "";
+				return "-";
 
 			if (v instanceof String) {
 				String value = (String) v;
@@ -467,7 +425,7 @@ public class ReportAction {
 				}
 				if (value.equals("undefined"))
 
-					return "";
+					return "-";
 
 			}
 			if (v instanceof Date) {
