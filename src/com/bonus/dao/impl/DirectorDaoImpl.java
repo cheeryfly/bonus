@@ -1,5 +1,6 @@
 package com.bonus.dao.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -41,6 +42,26 @@ public class DirectorDaoImpl implements DirectorDao {
 
 	public void updateDirector(Director d) {
 		sessionFactory.getCurrentSession().update(d);
+	}
+	
+	public void calculateBonus(int id, BigDecimal amount){
+		Director d = new Director();
+		d.setId(id);
+		d = queryDirectors(d).get(0);
+		BigDecimal surplus = d.getBonus_surplus();
+		BigDecimal total = d.getBonus_total();
+		BigDecimal draw = d.getBonus_draw();
+		if(amount.compareTo(new BigDecimal(0)) == -1){
+			draw = draw.add(amount);
+		}
+		if(amount.compareTo(new BigDecimal(0)) == 1){
+			total = total.add(amount);
+		}
+		surplus = surplus.add(amount);
+		d.setBonus_draw(draw);
+		d.setBonus_surplus(surplus);
+		d.setBonus_total(total);
+		updateDirector(d);
 	}
 
 }

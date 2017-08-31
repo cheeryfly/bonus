@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<script src="js/create_runningcard.js"></script>
+	<script src="js/create_other.js"></script>
 	<title>新建其他入账</title>
 </head>
 <body>
@@ -194,6 +194,7 @@
 		$("#div_exp").hide();
 		$("#expense_amount").val("0");
 		$("#dir_amount").val("0");
+		$("#pro_bonus_amount").val("0");
 		$("#dir1_amount").val("0");
 		$("#dir2_amount").val("0");
 		$("#dir3_amount").val("0");
@@ -269,6 +270,39 @@ $(document).ready(function() {
 		$("#dir_amount").val(dir_amount);
 		$("#pro_bonus_amount").val(pro_bonus_amount);
 	});
+	$("#dir1_amount").change(function(){
+		var dir1_amount = parseFloat($("#dir1_amount").val());
+		var dir2_amount = parseFloat($("#dir2_amount").val());
+		var dir3_amount = parseFloat($("#dir3_amount").val());
+		var dir_amount = dir1_amount + dir2_amount + dir3_amount;
+		var equity = dir_amount;
+		$("#equity").val(equity);
+		$("#expense_amount").val("0");
+		$("#dir_amount").val(dir_amount);
+		$("#pro_bonus_amount").val("0");
+	});
+	$("#dir2_amount").change(function(){
+		var dir1_amount = parseFloat($("#dir1_amount").val());
+		var dir2_amount = parseFloat($("#dir2_amount").val());
+		var dir3_amount = parseFloat($("#dir3_amount").val());
+		var dir_amount = dir1_amount + dir2_amount + dir3_amount;
+		var equity = dir_amount;
+		$("#equity").val(equity);
+		$("#expense_amount").val("0");
+		$("#dir_amount").val(dir_amount);
+		$("#pro_bonus_amount").val("0");
+	});
+	$("#dir3_amount").change(function(){
+		var dir1_amount = parseFloat($("#dir1_amount").val());
+		var dir2_amount = parseFloat($("#dir2_amount").val());
+		var dir3_amount = parseFloat($("#dir3_amount").val());
+		var dir_amount = dir1_amount + dir2_amount + dir3_amount;
+		var equity = dir_amount;
+		$("#equity").val(equity);
+		$("#expense_amount").val("0");
+		$("#dir_amount").val(dir_amount);
+		$("#pro_bonus_amount").val("0");
+	});
 	$('#btn_submit').on('click', function(e) {
 		e.preventDefault();
 		other_save();
@@ -277,9 +311,6 @@ $(document).ready(function() {
 		var department = $("#department").val();
 		var type = $("#type option:selected").val();
 		if(type == "11"){
-			$("#div_pro").show();
-			$("#div_dir").hide();
-			$("#div_exp").hide();
 			$("#expense_amount_bak").val("0");
 			$("#dir_amount_bak").val("0");
 			$("#expense_amount").val("0");
@@ -287,24 +318,19 @@ $(document).ready(function() {
 			$("#dir1_amount").val("0");
 			$("#dir2_amount").val("0");
 			$("#dir3_amount").val("0");
+			$("#equity").val("0");
 		}
 		if(type == "12"){
-			$("#div_dir").show();
-			$("#div_pro").hide();
-			$("#div_exp").hide();
-			$("#div_dir_amount").hide();
-			$("#dir1").show();
-			$("#dir2").show();
-			$("#dir3").show();
 			$("#pro_bonus_amount_bak").val("0");
 			$("#expense_amount_bak").val("0");
 			$("#pro_bonus_amount").val("0");
 			$("#expense_amount").val("0");
+			$("#dir1").val("0");
+			$("#dir2").val("0");
+			$("#dir3").val("0");
+			$("#equity").val("0");
 		}
 		if(type == "13"){
-			$("#div_exp").show();
-			$("#div_dir").hide();
-			$("#div_pro").hide();
 			$("#pro_bonus_amount_bak").val("0");
 			$("#dir_amount_bak").val("0");
 			$("#pro_bonus_amount").val("0");
@@ -312,22 +338,23 @@ $(document).ready(function() {
 			$("#dir1_amount").val("0");
 			$("#dir2_amount").val("0");
 			$("#dir3_amount").val("0");
+			$("#equity").val("0");
 		}
 		if(type == "15"){
-			$("#div_pro").show();
-			$("#div_dir").show();
-			$("#div_exp").show();
-			$("#div_dir_amount").show();
-			$("#dir1").hide();
-			$("#dir2").hide();
-			$("#dir3").hide();
 			$("#dir1_amount").val("0");
 			$("#dir2_amount").val("0");
 			$("#dir3_amount").val("0");
+			$("#equity").val("0");
 		}
+		showControl();
 	});
 	
+	$("#department").change(function(){
+		initDir();
+	});
 	
+	initDir();
+	showControl();
 	WinMove();
 });
 </script>

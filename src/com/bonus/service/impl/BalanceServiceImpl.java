@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bonus.bean.Balance;
+import com.bonus.bean.Director;
 import com.bonus.bean.Equity;
 import com.bonus.bean.QueryResult;
 import com.bonus.dao.BalanceDao;
+import com.bonus.dao.DirectorDao;
 import com.bonus.dao.EquityDao;
 import com.bonus.service.BalanceService;
 
@@ -24,9 +26,11 @@ public class BalanceServiceImpl implements BalanceService {
 	private EquityDao equitydao;
 	@Autowired
 	private BalanceDao balancedao;
+	@Autowired
+	private DirectorDao directordao;
 	
 	@Transactional
-	public void initiateBalance(){
+	public void initiateBalance(Equity e){
 		/**
 		 * 从2017年1月开始第一期
 		 */
@@ -38,6 +42,20 @@ public class BalanceServiceImpl implements BalanceService {
 			//进入下个月
 			year = nextYear(year, month);
 			month = nextMonth(month);
+		}
+		
+		//计算所长奖金
+		int dir_count = e.getDir_count();
+		int dir1_id = e.getDir1_id();
+		BigDecimal dir1_amount = e.getDir1_amount();
+		int dir2_id = e.getDir2_id();
+		BigDecimal dir2_amount = e.getDir2_amount();
+		directordao.calculateBonus(dir1_id, dir1_amount);
+		directordao.calculateBonus(dir2_id, dir2_amount);
+		if(dir_count == 3){
+			int dir3_id = e.getDir3_id();
+			BigDecimal dir3_amount = e.getDir3_amount();
+			directordao.calculateBonus(dir3_id, dir3_amount);
 		}
 	}
 	

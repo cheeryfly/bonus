@@ -70,32 +70,50 @@
 										data-toggle="tooltip" data-placement="bottom" title="项目名称">
 								</div>
 							</div>
-							<div class="form-group has-error has-feedback">
-							<label class="col-sm-2 control-label">所长人数</label>
-								<div class="col-sm-4">
-									<select class="form-control" id="dir_count">
-										<option>3</option>
-										<option>2</option>
-									</select>
-								</div>
-							</div>
-							<div class="form-group has-error has-feedback">
+							<div class="form-group has-error has-feedback"  id="div_pro">
 								<label class="col-sm-2 control-label">项目奖金</label>
 								<div class="col-sm-4">
 									<input id="pro_bonus_amount_bak" type="text" class="form-control">
 								</div>
 							</div>
-							<div class="form-group has-error has-feedback">
+							<div class="form-group has-error has-feedback" id="div_exp">
 								<label class="col-sm-2 control-label">报账成本</label>
 								<div class="col-sm-4">
 									<input id="expense_amount_bak" type="text" class="form-control">
 								</div>
 							</div>
-							<div class="form-group has-error has-feedback">
+							<div  id="div_dir">
+							<div class="form-group has-error has-feedback"  id="div_dir_amount">
 								<label class="col-sm-2 control-label">所长奖金</label>
 								<div class="col-sm-4">
 									<input id="dir_amount_bak" type="text" class="form-control">
 								</div>
+							</div>
+							<div class="form-group has-error has-feedback" id="dir1">
+								<label class="col-sm-2 control-label" id="dir1_name2">所长1奖金</label>
+								<input type="hidden" id="dir_count"  />
+								<input type="hidden" id="dir1_id"  />
+								<input type="hidden" id="dir1_name"  />
+								<div class="col-sm-4">
+									<input id="dir1_amount" type="text" class="form-control"> 
+								</div>
+							</div>
+							<div class="form-group has-error has-feedback" id="dir2">
+								<label class="col-sm-2 control-label" id="dir2_name2">所长2奖金</label>
+								<input type="hidden" id="dir2_id"  />
+								<input type="hidden" id="dir2_name"  />
+								<div class="col-sm-4">
+									<input id="dir2_amount" type="text" class="form-control"> 
+								</div>
+							</div>
+							<div class="form-group has-error has-feedback" id="dir3">
+								<label class="col-sm-2 control-label" id="dir3_name2">所长3奖金</label>
+								<input type="hidden" id="dir3_id"  />
+								<input type="hidden" id="dir3_name"  />
+								<div class="col-sm-4">
+									<input id="dir3_amount" type="text" class="form-control"> 
+								</div>
+							</div>
 							</div>
 							<div class="form-group has-error has-feedback">
 								<label class="col-sm-2 control-label">备注</label>
@@ -179,6 +197,15 @@
 		$("#pro_bonus_amount_bak").val(0);
 		$("#expense_amount_bak").val(0);
 		$("#dir_amount_bak").val(0);
+		$("#div_pro").show();
+		$("#div_dir").hide();
+		$("#div_exp").hide();
+		$("#expense_amount").val("0");
+		$("#dir_amount").val("0");
+		$("#pro_bonus_amount").val("0");
+		$("#dir1_amount").val("0");
+		$("#dir2_amount").val("0");
+		$("#dir3_amount").val("0");
 	}
 	
 	jQuery(function($) {
@@ -251,11 +278,95 @@ $(document).ready(function() {
 		$("#dir_amount").val(dir_amount);
 		$("#pro_bonus_amount").val(pro_bonus_amount);
 	});
+	$("#dir1_amount").change(function(){
+		var dir1_amount = parseFloat($("#dir1_amount").val());
+		var dir2_amount = parseFloat($("#dir2_amount").val());
+		var dir3_amount = parseFloat($("#dir3_amount").val());
+		var dir_amount = dir1_amount + dir2_amount + dir3_amount;
+		var equity = dir_amount;
+		$("#equity").val(equity);
+		$("#expense_amount").val("0");
+		$("#dir_amount").val(dir_amount);
+		$("#pro_bonus_amount").val("0");
+	});
+	$("#dir2_amount").change(function(){
+		var dir1_amount = parseFloat($("#dir1_amount").val());
+		var dir2_amount = parseFloat($("#dir2_amount").val());
+		var dir3_amount = parseFloat($("#dir3_amount").val());
+		var dir_amount = dir1_amount + dir2_amount + dir3_amount;
+		var equity = dir_amount;
+		$("#equity").val(equity);
+		$("#expense_amount").val("0");
+		$("#dir_amount").val(dir_amount);
+		$("#pro_bonus_amount").val("0");
+	});
+	$("#dir3_amount").change(function(){
+		var dir1_amount = parseFloat($("#dir1_amount").val());
+		var dir2_amount = parseFloat($("#dir2_amount").val());
+		var dir3_amount = parseFloat($("#dir3_amount").val());
+		var dir_amount = dir1_amount + dir2_amount + dir3_amount;
+		var equity = dir_amount;
+		$("#equity").val(equity);
+		$("#expense_amount").val("0");
+		$("#dir_amount").val(dir_amount);
+		$("#pro_bonus_amount").val("0");
+	});
 	$('#btn_submit').on('click', function(e) {
 		e.preventDefault();
 		other_save();
 	});
+	$("#type").change(function(){
+		var type = $("#type option:selected").val();
+		if(type == "11"){
+			$("#pro_bonus_amount_bak").val("0");
+			$("#expense_amount_bak").val("0");
+			$("#dir_amount_bak").val("0");
+			$("#pro_bonus_amount").val("0");
+			$("#expense_amount").val("0");
+			$("#dir_amount").val("0");
+			$("#dir1_amount").val("0");
+			$("#dir2_amount").val("0");
+			$("#dir3_amount").val("0");
+		}
+		if(type == "12"){
+			$("#pro_bonus_amount_bak").val("0");
+			$("#expense_amount_bak").val("0");
+			$("#dir_amount_bak").val("0");
+			$("#pro_bonus_amount").val("0");
+			$("#expense_amount").val("0");
+			$("#dir_amount").val("0");
+			$("#dir1_amount").val("0");
+			$("#dir2_amount").val("0");
+			$("#dir3_amount").val("0");
+		}
+		if(type == "13"){
+			$("#pro_bonus_amount_bak").val("0");
+			$("#expense_amount_bak").val("0");
+			$("#dir_amount_bak").val("0");
+			$("#pro_bonus_amount").val("0");
+			$("#expense_amount").val("0");
+			$("#dir_amount").val("0");
+			$("#dir1_amount").val("0");
+			$("#dir2_amount").val("0");
+			$("#dir3_amount").val("0");
+		}
+		if(type == "15"){
+			$("#pro_bonus_amount_bak").val("0");
+			$("#expense_amount_bak").val("0");
+			$("#dir_amount_bak").val("0");
+			$("#pro_bonus_amount").val("0");
+			$("#expense_amount").val("0");
+			$("#dir_amount").val("0");
+			$("#dir1_amount").val("0");
+			$("#dir2_amount").val("0");
+			$("#dir3_amount").val("0");
+		}
+		showControl();
+	});
 	
+	$("#department").change(function(){
+		initDir();
+	});
 	
 	WinMove();
 });

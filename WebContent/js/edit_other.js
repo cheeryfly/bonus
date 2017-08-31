@@ -13,6 +13,7 @@ function load(){
 		    
 			if (result.returnFlag === "200") {
 				initiate(result);
+				showControl();
 			}
 			if(result.returnFlag === "500"){
 				alert(result.returnMsg);
@@ -38,6 +39,18 @@ function initiate(data){
 	var dir_amount_bak = data.equitiesList[0].dir_amount;
 	var remark = data.equitiesList[0].remark;
 	var dir_count = data.equitiesList[0].dir_count;
+
+	var dir1_id = data.equitiesList[0].dir1_id;
+	var dir1_name = data.equitiesList[0].dir1_name;
+	var dir1_amount = data.equitiesList[0].dir1_amount;
+	var dir2_id = data.equitiesList[0].dir2_id;
+	var dir2_name = data.equitiesList[0].dir2_name;
+	var dir2_amount = data.equitiesList[0].dir2_amount;
+	var dir3_id = data.equitiesList[0].dir3_id;
+	var dir3_name = data.equitiesList[0].dir3_name;
+	var dir3_amount = data.equitiesList[0].dir3_amount;
+	
+	
 	var equity = data.equitiesList[0].equity;
 	var pro_bonus_amount = data.equitiesList[0].pro_bonus_amount;
 	var pro_bonus_rate = data.equitiesList[0].pro_bonus_rate;
@@ -49,6 +62,18 @@ function initiate(data){
 	
 	if (typeof(department) == "undefined")department='';
 	if (typeof(dir_count) == "undefined")dir_count='';
+	
+	if (typeof(dir1_id) == "undefined")dir1_id='';
+	if (typeof(dir1_name) == "undefined")dir1_name='';
+	if (typeof(dir1_amount) == "undefined")dir1_amount='';
+	if (typeof(dir2_id) == "undefined")dir2_id='';
+	if (typeof(dir2_name) == "undefined")dir2_name='';
+	if (typeof(dir2_amount) == "undefined")dir2_amount='';
+	if (typeof(dir3_id) == "undefined")dir3_id='';
+	if (typeof(dir3_name) == "undefined")dir3_name='';
+	if (typeof(dir3_amount) == "undefined")dir3_amount='';
+	
+	
 	if (typeof(account_date) == "undefined")account_date='';
 	if (typeof(type) == "undefined")type='';
 	if (typeof(account_item) == "undefined")account_item='';
@@ -91,6 +116,25 @@ function initiate(data){
 	$("#dir_rate").val(dir_rate);
 	$("#id").val(id);
 	$("#check_remark").val(check_remark);	
+	
+	$("#dir1_id").val(dir1_id);
+	$("#dir1_name").val(dir1_name);
+	$("#dir1_name1").html(dir1_name+"奖金比例");
+	$("#dir1_name2").html(dir1_name+"奖金");
+	$("#dir1_amount").val(dir1_amount);
+	$("#dir2_id").val(dir2_id);
+	$("#dir2_name").val(dir2_name);
+	$("#dir2_name1").html(dir2_name+"奖金比例");
+	$("#dir2_name2").html(dir2_name+"奖金");
+	$("#dir2_amount").val(dir2_amount);
+	if(dir_count == 3){
+		$("#dir3_id").val(dir3_id);
+		$("#dir3_name").val(dir3_name);
+		$("#dir3_name1").html(dir3_name+"奖金比例");
+		$("#dir3_name2").html(dir3_name+"奖金");
+		$("#dir3_amount").val(dir3_amount);
+	}
+	
 }
 
 function other_save(){
@@ -106,6 +150,14 @@ function other_save(){
 	var expense_amount = $("#expense_amount").val();
 	var dir_amount = $("#dir_amount").val();
 	var check_remark = $("#check_remark").val();
+	var dir1_id = $("#dir1_id").val();
+	var dir1_name = $("#dir1_name").val();
+	var dir1_rate = $("#dir1_rate").val();
+	var dir1_amount = $("#dir1_amount").val();
+	var dir2_id = $("#dir2_id").val();
+	var dir2_name = $("#dir2_name").val();
+	var dir2_rate = $("#dir2_rate").val();
+	var dir2_amount = $("#dir2_amount").val();
 
 	var dataStr = "{\"query\":\"query\"";
 
@@ -117,6 +169,30 @@ function other_save(){
 	}
 	if(dir_count != ""){
 		dataStr =dataStr+ ",\"dir_count\":\"" + dir_count + "\"";
+	}
+	if(dir1_id != ""){
+		dataStr =dataStr+ ",\"dir1_id\":\"" + dir1_id + "\"";
+	}
+	if(dir1_name != ""){
+		dataStr =dataStr+ ",\"dir1_name\":\"" + dir1_name + "\"";
+	}
+	if(dir1_rate != ""){
+		dataStr =dataStr+ ",\"dir1_rate\":\"" + dir1_rate + "\"";
+	}
+	if(dir1_amount != ""){
+		dataStr =dataStr+ ",\"dir1_amount\":\"" + dir1_amount + "\"";
+	}
+	if(dir2_id != ""){
+		dataStr =dataStr+ ",\"dir2_id\":\"" + dir2_id + "\"";
+	}
+	if(dir2_name != ""){
+		dataStr =dataStr+ ",\"dir2_name\":\"" + dir2_name + "\"";
+	}
+	if(dir2_rate != ""){
+		dataStr =dataStr+ ",\"dir2_rate\":\"" + dir2_rate + "\"";
+	}
+	if(dir2_amount != ""){
+		dataStr =dataStr+ ",\"dir2_amount\":\"" + dir2_amount + "\"";
 	}
 	if(account_date != ""){
 		dataStr =dataStr+ ",\"account_date\":\"" + account_date + "\"";
@@ -145,6 +221,24 @@ function other_save(){
 	if(check_remark != ""){
 		dataStr =dataStr+ ",\"check_remark\":\"" + check_remark + "\"";
 	}
+	if(dir_count == 3){
+		var dir3_id = $("#dir3_id").val();
+		var dir3_name = $("#dir3_name").val();
+		var dir3_rate = $("#dir3_rate").val();
+		var dir3_amount = $("#dir3_amount").val();
+		if(dir3_id != ""){
+			dataStr =dataStr+ ",\"dir3_id\":\"" + dir3_id + "\"";
+		}
+		if(dir3_name != ""){
+			dataStr =dataStr+ ",\"dir3_name\":\"" + dir3_name + "\"";
+		}
+		if(dir3_rate != ""){
+			dataStr =dataStr+ ",\"dir3_rate\":\"" + dir3_rate + "\"";
+		}
+		if(dir3_amount != ""){
+			dataStr =dataStr+ ",\"dir3_amount\":\"" + dir3_amount + "\"";
+		}
+	}
 	
 	dataStr = dataStr + "}";
 	$.ajax( {
@@ -166,4 +260,104 @@ function other_save(){
 			alert("修改失败：" + result.returnMsg);
 		}
 	});
+}
+
+function initDir(){
+	var department = $("#department").val();
+	var dataStr = "{\"query\":\"query\"";
+
+	if(department != ""){
+		dataStr =dataStr+ ",\"department\":\"" + department + "\"";
+	}
+	
+	dataStr = dataStr + "}";
+	$.ajax( {
+		type : 'post',
+		url : 'director/info',
+		data : {json : dataStr},
+		dataType : 'json',
+		timeout: 10000,
+		success : function(result) {
+			if (result.returnFlag === "200") {
+				var dir_count = result.dir_count;
+				$("#dir_count").val(dir_count);
+				if(dir_count == 3){
+					$("#dir1_id").val(result.dirList[0].id);
+					$("#dir1_name1").html(result.dirList[0].name+"奖金比例");
+					$("#dir1_name").val(result.dirList[0].name);
+					$("#dir1_name2").html(result.dirList[0].name+"奖金");
+					$("#dir2_id").val(result.dirList[1].id);
+					$("#dir2_name1").html(result.dirList[1].name+"奖金比例");
+					$("#dir2_name").val(result.dirList[1].name);
+					$("#dir2_name2").html(result.dirList[1].name+"奖金");
+					$("#dir3_id").val(result.dirList[2].id);
+					$("#dir3_name1").html(result.dirList[2].name+"奖金比例");
+					$("#dir3_name").val(result.dirList[2].name);
+					$("#dir3_name2").html(result.dirList[2].name+"奖金");
+				}
+				if(dir_count == 2){
+					$("#dir1_id").val(result.dirList[0].id);
+					$("#dir1_name1").html(result.dirList[0].name+"奖金比例");
+					$("#dir1_name").val(result.dirList[0].name);
+					$("#dir1_name2").html(result.dirList[0].name+"奖金");
+					$("#dir2_id").val(result.dirList[1].id);
+					$("#dir2_name1").html(result.dirList[1].name+"奖金比例");
+					$("#dir2_name").val(result.dirList[1].name);
+					$("#dir2_name2").html(result.dirList[1].name+"奖金");
+					$("#dir3_id").val("");
+					$("#dir3_name1").html("奖金比例");
+					$("#dir3_name").val("");
+					$("#dir3_rate").val("");
+					$("#dir3_name2").html("奖金");
+				}
+				$("#dir_amount").val("0");
+				$("#dir1_amount").val("0");
+				$("#dir2_amount").val("0");
+				$("#dir3_amount").val("0");
+			}else {
+				alert(result.returnMsg); 
+			}
+			showControl();
+		},
+		error : function(result) {
+			alert("创建失败：" + result.returnMsg);
+		}
+	});
+}
+
+function showControl(){
+	var type = $("#type option:selected").val();
+	var dir_count = $("#dir_count").val();
+	if(type == "11"){
+		$("#div_pro").show();
+		$("#div_dir").hide();
+		$("#div_exp").hide();
+	}
+	if(type == "12"){
+		$("#div_dir").show();
+		$("#div_pro").hide();
+		$("#div_exp").hide();
+		$("#div_dir_amount").hide();
+		$("#dir1").show();
+		$("#dir2").show();
+	    if(dir_count == 3){
+	    	$("#dir3").show();
+	    }else{
+	    	$("#dir3").hide();
+	    }
+	}
+	if(type == "13"){
+		$("#div_exp").show();
+		$("#div_dir").hide();
+		$("#div_pro").hide();
+	}
+	if(type == "15"){
+		$("#div_pro").show();
+		$("#div_dir").show();
+		$("#div_exp").show();
+		$("#div_dir_amount").show();
+		$("#dir1").hide();
+		$("#dir2").hide();
+		$("#dir3").hide();
+	}
 }
