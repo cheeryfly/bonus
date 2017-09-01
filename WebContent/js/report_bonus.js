@@ -31,7 +31,54 @@ function download(){
 	 form.submit();//表单提交
 }
 
+function initDir(){
+	var department = $("#department").val();
+	var dataStr = "{\"query\":\"query\"";
+
+	if(department != ""){
+		dataStr =dataStr+ ",\"department\":\"" + department + "\"";
+	}
+	
+	dataStr = dataStr + "}";
+	$.ajax( {
+		type : 'post',
+		url : 'director/info',
+		data : {json : dataStr},
+		dataType : 'json',
+		timeout: 10000,
+		success : function(result) {
+			if (result.returnFlag === "200") {
+				var dir_count = result.dir_count;
+				$("#dir_count").val(dir_count);
+				if(dir_count == 3){
+					$("#dir1_rate").html(result.dirList[0].name+"奖金比例");
+					$("#dir1_amount").html(result.dirList[0].name+"奖金");
+					$("#dir2_rate").html(result.dirList[1].name+"奖金比例");
+					$("#dir2_amount").html(result.dirList[1].name+"奖金");
+					$("#dir3_rate").html(result.dirList[2].name+"奖金比例");
+					$("#dir3_amount").html(result.dirList[2].name+"奖金");
+				}
+				if(dir_count == 2){
+					$("#dir1_rate").html(result.dirList[0].name+"奖金比例");
+					$("#dir1_amount").html(result.dirList[0].name+"奖金");
+					$("#dir2_rate").html(result.dirList[1].name+"奖金比例");
+					$("#dir2_amount").html(result.dirList[1].name+"奖金");
+					$("#dir3_rate").html("-");
+					$("#dir3_amount").html("-");
+				}
+			}else {
+				alert(result.returnMsg); 
+			}
+
+		},
+		error : function(result) {
+			alert("创建失败：" + result.returnMsg);
+		}
+	});
+}
+
 function query(){
+	initDir();
 	var department = $("#department").val();
 	var account_date_start =  $("#account_date_start").val();
 	var account_date_end = $("#account_date_end").val();
@@ -72,6 +119,7 @@ function query(){
 			        { data: 'account_rate' }  ,
 			        { data: 'prize_rate' }  ,
 			        { data: 'dir_count' }  ,
+			        { data: 'dir_amount' }  ,
 			        { data: 'dir_rate1' }  ,
 			        { data: 'dir_amount1' }  ,
 			        { data: 'dir_rate2' }  ,

@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bonus.bean.Balance;
+import com.bonus.bean.Director;
 import com.bonus.bean.Equity;
 import com.bonus.bean.QueryResult;
 import com.bonus.dao.BalanceDao;
+import com.bonus.dao.DirectorDao;
 import com.bonus.dao.EquityDao;
 import com.bonus.service.ReportService;
 
@@ -35,6 +37,8 @@ public class ReportServiceImpl implements ReportService {
 	private EquityDao equitydao;
 	@Autowired
 	private BalanceDao balancedao;
+	@Autowired
+	private DirectorDao directordao;
 	
 	@Transactional
 	public QueryResult reportDetail(int start, int length, Equity e) {
@@ -146,6 +150,15 @@ public class ReportServiceImpl implements ReportService {
 		e.setRec_date(end_date);
 		QueryResult qr = equitydao.reportBonus(0, 999999, e);
 		List<Object> list = qr.getResult();
+		Director d = new Director();
+		d.setDepartment(department);
+		List<Director> ds = directordao.queryDirectors(d);
+		int dir_count = ds.size();
+		String dir1 = ds.get(0).getName();
+		String dir2 = ds.get(1).getName();
+		String dir3 = "";
+		if(dir_count == 3)
+			dir3 = ds.get(2).getName();
 		WritableWorkbook wwb = Workbook.createWorkbook(os);
 		WritableSheet sheet = wwb.createSheet("所长奖金表", 0);
 		jxl.write.WritableFont wfont = new jxl.write.WritableFont(WritableFont.createFont("楷书"), 10); 
@@ -175,26 +188,17 @@ public class ReportServiceImpl implements ReportService {
 		label8.setCellFormat(wc);
 		Label label9 = new Label(8, 0, "所长人数");
 		label9.setCellFormat(wc);
-		Label label10 = new Label(9, 0, "留存比例");
+		Label label10 = new Label(9, 0, "所长奖金");
 		label10.setCellFormat(wc);
-		Label label11 = new Label(10, 0, "留存金额");
+		Label label11 = new Label(10, 0, dir1+"比例");
 		label11.setCellFormat(wc);
-		Label label12 = new Label(11, 0, "预发比例");
+		Label label12 = new Label(11, 0, dir1+"金额");
 		label12.setCellFormat(wc);
-		Label label13 = new Label(12, 0, "预发金额");
+		Label label13 = new Label(12, 0, dir2+"比例");
 		label13.setCellFormat(wc);
-		Label label14 = new Label(13, 0, "所长1比例");
-		label14.setCellFormat(wc);
-		Label label15 = new Label(14, 0, "所长1金额");
-		label15.setCellFormat(wc);
-		Label label16 = new Label(15, 0, "所长2比例");
-		label16.setCellFormat(wc);
-		Label label17 = new Label(16, 0, "所长2金额");
-		label17.setCellFormat(wc);
-		Label label18 = new Label(17, 0, "所长3比例");
-		label18.setCellFormat(wc);
-		Label label19 = new Label(18, 0, "所长3金额");
-		label19.setCellFormat(wc);
+		Label label14 = new Label(13, 0, dir2+"金额");
+		
+		
 		
 		sheet.addCell(label1);
 		sheet.addCell(label2);
@@ -210,11 +214,15 @@ public class ReportServiceImpl implements ReportService {
 		sheet.addCell(label12);
 		sheet.addCell(label13);
 		sheet.addCell(label14);
-		sheet.addCell(label15);
-		sheet.addCell(label16);
-		sheet.addCell(label17);
-		sheet.addCell(label18);
-		sheet.addCell(label19);
+		if(dir_count == 3){
+			label14.setCellFormat(wc);
+			Label label15 = new Label(14, 0, dir3+"比例");
+			label15.setCellFormat(wc);
+			Label label16 = new Label(15, 0, dir3+"金额");
+			label16.setCellFormat(wc);
+			sheet.addCell(label15);
+			sheet.addCell(label16);
+		}
 		
 //		NumberFormat nf = new jxl.write.NumberFormat("#.##"); 
 //        WritableCellFormat wcf = new jxl.write.WritableCellFormat(nf); 
@@ -257,67 +265,52 @@ public class ReportServiceImpl implements ReportService {
 			Label l_account_rate = new Label(6, row, getString(eq.getAccount_rate()), wc);
 			Label l_prize_rate = new Label(7, row, getString(eq.getPrize_rate()), wc);
 			Label l_dir_count = new Label(8, row, getString(eq.getDir_count()), wc);
-			Label l_reserve_rate = new Label(9, row, "10%", wc);
-			Label l_reserve_amount = new Label(10, row, getString(eq.getDir_amount().multiply(new BigDecimal(0.1)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
-			Label l_pre_rate = new Label(11, row, "90%", wc);
-			Label l_pre_bonus = new Label(12, row, getString(eq.getDir_amount().multiply(new BigDecimal(0.9)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
-			BigDecimal pre_amount = eq.getDir_amount().multiply(new BigDecimal(0.9)).setScale(2,BigDecimal.ROUND_HALF_UP);
-			BigDecimal dir_rate = eq.getDir_rate();
-			int dir_count = eq.getDir_count()==null?3:eq.getDir_count();
+			Label l_dir_amount = new Label(9, row, getString(eq.getDir_amount()), wc);
 			Label l_dir1_rate ;
 			Label l_dir2_rate ;
 			Label l_dir3_rate ;
 			Label l_dir1_amount ;
 			Label l_dir2_amount ;
 			Label l_dir3_amount ;
-			if(dir_rate == null) {
-				l_dir1_rate = new Label(13, row, "-", wc);
-				l_dir2_rate = new Label(15, row, "-", wc);
-				l_dir3_rate = new Label(17, row, "-", wc);
-			
+			if(eq.getDir1_name().equals(dir1)){
+				l_dir1_rate = new Label(10, row, getString(eq.getDir1_rate()), wc);
+				l_dir1_amount = new Label(11, row, getString(eq.getDir1_amount()), wc);
+				sheet.addCell(l_dir1_rate);
+				sheet.addCell(l_dir1_amount);
 			}
-			else {
-				if(dir_count == 3){
-					l_dir1_rate = new Label(13, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.45)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
-					l_dir2_rate = new Label(15, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.225)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
-					l_dir3_rate = new Label(17, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.225)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
-				}
-				if(dir_count == 2){
-					l_dir1_rate = new Label(13, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.6003)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
-					l_dir2_rate = new Label(15, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.2997)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
-					l_dir3_rate = new Label(17, row, "-", wc);
-				}
-				else{
-					l_dir1_rate = new Label(13, row, getString(eq.getDir_rate().multiply(new BigDecimal(0.9)).setScale(4, BigDecimal.ROUND_HALF_UP)), wc);
-					l_dir2_rate = new Label(15, row, "-", wc);
-					l_dir3_rate = new Label(17, row, "-", wc);
-				}
+			if(eq.getDir2_name().equals(dir1)){
+				l_dir1_rate = new Label(10, row, getString(eq.getDir2_rate()), wc);
+				l_dir1_amount = new Label(11, row, getString(eq.getDir2_amount()), wc);
+				sheet.addCell(l_dir1_rate);
+				sheet.addCell(l_dir1_amount);
 			}
-			if (dir_count == 3) {
-				l_dir1_amount = new Label(14, row,
-						getString(pre_amount.multiply(new BigDecimal(0.5)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
-				l_dir2_amount = new Label(16, row,
-						getString(pre_amount.multiply(new BigDecimal(0.25)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
-				l_dir3_amount = new Label(18, row,
-						getString(pre_amount.multiply(new BigDecimal(0.25)).setScale(2, BigDecimal.ROUND_HALF_UP)), wc);
-			} else {
-				if (dir_count == 2) {
-					l_dir1_amount = new Label(14, row,
-							getString(pre_amount.multiply(new BigDecimal(0.667)).setScale(2, BigDecimal.ROUND_HALF_UP)),
-							wc);
-					l_dir2_amount = new Label(16, row,
-							getString(pre_amount.multiply(new BigDecimal(0.333)).setScale(2, BigDecimal.ROUND_HALF_UP)),
-							wc);
-					l_dir3_amount = new Label(18, row, "-", wc);
-				} else {
-					l_dir1_amount = new Label(14, row, getString(pre_amount), wc);
-					l_dir2_amount = new Label(16, row, "-", wc);
-					l_dir3_amount = new Label(18, row, "-", wc);
-				}
+			if(eq.getDir3_name()!=null && eq.getDir3_name().equals(dir1)){
+				l_dir1_rate = new Label(10, row, getString(eq.getDir3_rate()), wc);
+				l_dir1_amount = new Label(11, row, getString(eq.getDir3_amount()), wc);
+				sheet.addCell(l_dir1_rate);
+				sheet.addCell(l_dir1_amount);
 			}
 			
+			if(eq.getDir1_name().equals(dir2)){
+				l_dir2_rate = new Label(12, row, getString(eq.getDir1_rate()), wc);
+				l_dir2_amount = new Label(13, row, getString(eq.getDir1_amount()), wc);
+				sheet.addCell(l_dir2_rate);
+				sheet.addCell(l_dir2_amount);
+			}
+			if(eq.getDir2_name().equals(dir2)){
+				l_dir2_rate = new Label(12, row, getString(eq.getDir2_rate()), wc);
+				l_dir2_amount = new Label(13, row, getString(eq.getDir2_amount()), wc);
+				sheet.addCell(l_dir2_rate);
+				sheet.addCell(l_dir2_amount);
+			}
+			if(eq.getDir3_name()!=null && eq.getDir3_name().equals(dir2)){
+				l_dir2_rate = new Label(12, row, getString(eq.getDir3_rate()), wc);
+				l_dir2_amount = new Label(13, row, getString(eq.getDir3_amount()), wc);
+				sheet.addCell(l_dir2_rate);
+				sheet.addCell(l_dir2_amount);
+			}
 			
-			
+
 			sheet.addCell(l_department);
 			sheet.addCell(l_type);
 			sheet.addCell(l_account_date);
@@ -327,16 +320,30 @@ public class ReportServiceImpl implements ReportService {
 			sheet.addCell(l_account_rate);
 			sheet.addCell(l_prize_rate);
 			sheet.addCell(l_dir_count);
-			sheet.addCell(l_reserve_rate);
-			sheet.addCell(l_reserve_amount);
-			sheet.addCell(l_pre_rate);
-			sheet.addCell(l_pre_bonus);
-			sheet.addCell(l_dir1_rate);
-			sheet.addCell(l_dir1_amount);
-			sheet.addCell(l_dir2_rate);
-			sheet.addCell(l_dir2_amount);
-			sheet.addCell(l_dir3_rate);
-			sheet.addCell(l_dir3_amount);
+			sheet.addCell(l_dir_amount);
+			
+			
+			if(dir_count == 3){
+				if(eq.getDir1_name().equals(dir3)){
+					l_dir3_rate = new Label(14, row, getString(eq.getDir1_rate()), wc);
+					l_dir3_amount = new Label(15, row, getString(eq.getDir1_amount()), wc);
+					sheet.addCell(l_dir3_rate);
+					sheet.addCell(l_dir3_amount);
+				}
+				if(eq.getDir2_name().equals(dir3)){
+					l_dir3_rate = new Label(14, row, getString(eq.getDir2_rate()), wc);
+					l_dir3_amount = new Label(15, row, getString(eq.getDir2_amount()), wc);
+					sheet.addCell(l_dir3_rate);
+					sheet.addCell(l_dir3_amount);
+				}
+				if(eq.getDir3_name()!=null && eq.getDir3_name().equals(dir3)){
+					l_dir3_rate = new Label(14, row, getString(eq.getDir3_rate()), wc);
+					l_dir3_amount = new Label(15, row, getString(eq.getDir3_amount()), wc);
+					sheet.addCell(l_dir3_rate);
+					sheet.addCell(l_dir3_amount);
+				}
+			}
+			
 
 			row++;
 		}

@@ -275,33 +275,63 @@ $(document).ready(function() {
 		var dir2_amount = parseFloat($("#dir2_amount").val());
 		var dir3_amount = parseFloat($("#dir3_amount").val());
 		var dir_amount = dir1_amount + dir2_amount + dir3_amount;
-		var equity = dir_amount;
+	/*	var equity = dir_amount;
 		$("#equity").val(equity);
 		$("#expense_amount").val("0");
 		$("#dir_amount").val(dir_amount);
 		$("#pro_bonus_amount").val("0");
+		*/
+		$("#dir_amount_bak").val(dir_amount);
+		var expense_amount = parseFloat($("#expense_amount_bak").val());
+		var dir_amount = parseFloat($("#dir_amount_bak").val());
+		var pro_bonus_amount = parseFloat($("#pro_bonus_amount_bak").val());
+		var equity = expense_amount + dir_amount + pro_bonus_amount;
+		$("#equity").val(equity);
+		$("#expense_amount").val(expense_amount);
+		$("#dir_amount").val(dir_amount);
+		$("#pro_bonus_amount").val(pro_bonus_amount);
 	});
 	$("#dir2_amount").change(function(){
 		var dir1_amount = parseFloat($("#dir1_amount").val());
 		var dir2_amount = parseFloat($("#dir2_amount").val());
 		var dir3_amount = parseFloat($("#dir3_amount").val());
 		var dir_amount = dir1_amount + dir2_amount + dir3_amount;
-		var equity = dir_amount;
+		/*	var equity = dir_amount;
 		$("#equity").val(equity);
 		$("#expense_amount").val("0");
 		$("#dir_amount").val(dir_amount);
 		$("#pro_bonus_amount").val("0");
+		*/
+		$("#dir_amount_bak").val(dir_amount);
+		var expense_amount = parseFloat($("#expense_amount_bak").val());
+		var dir_amount = parseFloat($("#dir_amount_bak").val());
+		var pro_bonus_amount = parseFloat($("#pro_bonus_amount_bak").val());
+		var equity = expense_amount + dir_amount + pro_bonus_amount;
+		$("#equity").val(equity);
+		$("#expense_amount").val(expense_amount);
+		$("#dir_amount").val(dir_amount);
+		$("#pro_bonus_amount").val(pro_bonus_amount);
 	});
 	$("#dir3_amount").change(function(){
 		var dir1_amount = parseFloat($("#dir1_amount").val());
 		var dir2_amount = parseFloat($("#dir2_amount").val());
 		var dir3_amount = parseFloat($("#dir3_amount").val());
 		var dir_amount = dir1_amount + dir2_amount + dir3_amount;
-		var equity = dir_amount;
+		/*	var equity = dir_amount;
 		$("#equity").val(equity);
 		$("#expense_amount").val("0");
 		$("#dir_amount").val(dir_amount);
 		$("#pro_bonus_amount").val("0");
+		*/
+		$("#dir_amount_bak").val(dir_amount);
+		var expense_amount = parseFloat($("#expense_amount_bak").val());
+		var dir_amount = parseFloat($("#dir_amount_bak").val());
+		var pro_bonus_amount = parseFloat($("#pro_bonus_amount_bak").val());
+		var equity = expense_amount + dir_amount + pro_bonus_amount;
+		$("#equity").val(equity);
+		$("#expense_amount").val(expense_amount);
+		$("#dir_amount").val(dir_amount);
+		$("#pro_bonus_amount").val(pro_bonus_amount);
 	});
 	$('#btn_submit').on('click', function(e) {
 		e.preventDefault();

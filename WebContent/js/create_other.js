@@ -211,8 +211,12 @@ function showControl(){
 		$("#div_dir").show();
 		$("#div_exp").show();
 		$("#div_dir_amount").show();
-		$("#dir1").hide();
-		$("#dir2").hide();
-		$("#dir3").hide();
+		$("#dir1").show();
+		$("#dir2").show();
+		if(dir_count == 3){
+	    	$("#dir3").show();
+	    }else{
+	    	$("#dir3").hide();
+	    }
 	}
 }

@@ -168,8 +168,8 @@ public class ReportAction {
 				String income = e.getIncome()==null?"-":e.getIncome().toString();
 				String account_rate = e.getAccount_rate()==null?"-":e.getAccount_rate().toString();
 				String prize_rate = e.getPrize_rate()==null?"-":e.getPrize_rate().toString();
-				int dir_count = e.getDir_count()==null?3:e.getDir_count().intValue();
-				BigDecimal dir_amount = e.getDir_amount();
+				int dir_count = e.getDir_count()==null?0:e.getDir_count().intValue();
+				String dir_amount = e.getDir_amount()==null?"-":e.getDir_amount().toString();
 				BigDecimal dir_rate = e.getDir_rate();
 				String dir_amount1 = e.getDir1_amount()==null?"-":e.getDir1_amount().toString();
 				String dir_amount2 = e.getDir2_amount()==null?"-":e.getDir2_amount().toString();
@@ -179,21 +179,22 @@ public class ReportAction {
 				String dir_rate3 = e.getDir3_rate()==null?"-":e.getDir3_rate().toString();
 
 				data.append("{");
-				data.append("\"department\":\"-" + e.getDepartment()+"\",");
-				data.append("\"type\":\"-" + filter.process(null, "type", e.getType())+"\",");
-				data.append("\"account_date\":\"-" + sdf.format(e.getAccount_date())+"\",");
-				data.append("\"cardno\":\"-" + filter.process(null, "cardno", e.getCardno())+"\",");
-				data.append("\"account_item\":\"-" + filter.process(null, "account_item", e.getAccount_item())+"\",");
-				data.append("\"income\":\"-" + filter.process(null, "income", e.getIncome())+"\",");
-				data.append("\"account_rate\":\"-" + filter.process(null, "account_rate", e.getAccount_rate())+"\",");
-				data.append("\"prize_rate\":\"-" + filter.process(null, "prize_rate", e.getPrize_rate())+"\",");
-				data.append("\"dir_count\":\"-"+ dir_count+" \",");
-				data.append("\"dir_rate1\":\"-"+ dir_rate1+" \",");
-				data.append("\"dir_amount1\":\"-"+ dir_amount1+" \",");
-				data.append("\"dir_rate2\":\"-"+ dir_rate2+" \",");
-				data.append("\"dir_amount2\":\"-"+ dir_amount2+" \",");
-				data.append("\"dir_rate3\":\"-"+ dir_rate3+" \",");
-				data.append("\"dir_amount3\":\"-"+ dir_amount3+" \"-");
+				data.append("\"department\":\"" + e.getDepartment()+"\",");
+				data.append("\"type\":\"" + filter.process(null, "type", e.getType())+"\",");
+				data.append("\"account_date\":\"" + sdf.format(e.getAccount_date())+"\",");
+				data.append("\"cardno\":\"" + filter.process(null, "cardno", e.getCardno())+"\",");
+				data.append("\"account_item\":\"" + filter.process(null, "account_item", e.getAccount_item())+"\",");
+				data.append("\"income\":\"" + filter.process(null, "income", e.getIncome())+"\",");
+				data.append("\"account_rate\":\"" + filter.process(null, "account_rate", e.getAccount_rate())+"\",");
+				data.append("\"prize_rate\":\"" + filter.process(null, "prize_rate", e.getPrize_rate())+"\",");
+				data.append("\"dir_count\":\""+ dir_count+" \",");
+				data.append("\"dir_amount\":\""+ dir_amount+" \",");
+				data.append("\"dir_rate1\":\""+ dir_rate1+" \",");
+				data.append("\"dir_amount1\":\""+ dir_amount1+" \",");
+				data.append("\"dir_rate2\":\""+ dir_rate2+" \",");
+				data.append("\"dir_amount2\":\""+ dir_amount2+" \",");
+				data.append("\"dir_rate3\":\""+ dir_rate3+" \",");
+				data.append("\"dir_amount3\":\""+ dir_amount3+" \"");
 				data.append("},");
 			}
 			int ind = data.lastIndexOf(",");
@@ -236,15 +237,15 @@ public class ReportAction {
 		int month = -1;
 
 		Enumeration<String> headers = request.getHeaderNames();
-		String repStr = "-";
+		String repStr = "";
 		while (headers.hasMoreElements()) {
 			String head = headers.nextElement();
 		}
 		try {
-			if (year_p != null && year_p != "-") {
+			if (year_p != null && year_p != "") {
 				year = Integer.parseInt(year_p);
 			}
-			if (month_p != null && month_p != "-") {
+			if (month_p != null && month_p != "") {
 				month = Integer.parseInt(month_p);
 			}
 			Balance query = new Balance();
@@ -276,14 +277,14 @@ public class ReportAction {
 				BigDecimal expense = b.getExpense();
 				BigDecimal dir_bonus = b.getDir_bonus();
 				data.append("{");
-				data.append("\"department\":\"-" + b.getDepartment()+"\",");
-				data.append("\"year\":\"-" + year+"\",");
-				data.append("\"month\":\"-" + month+"\",");
-				data.append("\"type\":\"-" +type +"\",");
-				data.append("\"equity\":\"-" + filter.process(null, "equity", equity)+"\",");
-				data.append("\"pro_bonus\":\"-" + filter.process(null, "pro_bonus", pro_bonus)+"\",");
-				data.append("\"expense\":\"-" + filter.process(null, "expense", expense)+"\",");
-				data.append("\"dir_bonus\":\"-" + filter.process(null, "dir_bonus", dir_bonus)+"\"-");
+				data.append("\"department\":\"" + b.getDepartment()+"\",");
+				data.append("\"year\":\"" + year+"\",");
+				data.append("\"month\":\"" + month+"\",");
+				data.append("\"type\":\"" +type +"\",");
+				data.append("\"equity\":\"" + filter.process(null, "equity", equity)+"\",");
+				data.append("\"pro_bonus\":\"" + filter.process(null, "pro_bonus", pro_bonus)+"\",");
+				data.append("\"expense\":\"" + filter.process(null, "expense", expense)+"\",");
+				data.append("\"dir_bonus\":\"" + filter.process(null, "dir_bonus", dir_bonus)+"\"");
 				data.append("},");
 			}
 			data.deleteCharAt(data.lastIndexOf(","));
@@ -317,10 +318,10 @@ public class ReportAction {
 		int year = -1;
 		String month_p = request.getParameter("month");
 		int month = -1;
-		if (year_p != null && year_p != "-") {
+		if (year_p != null && year_p != "") {
 			year = Integer.parseInt(year_p);
 		}
-		if (month_p != null && month_p != "-") {
+		if (month_p != null && month_p != "") {
 			month = Integer.parseInt(month_p);
 		}
 		WritableWorkbook wwb = reportService.downloadBalance(department_qu, year, month, os);
@@ -347,11 +348,11 @@ public class ReportAction {
 		String account_date_en = request.getParameter("account_date_end");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		Date account_date_start = null;
-		if (account_date_st != null && account_date_st != "-") {
+		if (account_date_st != null && account_date_st != "") {
 			account_date_start = sdf.parse(account_date_st);
 		}
 		Date account_date_end = null;
-		if (account_date_en != null && account_date_en != "-") {
+		if (account_date_en != null && account_date_en != "") {
 			account_date_end = sdf.parse(account_date_en);
 		}
 
@@ -381,11 +382,11 @@ public class ReportAction {
 		String account_date_en = request.getParameter("end");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		Date account_date_start = null;
-		if (account_date_st != null && account_date_st != "-") {
+		if (account_date_st != null && account_date_st != "") {
 			account_date_start = sdf.parse(account_date_st);
 		}
 		Date account_date_end = null;
-		if (account_date_en != null && account_date_en != "-") {
+		if (account_date_en != null && account_date_en != "") {
 			account_date_end = sdf.parse(account_date_en);
 		}
 
