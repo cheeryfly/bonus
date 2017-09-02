@@ -32,6 +32,7 @@ function download(){
 }
 
 function initDir(){
+	$('#dir_detail').show();
 	var department = $("#department").val();
 	var dataStr = "{\"query\":\"query\"";
 
@@ -51,20 +52,30 @@ function initDir(){
 				var dir_count = result.dir_count;
 				$("#dir_count").val(dir_count);
 				if(dir_count == 3){
-					$("#dir1_rate").html(result.dirList[0].name+"奖金比例");
-					$("#dir1_amount").html(result.dirList[0].name+"奖金");
-					$("#dir2_rate").html(result.dirList[1].name+"奖金比例");
-					$("#dir2_amount").html(result.dirList[1].name+"奖金");
-					$("#dir3_rate").html(result.dirList[2].name+"奖金比例");
-					$("#dir3_amount").html(result.dirList[2].name+"奖金");
+					$("#dir1_name").html(result.dirList[0].name);
+					$("#dir1_total").html(result.dirList[0].bonus_total);
+					$("#dir1_draw").html(result.dirList[0].bonus_draw);
+					$("#dir1_surplus").html(result.dirList[0].bonus_surplus);
+					$("#dir2_name").html(result.dirList[1].name);
+					$("#dir2_total").html(result.dirList[1].bonus_total);
+					$("#dir2_draw").html(result.dirList[1].bonus_draw);
+					$("#dir2_surplus").html(result.dirList[1].bonus_surplus);
+					$("#dir3_name").html(result.dirList[2].name);
+					$("#dir3_total").html(result.dirList[2].bonus_total);
+					$("#dir3_draw").html(result.dirList[2].bonus_draw);
+					$("#dir3_surplus").html(result.dirList[2].bonus_surplus);
+					$("#dir3_bonus_detail").show();
 				}
 				if(dir_count == 2){
-					$("#dir1_rate").html(result.dirList[0].name+"奖金比例");
-					$("#dir1_amount").html(result.dirList[0].name+"奖金");
-					$("#dir2_rate").html(result.dirList[1].name+"奖金比例");
-					$("#dir2_amount").html(result.dirList[1].name+"奖金");
-					$("#dir3_rate").html("-");
-					$("#dir3_amount").html("-");
+					$("#dir1_name").html(result.dirList[0].name);
+					$("#dir1_total").html(result.dirList[0].bonus_total);
+					$("#dir1_draw").html(result.dirList[0].bonus_draw);
+					$("#dir1_surplus").html(result.dirList[0].bonus_surplus);
+					$("#dir2_name").html(result.dirList[1].name);
+					$("#dir2_total").html(result.dirList[1].bonus_total);
+					$("#dir2_draw").html(result.dirList[1].bonus_draw);
+					$("#dir2_surplus").html(result.dirList[1].bonus_surplus);
+					$("#dir3_bonus_detail").hide();
 				}
 			}else {
 				alert(result.returnMsg); 

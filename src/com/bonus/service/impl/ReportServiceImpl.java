@@ -157,8 +157,21 @@ public class ReportServiceImpl implements ReportService {
 		String dir1 = ds.get(0).getName();
 		String dir2 = ds.get(1).getName();
 		String dir3 = "";
-		if(dir_count == 3)
+		String dir1_total = ds.get(0).getBonus_total().toString();
+		String dir1_draw = ds.get(0).getBonus_draw().toString();
+		String dir1_surplus = ds.get(0).getBonus_surplus().toString();
+		String dir2_total = ds.get(1).getBonus_total().toString();
+		String dir2_draw = ds.get(1).getBonus_draw().toString();
+		String dir2_surplus = ds.get(1).getBonus_surplus().toString();
+		String dir3_total = "";
+		String dir3_draw = "";
+		String dir3_surplus = "";
+		if(dir_count == 3){
 			dir3 = ds.get(2).getName();
+			dir3_total = ds.get(2).getBonus_total().toString();
+			dir3_draw = ds.get(2).getBonus_draw().toString();
+			dir3_surplus = ds.get(2).getBonus_surplus().toString();
+		}
 		WritableWorkbook wwb = Workbook.createWorkbook(os);
 		WritableSheet sheet = wwb.createSheet("所长奖金表", 0);
 		jxl.write.WritableFont wfont = new jxl.write.WritableFont(WritableFont.createFont("楷书"), 10); 
@@ -346,6 +359,46 @@ public class ReportServiceImpl implements ReportService {
 			
 
 			row++;
+		}
+		
+		row = row+3;
+		Label l_name = new Label(0, row, "所长", wc);
+		Label l_total = new Label(1, row, "累计奖金", wc);
+		Label l_draw = new Label(2, row, "已提取奖金", wc);
+		Label l_surplus = new Label(3, row, "可提取奖金", wc);
+		row++;
+		Label l_d1_name = new Label(0, row, dir1, wc);
+		Label l_d1_total = new Label(1, row, dir1_total, wc);
+		Label l_d1_draw = new Label(2, row, dir1_draw, wc);
+		Label l_d1_surplus = new Label(3, row, dir1_surplus, wc);
+		row++;
+		Label l_d2_name = new Label(0, row, dir2, wc);
+		Label l_d2_total = new Label(1, row, dir2_total, wc);
+		Label l_d2_draw = new Label(2, row, dir2_draw, wc);
+		Label l_d2_surplus = new Label(3, row, dir2_surplus, wc);
+		
+		sheet.addCell(l_name);
+		sheet.addCell(l_total);
+		sheet.addCell(l_draw);
+		sheet.addCell(l_surplus);
+		sheet.addCell(l_d1_name);
+		sheet.addCell(l_d1_total);
+		sheet.addCell(l_d1_draw);
+		sheet.addCell(l_d1_surplus);
+		sheet.addCell(l_d2_name);
+		sheet.addCell(l_d2_total);
+		sheet.addCell(l_d2_draw);
+		sheet.addCell(l_d2_surplus);
+		if(dir_count ==3){
+			row++;
+			Label l_d3_name = new Label(0, row, dir3, wc);
+			Label l_d3_total = new Label(1, row, dir3_total, wc);
+			Label l_d3_draw = new Label(2, row, dir3_draw, wc);
+			Label l_d3_surplus = new Label(3, row, dir3_surplus, wc);
+			sheet.addCell(l_d3_name);
+			sheet.addCell(l_d3_total);
+			sheet.addCell(l_d3_draw);
+			sheet.addCell(l_d3_surplus);
 		}
 		return wwb;
 	}

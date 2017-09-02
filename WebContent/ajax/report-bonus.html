@@ -64,6 +64,7 @@
 								</div>
 							</div>
 						</fieldset>
+
 						<div class="clearfix"></div>
 						<div class="form-group">
 							<div class="col-sm-12 col-sm-offset-6">
@@ -78,6 +79,34 @@
 					</form>
 				</div>
 			</div>
+
+			<div class="clearfix"></div>
+<div class="container-fluid" id="dir_detail">
+	<div class="row show-grid">
+		<div class="col-md-1 text-center"><strong>所长</strong></div>
+		<div class="col-md-1 text-center"><strong>累计奖金</strong></div>
+		<div class="col-md-1 text-center"><strong>已提取奖金</strong></div>
+		<div class="col-md-1 text-center"><strong>可提取奖金</strong></div>
+	</div>
+	<div class="row show-grid">
+		<div class="col-md-1 text-center" id="dir1_name">所长</div>
+		<div class="col-md-1" id="dir1_total">累计奖金</div>
+		<div class="col-md-1" id="dir1_draw">已提取奖金</div>
+		<div class="col-md-1" id="dir1_surplus">可提取奖金</div>
+	</div>
+	<div class="row show-grid">
+		<div class="col-md-1 text-center" id="dir2_name">所长</div>
+		<div class="col-md-1" id="dir2_total">累计奖金</div>
+		<div class="col-md-1" id="dir2_draw">已提取奖金</div>
+		<div class="col-md-1" id="dir2_surplus">可提取奖金</div>
+	</div>
+	<div class="row show-grid" id="dir3_bonus_detail">
+		<div class="col-md-1 text-center" id="dir3_name">所长</div>
+		<div class="col-md-1" id="dir3_total">累计奖金</div>
+		<div class="col-md-1" id="dir3_draw">已提取奖金</div>
+		<div class="col-md-1" id="dir3_surplus">可提取奖金</div>
+	</div>
+</div>
 			<div class="well">
 				
 				<table
@@ -142,6 +171,7 @@
 			//TinyMCEStart('#wysiwig_full', 'extreme');
 			// Add slider for change test input length
 			initiateForm();
+			$('#dir_detail').hide();
 			FormLayoutExampleInputLength($(".slider-style"));
 			// Initialize datepicker
 			$('#account_date_start').datepicker({
